@@ -1,5 +1,6 @@
 package com.nfb.modules.stakeholders.infrastructure;
 
+import com.nfb.modules.stakeholders.API.dtos.AuthenticationTokensDto;
 import com.nfb.modules.stakeholders.core.usecases.ITokenGenerator;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -14,7 +15,7 @@ import java.util.Date;
 public class JwtGenerator implements ITokenGenerator {
 
     @Override
-    public String generateJWT(String id, String issuer, String subject, long ttlMillis) {
+    public AuthenticationTokensDto generateJWT(String id, String issuer, String subject, long ttlMillis) {
         // Set the signature algorithm (e.g., HS256)
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
@@ -46,7 +47,13 @@ public class JwtGenerator implements ITokenGenerator {
         String secretKeyString = Base64.getEncoder().encodeToString(secretKey.getEncoded());
         System.out.println("Generated Secret Key: " + secretKeyString);
 
-        return jwt;
+        // Create and return the AuthenticationTokensDto
+        AuthenticationTokensDto tokensDto = new AuthenticationTokensDto();
+        tokensDto.setId(Long.parseLong(id)); // Assuming id is a String and needs to be converted to long
+        tokensDto.setUsername(Long.parseLong(subject)); // Assuming subject is a String and needs to be converted to long
+        tokensDto.setAccessToken(jwt);
+
+        return tokensDto;
     }
 
     @Override

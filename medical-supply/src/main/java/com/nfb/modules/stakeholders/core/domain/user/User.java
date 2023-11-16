@@ -13,6 +13,7 @@ public class User extends Entity {
         this.username = username;
         this.password = password;
         this.role = role;
+        validate();
     }
 
     private void validate() {
