@@ -5,12 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b85d43e3-960f-45a6-82cf-64279029b517" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/medicalsupply/MedicalSupplyApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/medicalsupply/MedicalSupplyApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/medical-supply/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -19,12 +29,12 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2YEN7hufYkNJd8gkr1mm98HN0Qr" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -39,7 +49,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "feat/hibernate",
     "last_opened_file_path": "C:/Users/ivanm/Desktop/Docs/ISA/Projekat/back-end",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -48,6 +58,20 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ivanm\Desktop\Docs\ISA\Projekat\back-end\medical-supply\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="MedicalSupplyApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="medical-supply" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.nfb.medicalsupply.MedicalSupplyApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -57,6 +81,7 @@
       <option name="presentableId" value="Default" />
       <updated>1700086616731</updated>
       <workItem from="1700086622600" duration="2213000" />
+      <workItem from="1700169000569" duration="890000" />
     </task>
     <servers />
   </component>
