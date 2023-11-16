@@ -1,13 +1,32 @@
 package com.nfb.modules.stakeholders.core.domain.user;
 
-import com.nfb.buildingblocks.core.domain.Entity;
+
 
 import javax.management.relation.Role;
+import jakarta.persistence.*;
 
-public class User extends Entity {
+@Entity
+@Table(name = "users")  // Specify the table name
+public class User extends com.nfb.buildingblocks.core.domain.Entity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
     private String username;
+
+    @Column(nullable = false)
     private String password;
+
+
+    @Column(nullable = false)
     private Role role;
+
+    // Constructors, getters, and setters
+
+    public User() {
+    }
 
     public User(String username, String password, Role role) {
         this.username = username;
@@ -16,14 +35,17 @@ public class User extends Entity {
         validate();
     }
 
-    private void validate() {
-        if (this.username == null || this.username.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid Name");
-        }
-        if (this.password == null || this.password.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid Surname");
-        }
+    // Getters and setters for other fields
+
+    public long getId() {
+        return id;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    // Getters for other fields
 
     public String getUsername() {
         return username;
@@ -48,5 +70,14 @@ public class User extends Entity {
     private void setRole(Role role) {
         this.role = role;
     }
-}
 
+    // Validation method
+    private void validate() {
+        if (this.username == null || this.username.trim().isEmpty()) {
+            throw new IllegalArgumentException("Invalid Username");
+        }
+        if (this.password == null || this.password.trim().isEmpty()) {
+            throw new IllegalArgumentException("Invalid Password");
+        }
+    }
+}
