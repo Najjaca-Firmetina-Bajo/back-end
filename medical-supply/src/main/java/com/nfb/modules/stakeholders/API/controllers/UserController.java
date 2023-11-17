@@ -1,7 +1,7 @@
 package com.nfb.modules.stakeholders.API.controllers;
 
 import com.nfb.modules.stakeholders.API.dtos.UserDTO;
-import com.nfb.modules.stakeholders.API.services.UserService;
+import com.nfb.modules.stakeholders.core.usecases.UserService;
 import com.nfb.modules.stakeholders.core.domain.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

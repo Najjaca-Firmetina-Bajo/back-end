@@ -5,8 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b85d43e3-960f-45a6-82cf-64279029b517" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/core/repositories/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/core/domain/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/core/domain/user/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/buildingblocks/core/usecases/impl/ServiceGenericImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/buildingblocks/core/usecases/impl/ServiceGenericImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/buildingblocks/infrastrucure/GenericRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/medicalsupply/MedicalSupplyApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/MedicalSupplyApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/medicalsupply/OpenApiConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/OpenApiConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/controllers/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/services/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/core/domain/repositoryinterfaces/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/core/usecases/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/core/usecases/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +25,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -47,7 +56,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feat/hibernate",
+    "git-widget-placeholder": "feat/gerneric-service-and-repo",
     "last_opened_file_path": "C:/Users/ivanm/Desktop/Docs/ISA/Projekat/back-end",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -60,11 +69,14 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\ivanm\Desktop\Docs\ISA\Projekat\back-end\medical-supply\src\main\resources" />
     </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.nfb" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="MedicalSupplyApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="medical-supply" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.nfb.medicalsupply.MedicalSupplyApplication" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.nfb.MedicalSupplyApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -79,7 +91,9 @@
       <option name="presentableId" value="Default" />
       <updated>1700086616731</updated>
       <workItem from="1700086622600" duration="2213000" />
-      <workItem from="1700169000569" duration="2467000" />
+      <workItem from="1700169000569" duration="4082000" />
+      <workItem from="1700218974916" duration="1919000" />
+      <workItem from="1700221453644" duration="2584000" />
     </task>
     <servers />
   </component>
