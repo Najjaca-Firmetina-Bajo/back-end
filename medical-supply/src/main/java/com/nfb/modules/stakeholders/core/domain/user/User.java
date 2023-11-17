@@ -1,29 +1,36 @@
 package com.nfb.modules.stakeholders.core.domain.user;
 
-import com.nfb.buildingblocks.core.domain.Entity;
+import com.nfb.buildingblocks.core.domain.BaseEntity;
+import jakarta.persistence.*;
 
-import javax.management.relation.Role;
+@Entity
+@Table(name = "users")
+public class User extends BaseEntity {
 
-public class User extends Entity {
+    @Column(nullable = false, unique = true)
     private String username;
-    private String password;
-    private Role role;
 
-    public User(String username, String password, Role role) {
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private UserRole role;
+
+    // Constructors, getters, and setters
+
+    public User() {
+    }
+
+    public User(String username, String password, UserRole role) {
+        super();
         this.username = username;
         this.password = password;
         this.role = role;
         validate();
     }
 
-    private void validate() {
-        if (this.username == null || this.username.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid Name");
-        }
-        if (this.password == null || this.password.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid Surname");
-        }
-    }
+
+    // Getters for other fields
 
     public String getUsername() {
         return username;
@@ -33,7 +40,7 @@ public class User extends Entity {
         return password;
     }
 
-    public Role getRole() {
+    public UserRole getRole() {
         return role;
     }
 
@@ -45,8 +52,17 @@ public class User extends Entity {
         this.password = password;
     }
 
-    private void setRole(Role role) {
+    private void setRole(UserRole role) {
         this.role = role;
     }
-}
 
+    // Validation method
+    private void validate() {
+        if (this.username == null || this.username.trim().isEmpty()) {
+            throw new IllegalArgumentException("Invalid Username");
+        }
+        if (this.password == null || this.password.trim().isEmpty()) {
+            throw new IllegalArgumentException("Invalid Password");
+        }
+    }
+}
