@@ -33,6 +33,15 @@ public class UserController {
         return new ResponseEntity<>(new UserDTO(user), HttpStatus.CREATED);
     }
 
+    @PostMapping("/registerCompanyAdmin")
+    public ResponseEntity<UserDTO> registerCompanyAdmin(@RequestBody UserDTO userDTO) {
+
+        User user = new User(userDTO.getUsername(), userDTO.getPassword(), UserRole.CompanyAdministrator);
+
+        user = userService.register(user);
+        return new ResponseEntity<>(new UserDTO(user), HttpStatus.CREATED);
+    }
+
     @GetMapping
     public ResponseEntity<List<UserDTO>> getUsers() {
 

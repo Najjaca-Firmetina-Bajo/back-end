@@ -1,13 +1,24 @@
 package com.nfb.modules.companies.core.domain.equipment;
 
-import com.nfb.buildingblocks.core.domain.Entity;
+import com.nfb.buildingblocks.core.domain.BaseEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
-public class Equipment extends Entity {
+@Entity
+@Table(name = "equipment")
+public class Equipment extends BaseEntity {
+    @Column(nullable = false, unique = true)
     private String name;
+    @Column(nullable = false)
     private String type;
+    @Column(nullable = false)
     private String description;
     //lista kompanija
 
+
+    public Equipment() {
+    }
 
     public Equipment(String name, String type, String description) {
         this.name = name;

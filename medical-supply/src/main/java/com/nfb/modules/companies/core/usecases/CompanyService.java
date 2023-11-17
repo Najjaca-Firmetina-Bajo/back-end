@@ -1,33 +1,20 @@
 package com.nfb.modules.companies.core.usecases;
 
-import com.nfb.buildingblocks.core.usecases.BaseService;
-import com.nfb.modules.companies.API.dtos.CompanyDto;
-import com.nfb.modules.companies.API.serviceinterfaces.ICompanyService;
 import com.nfb.modules.companies.core.domain.company.Company;
-import org.modelmapper.ModelMapper;
+import com.nfb.modules.companies.core.repositories.CompanyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class CompanyService extends BaseService<CompanyDto, Company> implements ICompanyService  {
-    protected CompanyService(ModelMapper mapper) {
-        super(mapper);
+import java.util.List;
+
+@Service
+public class CompanyService   {
+    private final CompanyRepository companyRepository;
+    @Autowired
+    public CompanyService(CompanyRepository companyRepository) {
+        this.companyRepository = companyRepository;
     }
 
-    @Override
-    public Company register() {
-        return null;
-    }
-
-    @Override
-    public Company edit() {
-        return null;
-    }
-
-    @Override
-    protected Class<Company> getDomainClass() {
-        return null;
-    }
-
-    @Override
-    protected Class<CompanyDto> getDtoClass() {
-        return null;
-    }
+    public Company register(Company company) { return companyRepository.save(company); }
+    public List<Company> getAll() { return companyRepository.findAll(); }
 }

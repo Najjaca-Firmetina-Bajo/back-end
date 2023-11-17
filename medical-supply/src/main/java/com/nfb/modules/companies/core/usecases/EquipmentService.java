@@ -1,46 +1,24 @@
 package com.nfb.modules.companies.core.usecases;
 
-import com.nfb.buildingblocks.core.usecases.BaseService;
-import com.nfb.modules.companies.API.dtos.EquipmentDto;
-import com.nfb.modules.companies.API.serviceinterfaces.IEquipmentService;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
-import org.modelmapper.ModelMapper;
+import com.nfb.modules.companies.core.repositories.EquipmentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class EquipmentService extends BaseService<EquipmentDto, Equipment> implements IEquipmentService {
-
-    protected EquipmentService(ModelMapper mapper) {
-        super(mapper);
+@Service
+public class EquipmentService {
+    private final EquipmentRepository equipmentRepository;
+    @Autowired
+    public EquipmentService(EquipmentRepository equipmentRepository) {
+        this.equipmentRepository = equipmentRepository;
     }
 
-    @Override
-    protected Class<Equipment> getDomainClass() {
-        return null;
+    public Equipment add(Equipment equipment) {
+        return equipmentRepository.save(equipment);
     }
-
-    @Override
-    protected Class<EquipmentDto> getDtoClass() {
-        return null;
-    }
-
-    @Override
-    public List<EquipmentDto> Search(String name) {
-        return null;
-    }
-
-    @Override
-    public List<EquipmentDto> FilterByType(String type) {
-        return null;
-    }
-
-    @Override
-    public List<EquipmentDto> FilterByRating(double rating) {
-        return null;
-    }
-
-    @Override
-    public List<EquipmentDto> Filter(String type, double rating) {
-        return null;
-    }
+    public List<Equipment> getAll() { return equipmentRepository.findAll(); }
+    public List<Equipment> filterByType(String type) { return equipmentRepository.findByTypeContainingIgnoreCase(type); }
+    public List<Equipment> searchByName(String name) { return equipmentRepository.findByNameContainingIgnoreCase(name); }
 }

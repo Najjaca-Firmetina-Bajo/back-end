@@ -1,13 +1,24 @@
 package com.nfb.modules.companies.core.domain.company;
-import com.nfb.buildingblocks.core.domain.Entity;
+import com.nfb.buildingblocks.core.domain.BaseEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 import java.util.regex.Pattern;
 
-public class Company extends Entity {
+@Entity
+@Table(name = "companies")
+public class Company extends BaseEntity {
+    @Column(nullable = false, unique = true)
     private String name;
+    @Column(nullable = false)
     private String address;
+    @Column(nullable = false)
     private double averageRating;
     //lista opreme
+
+    public Company() {
+    }
 
     public Company(String name, String address, double averageRating) {
         this.name = name;

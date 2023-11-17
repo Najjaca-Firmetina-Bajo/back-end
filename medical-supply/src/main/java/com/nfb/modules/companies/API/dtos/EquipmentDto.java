@@ -1,9 +1,39 @@
 package com.nfb.modules.companies.API.dtos;
 
+import com.nfb.modules.companies.core.domain.equipment.Equipment;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class EquipmentDto {
+    @Schema(description = "Equipment ID")
+    private long id;
+    @Schema(description = "Equipment name")
     private String name;
+    @Schema(description = "Equipment type")
     private String type;
+    @Schema(description = "Equipment description")
     private String description;
+
+    public EquipmentDto(long id, String name, String type, String description) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.description = description;
+    }
+
+    public EquipmentDto(Equipment equipment) {
+        this.id = equipment.getId();
+        this.name = equipment.getName();
+        this.type = equipment.getType();
+        this.description = equipment.getDescription();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    private void setId(long id) {
+        this.id = id;
+    }
 
     public void setName(String name) {
         this.name = name;
