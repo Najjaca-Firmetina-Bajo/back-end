@@ -1,7 +1,5 @@
 package com.nfb.modules.stakeholders.core.domain.user;
 
-import javax.management.relation.Role;
-
 import com.nfb.buildingblocks.core.domain.BaseEntity;
 import jakarta.persistence.*;
 
@@ -16,14 +14,14 @@ public class User extends BaseEntity {
     private String password;
 
     @Column(nullable = false)
-    private Role role;
+    private UserRole role;
 
     // Constructors, getters, and setters
 
     public User() {
     }
 
-    public User(String username, String password, Role role) {
+    public User(String username, String password, UserRole role) {
         super();
         this.username = username;
         this.password = password;
@@ -42,7 +40,7 @@ public class User extends BaseEntity {
         return password;
     }
 
-    public Role getRole() {
+    public UserRole getRole() {
         return role;
     }
 
@@ -54,7 +52,7 @@ public class User extends BaseEntity {
         this.password = password;
     }
 
-    private void setRole(Role role) {
+    private void setRole(UserRole role) {
         this.role = role;
     }
 
