@@ -24,7 +24,7 @@ public class CompanyController {
 
     @PostMapping("/register")
     public ResponseEntity<CompanyDto> registerCompany(@RequestBody CompanyDto companyDto) {
-        Company company = companyService.prepareCompanyModel(companyDto.getName(), companyDto.getAddress(), companyDto.getAverageRating(), companyDto.getAvailableEquipmentIds());
+        Company company = companyService.prepareCompanyModel(companyDto.getId(), companyDto.getName(), companyDto.getAddress(), companyDto.getAverageRating(), companyDto.getAvailableEquipmentIds());
         company = companyService.register(company);
         return new ResponseEntity<>(new CompanyDto(company), HttpStatus.CREATED);
     }

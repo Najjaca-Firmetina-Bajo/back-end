@@ -1,6 +1,7 @@
 package com.nfb.modules.companies.core.domain.company;
 import com.nfb.buildingblocks.core.domain.BaseEntity;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
+import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -22,16 +23,27 @@ public class Company extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "equipment_id")
     )
     private List<Equipment> availableEquipment;
+    @OneToMany(mappedBy = "company")
+    private List<CompanyAdministrator> administrators;
 
     public Company() {
     }
 
-    public Company(String name, String address, double averageRating, List<Equipment> availableEquipment) {
+    public Company(String name, String address, double averageRating, List<Equipment> availableEquipment, List<CompanyAdministrator> admins) {
         this.name = name;
         this.address = address;
         this.averageRating = averageRating;
         this.availableEquipment = availableEquipment;
+        this.administrators = admins;
         //validateAddressFormat();
+    }
+
+    public List<CompanyAdministrator> getAdministrators() {
+        return administrators;
+    }
+
+    private void setAdministrators(List<CompanyAdministrator> administrators) {
+        this.administrators = administrators;
     }
 
     public List<Equipment> getAvailableEquipment() {

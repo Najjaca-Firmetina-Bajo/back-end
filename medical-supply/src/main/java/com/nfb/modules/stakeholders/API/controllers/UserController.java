@@ -37,7 +37,7 @@ public class UserController {
     public ResponseEntity<UserDTO> registerCompanyAdmin(@RequestBody UserDTO userDTO) {
 
         User user = new User(userDTO.getUsername(), userDTO.getPassword(), UserRole.CompanyAdministrator);
-
+        //companyAdministratorService pravi novi objekat ovdje
         user = userService.register(user);
         return new ResponseEntity<>(new UserDTO(user), HttpStatus.CREATED);
     }

@@ -1,5 +1,6 @@
 package com.nfb.modules.stakeholders.core.usecases;
 
+import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.stakeholders.core.domain.user.User;
 import com.nfb.modules.stakeholders.core.domain.user.UserRole;
 import com.nfb.modules.stakeholders.core.repositories.UserRepository;
@@ -33,8 +34,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
-
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
+
+    //public List<User> findByCompanyAndRole(Company company, UserRole role) { return userRepository.findByCompanyAndRole(company, role); }
+
 }
