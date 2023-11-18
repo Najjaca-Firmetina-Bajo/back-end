@@ -1,7 +1,11 @@
 package com.nfb.modules.companies.API.dtos;
 
 import com.nfb.modules.companies.core.domain.company.Company;
+import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CompanyDto {
     @Schema(description = "Company ID")
@@ -12,12 +16,15 @@ public class CompanyDto {
     private String address;
     @Schema(description = "Company rating")
     private double averageRating;
+    @Schema(description = "Available equipment in company")
+    private List<Long> availableEquipmentIds;
 
-    public CompanyDto(long id, String name, String address, double averageRating) {
+    public CompanyDto(long id, String name, String address, double averageRating, List<Long> availableEquipmentIds) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.averageRating = averageRating;
+        this.availableEquipmentIds = availableEquipmentIds;
     }
 
     public CompanyDto(Company company) {
@@ -25,13 +32,24 @@ public class CompanyDto {
         this.name = company.getName();
         this.address = company.getAddress();
         this.averageRating = company.getAverageRating();
+        this.availableEquipmentIds = company.getAvailableEquipment().stream()
+                .map(Equipment::getId)
+                .collect(Collectors.toList());
+    }
+
+    public List<Long> getAvailableEquipmentIds() {
+        return availableEquipmentIds;
+    }
+
+    public void setAvailableEquipmentIds(List<Long> availableEquipmentIds) {
+        this.availableEquipmentIds = availableEquipmentIds;
     }
 
     public long getId() {
         return id;
     }
 
-    private void setId(long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

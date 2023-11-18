@@ -8,4 +8,5 @@ import java.util.List;
 public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
     List<Equipment> findByTypeContainingIgnoreCase(String type);
     List<Equipment> findByNameContainingIgnoreCase(String name);
+    List<Equipment> findByIdIn(List<Long> ids);
 }

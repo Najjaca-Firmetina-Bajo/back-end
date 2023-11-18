@@ -1,9 +1,9 @@
 package com.nfb.modules.companies.core.domain.company;
 import com.nfb.buildingblocks.core.domain.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.nfb.modules.companies.core.domain.equipment.Equipment;
+import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 @Entity
@@ -15,16 +15,31 @@ public class Company extends BaseEntity {
     private String address;
     @Column(nullable = false)
     private double averageRating;
-    //lista opreme
+    @ManyToMany
+    @JoinTable(
+            name = "company_equipment",
+            joinColumns = @JoinColumn(name = "company_id"),
+            inverseJoinColumns = @JoinColumn(name = "equipment_id")
+    )
+    private List<Equipment> availableEquipment;
 
     public Company() {
     }
 
-    public Company(String name, String address, double averageRating) {
+    public Company(String name, String address, double averageRating, List<Equipment> availableEquipment) {
         this.name = name;
         this.address = address;
         this.averageRating = averageRating;
+        this.availableEquipment = availableEquipment;
         validateAddressFormat();
+    }
+
+    public List<Equipment> getAvailableEquipment() {
+        return availableEquipment;
+    }
+
+    private void setAvailableEquipment(List<Equipment> availableEquipment) {
+        this.availableEquipment = availableEquipment;
     }
 
     private void validateAddressFormat() {

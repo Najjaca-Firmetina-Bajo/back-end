@@ -21,4 +21,5 @@ public class EquipmentService {
     public List<Equipment> getAll() { return equipmentRepository.findAll(); }
     public List<Equipment> filterByType(String type) { return equipmentRepository.findByTypeContainingIgnoreCase(type); }
     public List<Equipment> searchByName(String name) { return equipmentRepository.findByNameContainingIgnoreCase(name); }
+    public List<Equipment> findByIdIn(List<Long> ids) { return equipmentRepository.findByIdIn(ids); }
 }

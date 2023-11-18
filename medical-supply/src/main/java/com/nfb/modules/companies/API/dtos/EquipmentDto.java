@@ -1,7 +1,11 @@
 package com.nfb.modules.companies.API.dtos;
 
+import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EquipmentDto {
     @Schema(description = "Equipment ID")
@@ -12,12 +16,15 @@ public class EquipmentDto {
     private String type;
     @Schema(description = "Equipment description")
     private String description;
+    @Schema(description = "Companies that have this equipment")
+    private List<Long> companies;
 
-    public EquipmentDto(long id, String name, String type, String description) {
+    public EquipmentDto(long id, String name, String type, String description, List<Long> companies) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.description = description;
+        this.companies = companies;
     }
 
     public EquipmentDto(Equipment equipment) {
@@ -25,6 +32,17 @@ public class EquipmentDto {
         this.name = equipment.getName();
         this.type = equipment.getType();
         this.description = equipment.getDescription();
+        this.companies = equipment.getCompanies().stream()
+                .map(Company::getId)
+                .collect(Collectors.toList());
+    }
+
+    public List<Long> getCompanies() {
+        return companies;
+    }
+
+    public void setCompanies(List<Long> companies) {
+        this.companies = companies;
     }
 
     public long getId() {

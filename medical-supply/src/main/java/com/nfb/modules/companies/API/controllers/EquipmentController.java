@@ -1,7 +1,6 @@
 package com.nfb.modules.companies.API.controllers;
 
 import com.nfb.modules.companies.API.dtos.EquipmentDto;
-import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.companies.core.usecases.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,10 @@ import java.util.List;
 public class EquipmentController {
     @Autowired
     private EquipmentService equipmentService;
+
+    public EquipmentController(EquipmentService equipmentService) {
+        this.equipmentService = equipmentService;
+    }
 
     @GetMapping("/filterByType/{type}")
     public ResponseEntity<List<EquipmentDto>> filter(@PathVariable String type) {
@@ -46,4 +49,18 @@ public class EquipmentController {
 
         return new ResponseEntity<>(equipmentDtos, HttpStatus.OK);
     }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<EquipmentDto>> getAll() {
+
+        List<Equipment> equipment = equipmentService.getAll();
+
+        List<EquipmentDto> equipmentDtos = new ArrayList<>();
+        for (Equipment e : equipment) {
+            equipmentDtos.add(new EquipmentDto(e));
+        }
+
+        return new ResponseEntity<>(equipmentDtos, HttpStatus.OK);
+    }
+
 }
