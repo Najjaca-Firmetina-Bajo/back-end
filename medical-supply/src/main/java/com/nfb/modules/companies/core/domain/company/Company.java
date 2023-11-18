@@ -31,7 +31,7 @@ public class Company extends BaseEntity {
         this.address = address;
         this.averageRating = averageRating;
         this.availableEquipment = availableEquipment;
-        validateAddressFormat();
+        //validateAddressFormat();
     }
 
     public List<Equipment> getAvailableEquipment() {
@@ -43,6 +43,7 @@ public class Company extends BaseEntity {
     }
 
     private void validateAddressFormat() {
+
         String regex = "^[\\w\\s]+, \\d{5}, [\\w\\s]+, [\\w\\s]+$";
         if (!(address != null && Pattern.matches(regex, address.trim()))) {
             throw new IllegalArgumentException("Invalid address format");
