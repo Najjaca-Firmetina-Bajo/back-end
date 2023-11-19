@@ -4,10 +4,7 @@ import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.companies.core.repositories.CompanyRepository;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
-import com.nfb.modules.stakeholders.core.domain.user.User;
-import com.nfb.modules.stakeholders.core.domain.user.UserRole;
 import com.nfb.modules.stakeholders.core.usecases.CompanyAdministratorService;
-import com.nfb.modules.stakeholders.core.usecases.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,13 +30,7 @@ public class CompanyService   {
     public Company prepareCompanyModel(Long companyId, String name, String address, double rating, List<Long> availableEquipmentIds) {
         List<Equipment> availableEquipment = equipmentService.findByIdIn(availableEquipmentIds);
         Company company = companyRepository.findById(companyId).orElse(null);
-        List<CompanyAdministrator> admins = companyAdministratorService.findByCompanyAndRole(company, UserRole.CompanyAdministrator);
-        /*
-        List<CompanyAdministrator> admins = users.stream()
-                .filter(user -> user instanceof CompanyAdministrator)
-                .map(user -> (CompanyAdministrator) user)
-                .collect(Collectors.toList());
-         */
+        List<CompanyAdministrator> admins = companyAdministratorService.findByCompany(company);
         return new Company(name, address, rating, availableEquipment, admins);
     }
     public List<Company> findByIdIn(List<Long> ids) { return companyRepository.findByIdIn(ids); }

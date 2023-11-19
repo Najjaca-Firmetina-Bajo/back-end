@@ -38,6 +38,4 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    //public List<User> findByCompanyAndRole(Company company, UserRole role) { return userRepository.findByCompanyAndRole(company, role); }
-
 }

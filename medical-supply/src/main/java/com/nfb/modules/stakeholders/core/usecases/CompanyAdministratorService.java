@@ -17,6 +17,7 @@ public class CompanyAdministratorService {
     public CompanyAdministratorService(CompanyAdministratorRepository companyAdministratorRepository) {
         this.companyAdministratorRepository = companyAdministratorRepository;
     }
-    public List<CompanyAdministrator> findByCompanyAndRole(Company company, UserRole role) { return companyAdministratorRepository.findByCompanyAndRole(company, role); }
+    public List<CompanyAdministrator> findByCompany(Company company) { return companyAdministratorRepository.findByCompany(company); }
+    public CompanyAdministrator register(CompanyAdministrator admin) { return companyAdministratorRepository.save(admin); }
 
 }
