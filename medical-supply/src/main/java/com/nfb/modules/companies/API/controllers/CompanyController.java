@@ -41,4 +41,17 @@ public class CompanyController {
 
         return new ResponseEntity<>(companyDtos, HttpStatus.OK);
     }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<CompanyDto>> getAll() {
+
+        List<Company> companies = companyService.getAll();
+
+        List<CompanyDto> companyDtos = new ArrayList<>();
+        for (Company c : companies) {
+            companyDtos.add(new CompanyDto(c));
+        }
+
+        return new ResponseEntity<>(companyDtos, HttpStatus.OK);
+    }
 }

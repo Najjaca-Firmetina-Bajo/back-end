@@ -12,7 +12,6 @@ public class UserDTO {
     @Schema(description = "Email")
     private String email;
 
-    // You might want to hide sensitive information like passwords from Swagger
     @Schema(accessMode = Schema.AccessMode.WRITE_ONLY, description = "Password")
     private String password;
 

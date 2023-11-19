@@ -41,7 +41,6 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private boolean activated;
 
-    // Constructors, getters, and setters
 
     public User() {
     }
@@ -63,9 +62,7 @@ public class User extends BaseEntity {
         validate();
     }
 
-    // Getters and setters for other fields
 
-    // Validation method
     private void validate() {
         // Your existing validation logic
         if (this.email == null || this.email.trim().isEmpty()) {

@@ -2,10 +2,7 @@ package com.nfb.modules.companies.core.domain.equipment;
 
 import com.nfb.buildingblocks.core.domain.BaseEntity;
 import com.nfb.modules.companies.core.domain.company.Company;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -18,7 +15,7 @@ public class Equipment extends BaseEntity {
     private String type;
     @Column(nullable = false)
     private String description;
-    @ManyToMany(mappedBy = "availableEquipment")
+    @ManyToMany(mappedBy = "availableEquipment",fetch = FetchType.EAGER)
     private List<Company> companies;
 
 

@@ -15,7 +15,7 @@ public class Company extends BaseEntity {
     private String address;
     @Column(nullable = false)
     private double averageRating;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "company_equipment",
             joinColumns = @JoinColumn(name = "company_id"),
