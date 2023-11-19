@@ -18,6 +18,8 @@ public class Equipment extends BaseEntity {
     private String type;
     @Column(nullable = false)
     private String description;
+    @Column(nullable = false)
+    private double price;
     @ManyToMany(mappedBy = "availableEquipment")
     private List<Company> companies;
 
@@ -25,11 +27,20 @@ public class Equipment extends BaseEntity {
     public Equipment() {
     }
 
-    public Equipment(String name, String type, String description, List<Company> companies) {
+    public Equipment(String name, String type, String description, double price, List<Company> companies) {
         this.name = name;
         this.type = type;
         this.description = description;
+        this.price = price;
         this.companies = companies;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    private void setPrice(double price) {
+        this.price = price;
     }
 
     public List<Company> getCompanies() {

@@ -16,14 +16,17 @@ public class EquipmentDto {
     private String type;
     @Schema(description = "Equipment description")
     private String description;
+    @Schema(description = "Equipment price")
+    private double price;
     @Schema(description = "Companies that have this equipment")
     private List<Long> companies;
 
-    public EquipmentDto(long id, String name, String type, String description, List<Long> companies) {
+    public EquipmentDto(long id, String name, String type, String description, double price, List<Long> companies) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.description = description;
+        this.price = price;
         this.companies = companies;
     }
 
@@ -32,9 +35,18 @@ public class EquipmentDto {
         this.name = equipment.getName();
         this.type = equipment.getType();
         this.description = equipment.getDescription();
+        this.price = equipment.getPrice();
         this.companies = equipment.getCompanies().stream()
                 .map(Company::getId)
                 .collect(Collectors.toList());
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public List<Long> getCompanies() {

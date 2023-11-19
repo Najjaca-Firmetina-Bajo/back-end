@@ -24,10 +24,10 @@ public class EquipmentController {
         this.equipmentService = equipmentService;
     }
 
-    @GetMapping("/filterByType/{type}")
-    public ResponseEntity<List<EquipmentDto>> filter(@PathVariable String type) {
+    @GetMapping("/filter/{type}/{minPrice}/{maxPrice}")
+    public ResponseEntity<List<EquipmentDto>> filter(@PathVariable String type, @PathVariable double minPrice, @PathVariable double maxPrice) {
 
-        List<Equipment> equipment = equipmentService.filterByType(type);
+        List<Equipment> equipment = equipmentService.filter(type, minPrice, maxPrice);
 
         List<EquipmentDto> equipmentDtos = new ArrayList<>();
         for (Equipment e : equipment) {
@@ -37,10 +37,10 @@ public class EquipmentController {
         return new ResponseEntity<>(equipmentDtos, HttpStatus.OK);
     }
 
-    @GetMapping("/searchByName/{name}")
+    @GetMapping("/search/{name}")
     public ResponseEntity<List<EquipmentDto>> search(@PathVariable String name) {
 
-        List<Equipment> equipment = equipmentService.searchByName(name);
+        List<Equipment> equipment = equipmentService.search(name);
 
         List<EquipmentDto> equipmentDtos = new ArrayList<>();
         for (Equipment e : equipment) {
