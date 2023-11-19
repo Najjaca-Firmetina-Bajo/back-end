@@ -2,6 +2,7 @@ package com.nfb.modules.stakeholders.API.controllers;
 
 import com.nfb.modules.stakeholders.API.dtos.UserDTO;
 import com.nfb.modules.stakeholders.core.domain.user.UserRole;
+import com.nfb.modules.stakeholders.core.usecases.CompanyAdministratorService;
 import com.nfb.modules.stakeholders.core.usecases.UserService;
 import com.nfb.modules.stakeholders.core.domain.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private CompanyAdministratorService companyAdministratorService;
+
     @PostMapping("/register")
     public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO userDTO) {
         User user = new User(

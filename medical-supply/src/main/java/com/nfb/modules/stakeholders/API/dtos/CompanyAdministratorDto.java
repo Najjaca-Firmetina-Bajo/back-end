@@ -6,30 +6,74 @@ import com.nfb.modules.stakeholders.core.domain.user.UserRole;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public class CompanyAdministratorDto {
-    @Schema(description = "Company administrator ID")
+    @Schema(description = "CompanyAdministrator ID")
     private long id;
-    @Schema(description = "Company administrator username")
-    private String username;
-    @Schema(accessMode = Schema.AccessMode.WRITE_ONLY, description = "Company administrator password")
+
+    @Schema(description = "Email")
+    private String email;
+
+    @Schema(accessMode = Schema.AccessMode.WRITE_ONLY, description = "Password")
     private String password;
-    @Schema(description = "Company administrator role")
+
+    @Schema(description = "Role")
     private UserRole role;
+
+    @Schema(description = "CompanyAdministrator's Name")
+    private String name;
+
+    @Schema(description = "CompanyAdministrator's Surname")
+    private String surname;
+
+    @Schema(description = "CompanyAdministrator's City")
+    private String city;
+
+    @Schema(description = "CompanyAdministrator's Country")
+    private String country;
+
+    @Schema(description = "CompanyAdministrator's Phone Number")
+    private String phoneNumber;
+
+    @Schema(description = "CompanyAdministrator's Occupation")
+    private String occupation;
+
+    @Schema(description = "CompanyAdministrator's Company Information")
+    private String companyInfo;
+
+    @Schema(description = "Activation Status")
+    private boolean activated;
+
     @Schema(description = "Company")
     private Company company;
 
-    public CompanyAdministratorDto(long id, String username, String password, UserRole role, Company company) {
+    public CompanyAdministratorDto(long id, String email, String password, UserRole role, String name, String surname, String city, String country, String phoneNumber, String occupation, String companyInfo, boolean activated, Company company) {
         this.id = id;
-        this.username = username;
+        this.email = email;
         this.password = password;
         this.role = role;
+        this.name = name;
+        this.surname = surname;
+        this.city = city;
+        this.country = country;
+        this.phoneNumber = phoneNumber;
+        this.occupation = occupation;
+        this.companyInfo = companyInfo;
+        this.activated = activated;
         this.company = company;
     }
 
     public CompanyAdministratorDto(CompanyAdministrator administrator) {
         this.id = administrator.getId();
+        this.email = administrator.getEmail();
         this.password = administrator.getPassword();
-        this.username = administrator.getUsername();
         this.role = administrator.getRole();
+        this.name = administrator.getName();
+        this.surname = administrator.getSurname();
+        this.city = administrator.getCity();
+        this.country = administrator.getCountry();
+        this.phoneNumber = administrator.getPhoneNumber();
+        this.occupation = administrator.getOccupation();
+        this.companyInfo = administrator.getCompanyInfo();
+        this.activated = administrator.isActivated();
         this.company = administrator.getCompany();
     }
 
@@ -41,12 +85,76 @@ public class CompanyAdministratorDto {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getOccupation() {
+        return occupation;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
+
+    public String getCompanyInfo() {
+        return companyInfo;
+    }
+
+    public void setCompanyInfo(String companyInfo) {
+        this.companyInfo = companyInfo;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 
     public String getPassword() {

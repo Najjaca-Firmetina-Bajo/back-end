@@ -23,7 +23,7 @@ public class Company extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "equipment_id")
     )
     private List<Equipment> availableEquipment;
-    @OneToMany(mappedBy = "company")
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     private List<CompanyAdministrator> administrators;
 
     public Company() {

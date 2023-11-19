@@ -15,8 +15,9 @@ public class CompanyAdministrator extends User{
         this.company = company;
     }
 
-    public CompanyAdministrator(String username, String password, UserRole role, Company company) {
-        super(username, password, role);
+    public CompanyAdministrator(String email, String password,UserRole role, String name, String surname, String city,
+                                String country, String phoneNumber, String occupation, String companyInfo, Company company) {
+        super(email, password, role, name, surname, city, country, phoneNumber, occupation, companyInfo);
         this.company = company;
     }
 
