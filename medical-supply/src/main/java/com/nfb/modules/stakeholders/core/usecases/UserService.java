@@ -5,6 +5,8 @@ import com.mailjet.client.errors.MailjetSocketTimeoutException;
 import com.nfb.modules.stakeholders.core.domain.user.User;
 import com.nfb.modules.stakeholders.core.domain.user.UserRole;
 import com.nfb.modules.stakeholders.core.repositories.UserRepository;
+import javassist.NotFoundException;
+import org.modelmapper.internal.bytebuddy.build.BuildLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +38,7 @@ public class UserService {
     public User register(User user) {
 
         try {
-            this.emailService.sendRegistrationEmail("medicinskaopremagas@outlook.com");
+            this.emailService.sendRegistrationEmail(user);
         } catch (MailjetSocketTimeoutException e) {
             throw new RuntimeException(e);
         } catch (MailjetException e) {
@@ -45,6 +47,20 @@ public class UserService {
 
         var ret = userRepository.save(user);
         return ret;
+    }
+
+    public User activateUser(long id) {
+
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.activateAccount();
+            return userRepository.save(user);
+        } else
+        {
+            return null;
+        }
     }
 
 

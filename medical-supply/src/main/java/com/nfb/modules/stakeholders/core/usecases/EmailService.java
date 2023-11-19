@@ -1,5 +1,6 @@
 package com.nfb.modules.stakeholders.core.usecases;
 
+import com.nfb.modules.stakeholders.core.domain.user.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,12 @@ import com.mailjet.client.ClientOptions;
 import com.mailjet.client.resource.Emailv31;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Service
 public class EmailService {
     private final MailjetClient client = new MailjetClient("e6484e76886fcfce8389e075b46a012e","e9737c93bad248f1bc2648eea8586117" , new ClientOptions("v3.1"));
-    public String createHTML(String verificationCodeLink){
+    public String createHTML(User user){
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "<head>\n" +
@@ -63,10 +65,10 @@ public class EmailService {
                 "<body>\n" +
                 "    <div class=\"container\">\n" +
                 "        <h1>Email Verification</h1>\n" +
-                "        <p>Dear [Customer Name],</p>\n" +
+                "        <p>Dear "+ user.getName() +",</p>\n" +
                 "        <p>Thank you for choosing NFB Medical Supplies. To complete your registration, please click the link below to verify your email address:</p>\n" +
                 "        \n" +
-                "        <a href=\""+ verificationCodeLink +"\" class=\"verification-link\">Verify Email Address</a>\n" +
+                "        <a href=\""+ buildServerUrl() +"/api/users/activate/" +   user.getId() +"\" class=\"verification-link\">Verify Email Address</a>\n" +
                 "\n" +
                 "        <p>If you did not create an account with NFB Medical Supplies, you can safely ignore this email.</p>\n" +
                 "\n" +
@@ -76,7 +78,7 @@ public class EmailService {
                 "</html>\n";
     }
 
-    public void sendRegistrationEmail(String to) throws MailjetException, MailjetSocketTimeoutException {
+    public void sendRegistrationEmail(User user) throws MailjetException, MailjetSocketTimeoutException {
         MailjetClient client;
         MailjetRequest request;
         MailjetResponse response;
@@ -89,15 +91,17 @@ public class EmailService {
                                         .put("Name", "Dragomir"))
                                 .put(Emailv31.Message.TO, new JSONArray()
                                         .put(new JSONObject()
-                                                .put("Email", to)))
+                                                .put("Email", user.getEmail())))
                                 .put(Emailv31.Message.SUBJECT, "Authentication")
                                 .put(Emailv31.Message.TEXTPART, "Greetings from NFB.")
-                                .put(Emailv31.Message.HTMLPART, createHTML("http://localhost:4200/") )
+                                .put(Emailv31.Message.HTMLPART, createHTML(user) )
                         ));
         response = client.post(request);
         System.out.println(response.getStatus());
         System.out.println(response.getData());
     }
-
+    private String buildServerUrl() {
+        return ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+    }
 
 }
