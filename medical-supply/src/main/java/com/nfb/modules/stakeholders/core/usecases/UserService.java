@@ -34,7 +34,6 @@ public class UserService {
     }
 
     public User register(User user) {
-        return userRepository.save(user);
 
         try {
             this.emailService.sendRegistrationEmail("medicinskaopremagas@outlook.com");

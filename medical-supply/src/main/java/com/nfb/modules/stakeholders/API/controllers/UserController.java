@@ -26,8 +26,18 @@ public class UserController {
     private UserService userService;
     @PostMapping("/register")
     public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO userDTO) {
-
-        User user = new User(userDTO.getUsername(), userDTO.getPassword(), UserRole.RegisteredUser);
+        User user = new User(
+                userDTO.getEmail(),
+                userDTO.getPassword(),
+                UserRole.RegisteredUser,
+                userDTO.getName(),
+                userDTO.getSurname(),
+                userDTO.getCity(),
+                userDTO.getCountry(),
+                userDTO.getPhoneNumber(),
+                userDTO.getOccupation(),
+                userDTO.getCompanyInfo()
+        );
 
         user = userService.register(user);
         return new ResponseEntity<>(new UserDTO(user), HttpStatus.CREATED);
@@ -35,8 +45,18 @@ public class UserController {
 
     @PostMapping("/registerCompanyAdmin")
     public ResponseEntity<UserDTO> registerCompanyAdmin(@RequestBody UserDTO userDTO) {
-
-        User user = new User(userDTO.getUsername(), userDTO.getPassword(), UserRole.CompanyAdministrator);
+        User user = new User(
+                userDTO.getEmail(),
+                userDTO.getPassword(),
+                UserRole.CompanyAdministrator,
+                userDTO.getName(),
+                userDTO.getSurname(),
+                userDTO.getCity(),
+                userDTO.getCountry(),
+                userDTO.getPhoneNumber(),
+                userDTO.getOccupation(),
+                userDTO.getCompanyInfo()
+        );
 
         user = userService.register(user);
         return new ResponseEntity<>(new UserDTO(user), HttpStatus.CREATED);
@@ -47,7 +67,6 @@ public class UserController {
 
         List<User> users = userService.getAll();
 
-        // convert users to DTOs
         List<UserDTO> usersDTO = new ArrayList<>();
         for (User user : users) {
             usersDTO.add(new UserDTO(user));
@@ -56,6 +75,5 @@ public class UserController {
         return new ResponseEntity<>(usersDTO, HttpStatus.OK);
     }
 
-    // Add other methods as needed
 
 }
