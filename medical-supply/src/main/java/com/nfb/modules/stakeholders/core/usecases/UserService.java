@@ -37,15 +37,16 @@ public class UserService {
 
     public User register(User user) {
 
+        var ret = userRepository.save(user);
         try {
-            this.emailService.sendRegistrationEmail(user);
+            this.emailService.sendRegistrationEmail(ret);
         } catch (MailjetSocketTimeoutException e) {
             throw new RuntimeException(e);
         } catch (MailjetException e) {
             throw new RuntimeException(e);
         }
 
-        var ret = userRepository.save(user);
+
         return ret;
     }
 
