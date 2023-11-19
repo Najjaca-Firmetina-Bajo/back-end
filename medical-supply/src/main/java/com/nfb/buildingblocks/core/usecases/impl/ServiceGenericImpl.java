@@ -2,7 +2,6 @@ package com.nfb.buildingblocks.core.usecases.impl;
 
 import com.nfb.buildingblocks.core.domain.BaseEntity;
 import com.nfb.buildingblocks.core.usecases.GenericService;
-import com.nfb.modules.stakeholders.core.domain.user.Patike;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
