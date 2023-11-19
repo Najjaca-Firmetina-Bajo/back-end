@@ -1,4 +1,4 @@
-package com.nfb.medicalsupply;
+package com.nfb;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;

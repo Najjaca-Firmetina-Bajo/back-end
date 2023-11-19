@@ -25,7 +25,6 @@ public class UserService {
 
 
     public List<User> getAll() {
-        //userRepository.save(new User("ivan","mikica", UserRole.RegisteredUser));
         return userRepository.findAll();
     }
 

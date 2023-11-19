@@ -1,13 +1,13 @@
 package com.nfb.buildingblocks.core.usecases;
 
-import com.nfb.buildingblocks.core.domain.Entity;
+import com.nfb.buildingblocks.core.domain.BaseEntity;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public abstract class BaseService<TDto, TDomain extends Entity> {
+public abstract class BaseService<TDto, TDomain extends BaseEntity> {
     private final ModelMapper mapper;
 
     protected BaseService(ModelMapper mapper) {

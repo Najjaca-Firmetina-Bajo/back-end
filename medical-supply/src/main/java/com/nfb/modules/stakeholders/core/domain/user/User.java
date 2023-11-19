@@ -1,17 +1,11 @@
 package com.nfb.modules.stakeholders.core.domain.user;
 
-
-
-import javax.management.relation.Role;
+import com.nfb.buildingblocks.core.domain.BaseEntity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users")  // Specify the table name
-public class User extends com.nfb.buildingblocks.core.domain.Entity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(name = "users")
+public class User extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -19,31 +13,22 @@ public class User extends com.nfb.buildingblocks.core.domain.Entity {
     @Column(nullable = false)
     private String password;
 
-
     @Column(nullable = false)
-    private Role role;
+    private UserRole role;
 
     // Constructors, getters, and setters
 
     public User() {
     }
 
-    public User(String username, String password, Role role) {
+    public User(String username, String password, UserRole role) {
+        super();
         this.username = username;
         this.password = password;
         this.role = role;
         validate();
     }
 
-    // Getters and setters for other fields
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     // Getters for other fields
 
@@ -55,7 +40,7 @@ public class User extends com.nfb.buildingblocks.core.domain.Entity {
         return password;
     }
 
-    public Role getRole() {
+    public UserRole getRole() {
         return role;
     }
 
@@ -67,7 +52,7 @@ public class User extends com.nfb.buildingblocks.core.domain.Entity {
         this.password = password;
     }
 
-    private void setRole(Role role) {
+    private void setRole(UserRole role) {
         this.role = role;
     }
 

@@ -1,10 +1,9 @@
-package com.nfb.modules.stakeholders;
+package com.nfb.modules.companies.infrastracture;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan(basePackages = "com.nfb.modules.stakeholders")
-public class StakeholdersConfig {
-
+@ComponentScan(basePackages = "com.nfb.modules.companies")
+public class CompaniesConfig {
 }
