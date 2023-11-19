@@ -9,8 +9,8 @@ public class UserDTO {
     @Schema(description = "User ID")
     private long id;
 
-    @Schema(description = "Username")
-    private String username;
+    @Schema(description = "Email")
+    private String email;
 
     // You might want to hide sensitive information like passwords from Swagger
     @Schema(accessMode = Schema.AccessMode.WRITE_ONLY, description = "Password")
@@ -19,49 +19,107 @@ public class UserDTO {
     @Schema(description = "User Role")
     private UserRole role;
 
-    public UserDTO(long id, String username, String password, UserRole role) {
+    @Schema(description = "User's Name")
+    private String name;
+
+    @Schema(description = "User's Surname")
+    private String surname;
+
+    @Schema(description = "User's City")
+    private String city;
+
+    @Schema(description = "User's Country")
+    private String country;
+
+    @Schema(description = "User's Phone Number")
+    private String phoneNumber;
+
+    @Schema(description = "User's Occupation")
+    private String occupation;
+
+    @Schema(description = "User's Company Information")
+    private String companyInfo;
+
+    @Schema(description = "Activation Status")
+    private boolean activated;
+
+    public UserDTO(long id, String email, String password, UserRole role,
+                   String name, String surname, String city, String country,
+                   String phoneNumber, String occupation, String companyInfo, boolean activated) {
         this.id = id;
-        this.username = username;
+        this.email = email;
         this.password = password;
         this.role = role;
+        this.name = name;
+        this.surname = surname;
+        this.city = city;
+        this.country = country;
+        this.phoneNumber = phoneNumber;
+        this.occupation = occupation;
+        this.companyInfo = companyInfo;
+        this.activated = activated;
     }
 
     public UserDTO(User user) {
         this.id = user.getId();
-        this.username = user.getUsername();
+        this.email = user.getEmail();
         this.password = user.getPassword();
         this.role = user.getRole();
+        this.name = user.getName();
+        this.surname = user.getSurname();
+        this.city = user.getCity();
+        this.country = user.getCountry();
+        this.phoneNumber = user.getPhoneNumber();
+        this.occupation = user.getOccupation();
+        this.companyInfo = user.getCompanyInfo();
+        this.activated = user.isActivated();
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public String getEmail() {
+        return email;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public UserRole getRole() {
         return role;
     }
 
-    public void setRole(UserRole role) {
-        this.role = role;
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getOccupation() {
+        return occupation;
+    }
+
+    public String getCompanyInfo() {
+        return companyInfo;
+    }
+
+    public boolean isActivated() {
+        return activated;
     }
 }

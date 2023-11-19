@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +27,18 @@ public class UserController {
     private UserService userService;
     @PostMapping("/register")
     public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO userDTO) {
-
-        User user = new User(userDTO.getUsername(), userDTO.getPassword(), UserRole.RegisteredUser);
+        User user = new User(
+                userDTO.getEmail(),
+                userDTO.getPassword(),
+                UserRole.RegisteredUser,
+                userDTO.getName(),
+                userDTO.getSurname(),
+                userDTO.getCity(),
+                userDTO.getCountry(),
+                userDTO.getPhoneNumber(),
+                userDTO.getOccupation(),
+                userDTO.getCompanyInfo()
+        );
 
         user = userService.register(user);
         return new ResponseEntity<>(new UserDTO(user), HttpStatus.CREATED);
@@ -35,9 +46,19 @@ public class UserController {
 
     @PostMapping("/registerCompanyAdmin")
     public ResponseEntity<UserDTO> registerCompanyAdmin(@RequestBody UserDTO userDTO) {
+        User user = new User(
+                userDTO.getEmail(),
+                userDTO.getPassword(),
+                UserRole.CompanyAdministrator,
+                userDTO.getName(),
+                userDTO.getSurname(),
+                userDTO.getCity(),
+                userDTO.getCountry(),
+                userDTO.getPhoneNumber(),
+                userDTO.getOccupation(),
+                userDTO.getCompanyInfo()
+        );
 
-        User user = new User(userDTO.getUsername(), userDTO.getPassword(), UserRole.CompanyAdministrator);
-        //companyAdministratorService pravi novi objekat ovdje
         user = userService.register(user);
         return new ResponseEntity<>(new UserDTO(user), HttpStatus.CREATED);
     }
@@ -47,7 +68,6 @@ public class UserController {
 
         List<User> users = userService.getAll();
 
-        // convert users to DTOs
         List<UserDTO> usersDTO = new ArrayList<>();
         for (User user : users) {
             usersDTO.add(new UserDTO(user));
@@ -56,6 +76,19 @@ public class UserController {
         return new ResponseEntity<>(usersDTO, HttpStatus.OK);
     }
 
-    // Add other methods as needed
+    @GetMapping("/activate/{id}")
+    public ResponseEntity<String> validateUser(@PathVariable long id) {
+
+        User validatedUser = userService.activateUser(id);
+
+        String htmlMessage = "<html><body><h1>User Activated!</h1></body></html>";
+
+        // Respond with HTML message
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(htmlMessage);
+
+    }
+
+
 
 }
