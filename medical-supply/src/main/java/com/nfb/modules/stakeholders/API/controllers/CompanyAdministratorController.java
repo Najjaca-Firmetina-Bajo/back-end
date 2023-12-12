@@ -36,8 +36,7 @@ public class CompanyAdministratorController {
                 companyAdministratorDto.getCountry(),
                 companyAdministratorDto.getPhoneNumber(),
                 companyAdministratorDto.getOccupation(),
-                companyAdministratorDto.getCompanyInfo(),
-                companyAdministratorDto.getCompany());
+                companyAdministratorDto.getCompanyInfo());
         admin = companyAdministratorService.register(admin);
         return new ResponseEntity<>(new CompanyAdministratorDto(admin), HttpStatus.CREATED);
     }

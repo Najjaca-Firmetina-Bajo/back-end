@@ -4,6 +4,7 @@ import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,13 +22,13 @@ public class EquipmentDto {
     @Schema(description = "Companies that have this equipment")
     private List<Long> companies;
 
-    public EquipmentDto(long id, String name, String type, String description, double price, List<Long> companies) {
+    public EquipmentDto(long id, String name, String type, String description, double price) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.description = description;
         this.price = price;
-        this.companies = companies;
+        this.companies = new ArrayList<>();
     }
 
     public EquipmentDto(Equipment equipment) {

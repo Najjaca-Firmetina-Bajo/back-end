@@ -5,6 +5,7 @@ import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,13 +24,13 @@ public class CompanyDto {
     private List<Long> companyAdministraotrsIds;
 
 
-    public CompanyDto(long id, String name, String address, double averageRating, List<Long> availableEquipmentIds, List<Long> admins) {
+    public CompanyDto(long id, String name, String address, double averageRating) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.averageRating = averageRating;
-        this.availableEquipmentIds = availableEquipmentIds;
-        this.companyAdministraotrsIds = admins;
+        this.availableEquipmentIds = new ArrayList<>();
+        this.companyAdministraotrsIds = new ArrayList<>();
     }
 
     public CompanyDto(Company company) {

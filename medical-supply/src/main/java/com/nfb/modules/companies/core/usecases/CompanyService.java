@@ -31,7 +31,7 @@ public class CompanyService   {
         List<Equipment> availableEquipment = equipmentService.findByIdIn(availableEquipmentIds);
         Company company = companyRepository.findById(companyId).orElse(null);
         List<CompanyAdministrator> admins = companyAdministratorService.findByCompany(company);
-        return new Company(name, address, rating, availableEquipment, admins);
+        return new Company(name, address, rating);
     }
     public List<Company> findByIdIn(List<Long> ids) { return companyRepository.findByIdIn(ids); }
     public Optional<Company> findById(Long id) { return companyRepository.findById(id); }

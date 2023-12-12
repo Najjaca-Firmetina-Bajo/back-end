@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,12 +28,12 @@ public class Equipment extends BaseEntity {
     public Equipment() {
     }
 
-    public Equipment(String name, String type, String description, double price, List<Company> companies) {
+    public Equipment(String name, String type, String description, double price) {
         this.name = name;
         this.type = type;
         this.description = description;
         this.price = price;
-        this.companies = companies;
+        this.companies = new ArrayList<>();
     }
 
     public double getPrice() {

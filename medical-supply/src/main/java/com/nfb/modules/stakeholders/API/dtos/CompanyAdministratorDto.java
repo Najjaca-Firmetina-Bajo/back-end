@@ -42,10 +42,10 @@ public class CompanyAdministratorDto {
     @Schema(description = "Activation Status")
     private boolean activated;
 
-    @Schema(description = "Company")
-    private Company company;
+    //@Schema(description = "Company")
+    //private Company company;
 
-    public CompanyAdministratorDto(long id, String email, String password, UserRole role, String name, String surname, String city, String country, String phoneNumber, String occupation, String companyInfo, boolean activated, Company company) {
+    public CompanyAdministratorDto(long id, String email, String password, UserRole role, String name, String surname, String city, String country, String phoneNumber, String occupation, String companyInfo, boolean activated) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -58,7 +58,6 @@ public class CompanyAdministratorDto {
         this.occupation = occupation;
         this.companyInfo = companyInfo;
         this.activated = activated;
-        this.company = company;
     }
 
     public CompanyAdministratorDto(CompanyAdministrator administrator) {
@@ -74,7 +73,6 @@ public class CompanyAdministratorDto {
         this.occupation = administrator.getOccupation();
         this.companyInfo = administrator.getCompanyInfo();
         this.activated = administrator.isActivated();
-        this.company = administrator.getCompany();
     }
 
     public long getId() {
@@ -172,7 +170,7 @@ public class CompanyAdministratorDto {
     public void setRole(UserRole role) {
         this.role = role;
     }
-
+    /*
     public Company getCompany() {
         return company;
     }
@@ -180,4 +178,5 @@ public class CompanyAdministratorDto {
     public void setCompany(Company company) {
         this.company = company;
     }
+    */
 }

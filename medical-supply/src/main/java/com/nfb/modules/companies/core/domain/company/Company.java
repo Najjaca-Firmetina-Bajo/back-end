@@ -4,6 +4,7 @@ import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -29,12 +30,12 @@ public class Company extends BaseEntity {
     public Company() {
     }
 
-    public Company(String name, String address, double averageRating, List<Equipment> availableEquipment, List<CompanyAdministrator> admins) {
+    public Company(String name, String address, double averageRating) {
         this.name = name;
         this.address = address;
         this.averageRating = averageRating;
-        this.availableEquipment = availableEquipment;
-        this.administrators = admins;
+        this.availableEquipment = new ArrayList<>();
+        this.administrators = new ArrayList<>();
         //validateAddressFormat();
     }
 
@@ -56,7 +57,7 @@ public class Company extends BaseEntity {
 
     private void validateAddressFormat() {
 
-        String regex = "^[\\w\\s]+, \\d{5}, [\\w\\s]+, [\\w\\s]+$";
+        String regex = "^[\\w\\s]+,\\s*\\d{5},\\s*[\\w\\s]+,\\s*[\\w\\s]+$";
         if (!(address != null && Pattern.matches(regex, address.trim()))) {
             throw new IllegalArgumentException("Invalid address format");
         }

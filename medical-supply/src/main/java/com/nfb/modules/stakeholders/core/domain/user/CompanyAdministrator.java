@@ -16,9 +16,9 @@ public class CompanyAdministrator extends User{
     }
 
     public CompanyAdministrator(String email, String password,UserRole role, String name, String surname, String city,
-                                String country, String phoneNumber, String occupation, String companyInfo, Company company) {
+                                String country, String phoneNumber, String occupation, String companyInfo) {
         super(email, password, role, name, surname, city, country, phoneNumber, occupation, companyInfo);
-        this.company = company;
+        this.company = null;
     }
 
     public CompanyAdministrator() {
