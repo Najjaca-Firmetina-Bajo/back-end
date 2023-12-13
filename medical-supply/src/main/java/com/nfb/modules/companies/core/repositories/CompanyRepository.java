@@ -15,6 +15,8 @@ import java.util.List;
 public interface CompanyRepository extends JpaRepository<Company, Long> {
     List<Company> findByIdIn(List<Long> ids);
 
+    Company findByName(String name);
+
     @Modifying
     @Transactional
     @Query("UPDATE Company c SET c.administrators = :administrators WHERE c.id = :companyId")

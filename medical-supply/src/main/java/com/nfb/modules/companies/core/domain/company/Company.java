@@ -24,18 +24,18 @@ public class Company extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "equipment_id")
     )
     private List<Equipment> availableEquipment;
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<CompanyAdministrator> administrators;
 
     public Company() {
     }
 
-    public Company(String name, String address, double averageRating) {
+    public Company(String name, String address, double averageRating, List<CompanyAdministrator> administrators) {
         this.name = name;
         this.address = address;
         this.averageRating = averageRating;
         this.availableEquipment = new ArrayList<>();
-        this.administrators = new ArrayList<>();
+        this.administrators = administrators;
         //validateAddressFormat();
     }
 

@@ -42,6 +42,13 @@ public class CompanyController {
         return new ResponseEntity<>(companyDtos, HttpStatus.OK);
     }
 
+    @GetMapping("/find/{companyName}")
+    public ResponseEntity<CompanyDto> findByName(@PathVariable String companyName) {
+
+        Company company = companyService.findByName(companyName);
+        return new ResponseEntity<>(new CompanyDto(company), HttpStatus.OK);
+    }
+
     @GetMapping("/getAll")
     public ResponseEntity<List<CompanyDto>> getAll() {
 

@@ -42,10 +42,10 @@ public class CompanyAdministratorDto {
     @Schema(description = "Activation Status")
     private boolean activated;
 
-    //@Schema(description = "Company")
-    //private Company company;
+    @Schema(description = "Company")
+    private long companyId;
 
-    public CompanyAdministratorDto(long id, String email, String password, UserRole role, String name, String surname, String city, String country, String phoneNumber, String occupation, String companyInfo, boolean activated) {
+    public CompanyAdministratorDto(long id, String email, String password, UserRole role, String name, String surname, String city, String country, String phoneNumber, String occupation, String companyInfo, boolean activated, long companyId) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -58,6 +58,7 @@ public class CompanyAdministratorDto {
         this.occupation = occupation;
         this.companyInfo = companyInfo;
         this.activated = activated;
+        this.companyId = companyId;
     }
 
     public CompanyAdministratorDto(CompanyAdministrator administrator) {
@@ -73,6 +74,10 @@ public class CompanyAdministratorDto {
         this.occupation = administrator.getOccupation();
         this.companyInfo = administrator.getCompanyInfo();
         this.activated = administrator.isActivated();
+        if(administrator.getCompany() != null)
+            this.companyId = administrator.getCompany().getId();
+        else
+            this.companyId = -1;
     }
 
     public long getId() {
@@ -170,13 +175,13 @@ public class CompanyAdministratorDto {
     public void setRole(UserRole role) {
         this.role = role;
     }
-    /*
-    public Company getCompany() {
-        return company;
+
+    public long getCompanyId() {
+        return companyId;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setCompanyId(long companyId) {
+        this.companyId = companyId;
     }
-    */
+
 }

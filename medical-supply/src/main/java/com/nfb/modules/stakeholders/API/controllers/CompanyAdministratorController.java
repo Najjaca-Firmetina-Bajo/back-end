@@ -1,6 +1,7 @@
 package com.nfb.modules.stakeholders.API.controllers;
 
 import com.nfb.modules.companies.core.domain.company.Company;
+import com.nfb.modules.companies.core.usecases.CompanyService;
 import com.nfb.modules.stakeholders.API.dtos.CompanyAdministratorDto;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import com.nfb.modules.stakeholders.core.domain.user.UserRole;
@@ -20,8 +21,12 @@ public class CompanyAdministratorController {
     @Autowired
     private CompanyAdministratorService companyAdministratorService;
 
-    public CompanyAdministratorController(CompanyAdministratorService companyAdministratorService) {
+    @Autowired
+    private CompanyService companyService; //zbog razbijanja ciklicne zavisnosti CompanyAdministratorService - CompanyService
+
+    public CompanyAdministratorController(CompanyAdministratorService companyAdministratorService, CompanyService companyService) {
         this.companyAdministratorService = companyAdministratorService;
+        this.companyService = companyService;
     }
 
     @PostMapping("/register")
@@ -37,7 +42,9 @@ public class CompanyAdministratorController {
                 companyAdministratorDto.getCountry(),
                 companyAdministratorDto.getPhoneNumber(),
                 companyAdministratorDto.getOccupation(),
-                companyAdministratorDto.getCompanyInfo());
+                companyAdministratorDto.getCompanyInfo(),
+                companyService.findById(companyAdministratorDto.getCompanyId()).orElse(null)
+        );
         admin = companyAdministratorService.register(admin);
         return new ResponseEntity<>(new CompanyAdministratorDto(admin), HttpStatus.CREATED);
     }
@@ -54,8 +61,10 @@ public class CompanyAdministratorController {
         return ResponseEntity.ok(dtos);
     }
 
-    @PutMapping ("/set-company/{adminId}/{company}")
-    public int setCompanyForAdministrator(@PathVariable long adminId, @PathVariable Company company) {
+    @PutMapping ("/set-company/{adminId}/{companyId}")
+    public int setCompanyForAdministrator(@PathVariable long adminId, @PathVariable long companyId) {
+        Company company = companyService.findById(companyId).orElse(null);
         return companyAdministratorService.setCompanyForAdministrator(adminId, company);
     }
+
 }
