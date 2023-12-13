@@ -1,8 +1,10 @@
 package com.nfb.modules.companies.core.domain.company;
 import com.nfb.buildingblocks.core.domain.BaseEntity;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
+import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -22,16 +24,27 @@ public class Company extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "equipment_id")
     )
     private List<Equipment> availableEquipment;
+    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<CompanyAdministrator> administrators;
 
     public Company() {
     }
 
-    public Company(String name, String address, double averageRating, List<Equipment> availableEquipment) {
+    public Company(String name, String address, double averageRating, List<CompanyAdministrator> administrators) {
         this.name = name;
         this.address = address;
         this.averageRating = averageRating;
-        this.availableEquipment = availableEquipment;
+        this.availableEquipment = new ArrayList<>();
+        this.administrators = administrators;
         //validateAddressFormat();
+    }
+
+    public List<CompanyAdministrator> getAdministrators() {
+        return administrators;
+    }
+
+    private void setAdministrators(List<CompanyAdministrator> administrators) {
+        this.administrators = administrators;
     }
 
     public List<Equipment> getAvailableEquipment() {
@@ -44,7 +57,7 @@ public class Company extends BaseEntity {
 
     private void validateAddressFormat() {
 
-        String regex = "^[\\w\\s]+, \\d{5}, [\\w\\s]+, [\\w\\s]+$";
+        String regex = "^[\\w\\s]+,\\s*\\d{5},\\s*[\\w\\s]+,\\s*[\\w\\s]+$";
         if (!(address != null && Pattern.matches(regex, address.trim()))) {
             throw new IllegalArgumentException("Invalid address format");
         }

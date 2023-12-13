@@ -2,8 +2,10 @@ package com.nfb.modules.companies.API.dtos;
 
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
+import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,13 +20,17 @@ public class CompanyDto {
     private double averageRating;
     @Schema(description = "Available equipment in company")
     private List<Long> availableEquipmentIds;
+    @Schema(description = "Administrators of company")
+    private List<Long> companyAdministraotrsIds;
 
-    public CompanyDto(long id, String name, String address, double averageRating, List<Long> availableEquipmentIds) {
+
+    public CompanyDto(long id, String name, String address, double averageRating) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.averageRating = averageRating;
-        this.availableEquipmentIds = availableEquipmentIds;
+        this.availableEquipmentIds = new ArrayList<>();
+        this.companyAdministraotrsIds = new ArrayList<>();
     }
 
     public CompanyDto(Company company) {
@@ -35,6 +41,17 @@ public class CompanyDto {
         this.availableEquipmentIds = company.getAvailableEquipment().stream()
                 .map(Equipment::getId)
                 .collect(Collectors.toList());
+        this.companyAdministraotrsIds = company.getAdministrators().stream()
+                .map(CompanyAdministrator::getId)
+                .collect(Collectors.toList());
+    }
+
+    public List<Long> getCompanyAdministraotrsIds() {
+        return companyAdministraotrsIds;
+    }
+
+    public void setCompanyAdministraotrsIds(List<Long> companyAdministraotrsIds) {
+        this.companyAdministraotrsIds = companyAdministraotrsIds;
     }
 
     public List<Long> getAvailableEquipmentIds() {

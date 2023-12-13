@@ -1,4 +1,4 @@
-package com.nfb.modules.companies.core.repositories;
+package com.nfb.modules.stakeholders.core.repositories;
 
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
@@ -12,13 +12,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CompanyRepository extends JpaRepository<Company, Long> {
-    List<Company> findByIdIn(List<Long> ids);
-
-    Company findByName(String name);
+public interface CompanyAdministratorRepository extends JpaRepository<CompanyAdministrator, Long>{
+    List<CompanyAdministrator> findByCompany(Company company);
 
     @Modifying
     @Transactional
-    @Query("UPDATE Company c SET c.administrators = :administrators WHERE c.id = :companyId")
-    void addAdministratorToCompany(@Param("companyId") long companyId, @Param("administrators") List<CompanyAdministrator> administrators);
+    @Query("UPDATE CompanyAdministrator ca SET ca.company = :company WHERE ca.id = :adminId")
+    int setCompanyForAdministrator(@Param("adminId") Long adminId, @Param("company") Company company);
 }

@@ -24,7 +24,7 @@ public class CompanyController {
 
     @PostMapping("/register")
     public ResponseEntity<CompanyDto> registerCompany(@RequestBody CompanyDto companyDto) {
-        Company company = companyService.prepareCompanyModel(companyDto.getName(), companyDto.getAddress(), companyDto.getAverageRating(), companyDto.getAvailableEquipmentIds());
+        Company company = companyService.prepareCompanyModel(companyDto.getId(), companyDto.getName(), companyDto.getAddress(), companyDto.getAverageRating(), companyDto.getAvailableEquipmentIds());
         company = companyService.register(company);
         return new ResponseEntity<>(new CompanyDto(company), HttpStatus.CREATED);
     }
@@ -42,6 +42,13 @@ public class CompanyController {
         return new ResponseEntity<>(companyDtos, HttpStatus.OK);
     }
 
+    @GetMapping("/find/{companyName}")
+    public ResponseEntity<CompanyDto> findByName(@PathVariable String companyName) {
+
+        Company company = companyService.findByName(companyName);
+        return new ResponseEntity<>(new CompanyDto(company), HttpStatus.OK);
+    }
+
     @GetMapping("/getAll")
     public ResponseEntity<List<CompanyDto>> getAll() {
 
@@ -53,5 +60,11 @@ public class CompanyController {
         }
 
         return new ResponseEntity<>(companyDtos, HttpStatus.OK);
+    }
+
+    @PutMapping ("/add-company-admin/{companyId}/{adminId}")
+    public ResponseEntity<CompanyDto> addAdministratorToCompany(@PathVariable long companyId, @PathVariable long adminId) {
+        CompanyDto dto = new CompanyDto (companyService.addAdministratorToCompany(companyId, adminId));
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 }

@@ -4,6 +4,7 @@ import com.nfb.buildingblocks.core.domain.BaseEntity;
 import com.nfb.modules.companies.core.domain.company.Company;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,18 +16,29 @@ public class Equipment extends BaseEntity {
     private String type;
     @Column(nullable = false)
     private String description;
-    @ManyToMany(mappedBy = "availableEquipment",fetch = FetchType.EAGER)
+    @Column(nullable = false)
+    private double price;
+    @ManyToMany(mappedBy = "availableEquipment")
     private List<Company> companies;
 
 
     public Equipment() {
     }
 
-    public Equipment(String name, String type, String description, List<Company> companies) {
+    public Equipment(String name, String type, String description, double price) {
         this.name = name;
         this.type = type;
         this.description = description;
-        this.companies = companies;
+        this.price = price;
+        this.companies = new ArrayList<>();
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    private void setPrice(double price) {
+        this.price = price;
     }
 
     public List<Company> getCompanies() {
