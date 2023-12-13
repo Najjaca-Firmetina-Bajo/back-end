@@ -54,4 +54,10 @@ public class CompanyController {
 
         return new ResponseEntity<>(companyDtos, HttpStatus.OK);
     }
+
+    @PutMapping ("/add-company-admin/{companyId}/{adminId}")
+    public ResponseEntity<CompanyDto> addAdministratorToCompany(@PathVariable long companyId, @PathVariable long adminId) {
+        CompanyDto dto = new CompanyDto (companyService.addAdministratorToCompany(companyId, adminId));
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
 }
