@@ -1,5 +1,6 @@
 package com.nfb.modules.companies.core.usecases;
 
+import com.nfb.modules.companies.core.domain.calendar.WorkingCalendar;
 import com.nfb.modules.companies.core.repositories.WorkingCalendarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,4 +14,6 @@ public class WorkingCalendarService {
     public WorkingCalendarService(WorkingCalendarRepository workingCalendarRepository) {
         this.workingCalendarRepository = workingCalendarRepository;
     }
+
+    public WorkingCalendar getBy(long companyId) { return workingCalendarRepository.findByCompanyId(companyId); }
 }

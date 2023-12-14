@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface WorkingCalendarRepository extends JpaRepository<WorkingCalendar, Long> {
+    WorkingCalendar findByCompanyId(long companyId);
 }
