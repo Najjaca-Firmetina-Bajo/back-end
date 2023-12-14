@@ -1,9 +1,14 @@
 package com.nfb.modules.stakeholders.API.dtos;
 
+import com.nfb.modules.companies.core.domain.appointment.Appointment;
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import com.nfb.modules.stakeholders.core.domain.user.UserRole;
 import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CompanyAdministratorDto {
     @Schema(description = "CompanyAdministrator ID")
@@ -45,6 +50,9 @@ public class CompanyAdministratorDto {
     @Schema(description = "Company")
     private long companyId;
 
+    @Schema(description = "Appointments of company administrators")
+    private List<Long> appointmentsIds;
+
     public CompanyAdministratorDto(long id, String email, String password, UserRole role, String name, String surname, String city, String country, String phoneNumber, String occupation, String companyInfo, boolean activated, long companyId) {
         this.id = id;
         this.email = email;
@@ -59,6 +67,7 @@ public class CompanyAdministratorDto {
         this.companyInfo = companyInfo;
         this.activated = activated;
         this.companyId = companyId;
+        this.appointmentsIds = new ArrayList<>();
     }
 
     public CompanyAdministratorDto(CompanyAdministrator administrator) {
@@ -78,6 +87,17 @@ public class CompanyAdministratorDto {
             this.companyId = administrator.getCompany().getId();
         else
             this.companyId = -1;
+        this.appointmentsIds = administrator.getAppointments().stream()
+                .map(Appointment::getId)
+                .collect(Collectors.toList());
+    }
+
+    public List<Long> getAppointmentsIds() {
+        return appointmentsIds;
+    }
+
+    public void setAppointmentsIds(List<Long> appointmentsIds) {
+        this.appointmentsIds = appointmentsIds;
     }
 
     public long getId() {

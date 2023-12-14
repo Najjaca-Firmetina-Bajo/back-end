@@ -1,5 +1,6 @@
 package com.nfb.modules.companies.API.dtos;
 
+import com.nfb.modules.companies.core.domain.appointment.Appointment;
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -21,6 +22,8 @@ public class EquipmentDto {
     private double price;
     @Schema(description = "Companies that have this equipment")
     private List<Long> companies;
+    @Schema(description = "Appointments that have this equipment")
+    private List<Long> appointments;
 
     public EquipmentDto(long id, String name, String type, String description, double price) {
         this.id = id;
@@ -29,6 +32,7 @@ public class EquipmentDto {
         this.description = description;
         this.price = price;
         this.companies = new ArrayList<>();
+        this.appointments = new ArrayList<>();
     }
 
     public EquipmentDto(Equipment equipment) {
@@ -40,6 +44,17 @@ public class EquipmentDto {
         this.companies = equipment.getCompanies().stream()
                 .map(Company::getId)
                 .collect(Collectors.toList());
+        this.appointments = equipment.getAppointments().stream()
+                .map(Appointment::getId)
+                .collect(Collectors.toList());
+    }
+
+    public List<Long> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Long> appointments) {
+        this.appointments = appointments;
     }
 
     public double getPrice() {
