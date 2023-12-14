@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class WorkingDayDto {
+    @Schema(description = "Working day ID")
+    private long id;
     @Schema(description = "Working day date")
     private Date date;
     @Schema(description = "Working day appointments")
@@ -17,18 +19,28 @@ public class WorkingDayDto {
     @Schema(description = "Working calendar of working day")
     private Long workingCalendarId;
 
-    public WorkingDayDto(Date date) {
+    public WorkingDayDto(long id, Date date) {
+        this.id = id;
         this.date = date;
         this.appointmentsIds = new ArrayList<>();
         this.workingCalendarId = (long) -1;
     }
 
     public WorkingDayDto(WorkingDay workingDay) {
+        this.id = workingDay.getId();
         this.date = workingDay.getDate();
         this.appointmentsIds = workingDay.getAppointments().stream()
                 .map(Appointment::getId)
                 .collect(Collectors.toList());
         this.workingCalendarId = workingDay.getWorkingCalendar().getId();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Long getWorkingCalendarId() {

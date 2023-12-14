@@ -9,21 +9,33 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class WorkingCalendarDto {
+    @Schema(description = "Working calendar ID")
+    private long id;
     @Schema(description = "Working calendar company")
     private Long companyId;
     @Schema(description = "Working days of working calendar")
     private List<Long> workingDaysIds;
 
-    public WorkingCalendarDto() {
+    public WorkingCalendarDto(long id) {
+        this.id = id;
         this.companyId = (long) -1;
         this.workingDaysIds = new ArrayList<>();
     }
 
     public WorkingCalendarDto(WorkingCalendar workingCalendar) {
+        this.id = workingCalendar.getId();
         this.companyId = workingCalendar.getCompany().getId();
         this.workingDaysIds = workingCalendar.getWorkingDays().stream()
                 .map(WorkingDay::getId)
                 .collect(Collectors.toList());
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Long getCompanyId() {
