@@ -4,7 +4,6 @@ import com.nfb.modules.companies.core.domain.company.Company;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "companyAdministrators")
 public class CompanyAdministrator extends User{
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id")

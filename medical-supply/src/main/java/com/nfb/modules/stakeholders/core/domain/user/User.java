@@ -5,7 +5,9 @@ import com.nfb.buildingblocks.core.domain.BaseEntity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users")  // Define the table for the entire hierarchy
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 public class User extends BaseEntity {
 
     @Column(nullable = false, unique = true)
