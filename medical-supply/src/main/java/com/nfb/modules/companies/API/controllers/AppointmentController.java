@@ -40,4 +40,17 @@ public class AppointmentController {
 
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
+
+    @GetMapping("/get-all")
+    public ResponseEntity<List<AppointmentDto>> findBy() {
+
+        List<Appointment> appointments = appointmentService.getAll();
+
+        List<AppointmentDto> dtos = new ArrayList<>();
+        for (Appointment a : appointments) {
+            dtos.add(new AppointmentDto(a));
+        }
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
 }
