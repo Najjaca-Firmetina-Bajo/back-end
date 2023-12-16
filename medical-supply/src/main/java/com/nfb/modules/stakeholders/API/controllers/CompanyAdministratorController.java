@@ -3,7 +3,7 @@ import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.usecases.CompanyService;
 import com.nfb.modules.stakeholders.API.dtos.CompanyAdministratorDto;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
-import com.nfb.modules.stakeholders.core.domain.user.UserRole;
+import com.nfb.modules.stakeholders.core.domain.user.Role;
 import com.nfb.modules.stakeholders.core.usecases.CompanyAdministratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,11 +30,12 @@ public class CompanyAdministratorController {
 
     @PostMapping("/register")
     public ResponseEntity<CompanyAdministratorDto> registerCompanyAdmin(@RequestBody CompanyAdministratorDto companyAdministratorDto) {
-
+        var role = new Role();
+        role.setName(companyAdministratorDto.getRole());
         CompanyAdministrator admin = new CompanyAdministrator(
                 companyAdministratorDto.getEmail(),
                 companyAdministratorDto.getPassword(),
-                UserRole.CompanyAdministrator,
+                role,
                 companyAdministratorDto.getName(),
                 companyAdministratorDto.getSurname(),
                 companyAdministratorDto.getCity(),

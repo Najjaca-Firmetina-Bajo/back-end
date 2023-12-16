@@ -10,9 +10,9 @@ public class SystemAdministrator extends User {
 
     @Column(name = "jacina")
     private int jak;
-    public SystemAdministrator(String email, String password, UserRole role, String name, String surname, String city,
+    public SystemAdministrator(String email, String password, Role role, String name, String surname, String city,
                                 String country, String phoneNumber, String occupation, String companyInfo, Company company) {
-        super(email, password, UserRole.SystemAdministrator, name, surname, city, country, phoneNumber, occupation, companyInfo);
+        super(email,password,role,name,surname,city,country,phoneNumber,occupation,companyInfo,false);
         this.jak = 0;
     }
 

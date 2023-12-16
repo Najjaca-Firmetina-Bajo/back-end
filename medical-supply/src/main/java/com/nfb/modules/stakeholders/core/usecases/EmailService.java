@@ -89,7 +89,7 @@ public class EmailService {
                                         .put("Name", "Dragomir"))
                                 .put(Emailv31.Message.TO, new JSONArray()
                                         .put(new JSONObject()
-                                                .put("Email", user.getEmail())))
+                                                .put("Email", user.getUsername())))
                                 .put(Emailv31.Message.SUBJECT, "Authentication")
                                 .put(Emailv31.Message.TEXTPART, "Greetings from NFB.")
                                 .put(Emailv31.Message.HTMLPART, createHTML(user) )

@@ -12,9 +12,9 @@ public class RegisteredUser extends User {
     @Column(name = "penal_points")
     private int penalPoints;
 
-    public RegisteredUser(String email, String password, UserRole role, String name, String surname, String city,
+    public RegisteredUser(String email, String password, Role role, String name, String surname, String city,
                           String country, String phoneNumber, String occupation, String companyInfo, int penalPoints) {
-        super(email, password, UserRole.RegisteredUser, name, surname, city, country, phoneNumber, occupation, companyInfo);
+        super(email,password,role,name,surname,city,country,phoneNumber,occupation,companyInfo,false);
         this.penalPoints = penalPoints;
     }
 

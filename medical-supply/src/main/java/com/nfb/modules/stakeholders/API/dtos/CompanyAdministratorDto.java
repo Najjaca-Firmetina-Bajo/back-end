@@ -2,7 +2,7 @@ package com.nfb.modules.stakeholders.API.dtos;
 
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
-import com.nfb.modules.stakeholders.core.domain.user.UserRole;
+import com.nfb.modules.stakeholders.core.domain.user.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public class CompanyAdministratorDto {
@@ -16,7 +16,7 @@ public class CompanyAdministratorDto {
     private String password;
 
     @Schema(description = "Role")
-    private UserRole role;
+    private String role;
 
     @Schema(description = "CompanyAdministrator's Name")
     private String name;
@@ -45,7 +45,7 @@ public class CompanyAdministratorDto {
     @Schema(description = "Company")
     private long companyId;
 
-    public CompanyAdministratorDto(long id, String email, String password, UserRole role, String name, String surname, String city, String country, String phoneNumber, String occupation, String companyInfo, boolean activated, long companyId) {
+    public CompanyAdministratorDto(long id, String email, String password, String role, String name, String surname, String city, String country, String phoneNumber, String occupation, String companyInfo, boolean activated, long companyId) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -63,9 +63,9 @@ public class CompanyAdministratorDto {
 
     public CompanyAdministratorDto(CompanyAdministrator administrator) {
         this.id = administrator.getId();
-        this.email = administrator.getEmail();
+        this.email = administrator.getUsername();
         this.password = administrator.getPassword();
-        this.role = administrator.getRole();
+        this.role = "CompanyAdministrator";
         this.name = administrator.getName();
         this.surname = administrator.getSurname();
         this.city = administrator.getCity();
@@ -73,7 +73,7 @@ public class CompanyAdministratorDto {
         this.phoneNumber = administrator.getPhoneNumber();
         this.occupation = administrator.getOccupation();
         this.companyInfo = administrator.getCompanyInfo();
-        this.activated = administrator.isActivated();
+        this.activated = administrator.isEnabled();
         if(administrator.getCompany() != null)
             this.companyId = administrator.getCompany().getId();
         else
@@ -168,11 +168,11 @@ public class CompanyAdministratorDto {
         this.password = password;
     }
 
-    public UserRole getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(UserRole role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

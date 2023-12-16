@@ -1,7 +1,7 @@
 package com.nfb.modules.stakeholders.API.dtos;
 
 import com.nfb.modules.stakeholders.core.domain.user.User;
-import com.nfb.modules.stakeholders.core.domain.user.UserRole;
+import com.nfb.modules.stakeholders.core.domain.user.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public class UserDTO {
@@ -16,7 +16,7 @@ public class UserDTO {
     private String password;
 
     @Schema(description = "User Role")
-    private UserRole role;
+    private String role;
 
     @Schema(description = "User's Name")
     private String name;
@@ -42,7 +42,7 @@ public class UserDTO {
     @Schema(description = "Activation Status")
     private boolean activated;
 
-    public UserDTO(long id, String email, String password, UserRole role,
+    public UserDTO(long id, String email, String password, String role,
                    String name, String surname, String city, String country,
                    String phoneNumber, String occupation, String companyInfo, boolean activated) {
         this.id = id;
@@ -61,9 +61,9 @@ public class UserDTO {
 
     public UserDTO(User user) {
         this.id = user.getId();
-        this.email = user.getEmail();
+        this.email = user.getUsername();
         this.password = user.getPassword();
-        this.role = user.getRole();
+        this.role = user.getRoles().get(0).getName();
         this.name = user.getName();
         this.surname = user.getSurname();
         this.city = user.getCity();
@@ -71,7 +71,7 @@ public class UserDTO {
         this.phoneNumber = user.getPhoneNumber();
         this.occupation = user.getOccupation();
         this.companyInfo = user.getCompanyInfo();
-        this.activated = user.isActivated();
+        this.activated = user.isEnabled();
     }
 
     public long getId() {
@@ -86,7 +86,7 @@ public class UserDTO {
         return password;
     }
 
-    public UserRole getRole() {
+    public String getRole() {
         return role;
     }
 
@@ -120,5 +120,57 @@ public class UserDTO {
 
     public boolean isActivated() {
         return activated;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
+
+    public void setCompanyInfo(String companyInfo) {
+        this.companyInfo = companyInfo;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
+
+    public UserDTO() {
+
     }
 }

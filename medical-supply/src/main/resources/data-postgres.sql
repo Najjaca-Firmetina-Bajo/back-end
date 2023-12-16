@@ -1,3 +1,15 @@
+INSERT INTO public.role(
+    id, name)
+VALUES (0, 'REGISTERED_USER');
+
+INSERT INTO public.role(
+    id, name)
+VALUES (1, 'COMPANY_ADMINISTRATOR');
+
+INSERT INTO public.role(
+    id, name)
+VALUES (2, 'SYSTEM_ADMINISTRATOR');
+
 -- Example 1 REG
 INSERT INTO public.users (
     activated, role, id,

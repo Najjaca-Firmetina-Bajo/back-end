@@ -4,14 +4,14 @@ import com.nfb.modules.companies.core.domain.company.Company;
 import com.mailjet.client.errors.MailjetException;
 import com.mailjet.client.errors.MailjetSocketTimeoutException;
 import com.nfb.modules.stakeholders.core.domain.user.User;
-import com.nfb.modules.stakeholders.core.domain.user.UserRole;
+import com.nfb.modules.stakeholders.core.domain.user.Role;
 import com.nfb.modules.stakeholders.core.repositories.UserRepository;
 import javassist.NotFoundException;
 import org.modelmapper.internal.bytebuddy.build.BuildLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.management.relation.Role;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -56,7 +56,7 @@ public class UserService {
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            user.activateAccount();
+            user.setEnabled(true);
             return userRepository.save(user);
         } else
         {
@@ -68,4 +68,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    public User findByUsername(String email) {
+        return userRepository.findByUsername(email);
+    }
 }
