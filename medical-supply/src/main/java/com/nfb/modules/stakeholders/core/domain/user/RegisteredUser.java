@@ -18,6 +18,7 @@ public class RegisteredUser extends User {
         this.penalPoints = penalPoints;
     }
 
+
     public RegisteredUser() {
         // Default constructor required by JPA
     }

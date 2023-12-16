@@ -3,8 +3,12 @@ package com.nfb.modules.stakeholders.core.usecases;
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.mailjet.client.errors.MailjetException;
 import com.mailjet.client.errors.MailjetSocketTimeoutException;
+import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
+import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
 import com.nfb.modules.stakeholders.core.domain.user.User;
 import com.nfb.modules.stakeholders.core.domain.user.Role;
+import com.nfb.modules.stakeholders.core.repositories.CompanyAdministratorRepository;
+import com.nfb.modules.stakeholders.core.repositories.RegisteredUserRepository;
 import com.nfb.modules.stakeholders.core.repositories.UserRepository;
 import javassist.NotFoundException;
 import org.modelmapper.internal.bytebuddy.build.BuildLogger;
@@ -19,11 +23,15 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final RegisteredUserRepository registeredUserRepository;
+    private final CompanyAdministratorRepository companyAdministratorRepository;
     private EmailService emailService = new EmailService();
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository,RegisteredUserRepository registeredUserRepository,CompanyAdministratorRepository companyAdministratorRepository) {
         this.userRepository = userRepository;
+        this.registeredUserRepository = registeredUserRepository;
+        this.companyAdministratorRepository = companyAdministratorRepository;
     }
 
 
@@ -35,16 +43,31 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public User register(User user) {
+    public RegisteredUser register(RegisteredUser registeredUser) {
 
-        var ret = userRepository.save(user);
-        try {
+        var ret = registeredUserRepository.save(registeredUser);
+        /*try {
             this.emailService.sendRegistrationEmail(ret);
         } catch (MailjetSocketTimeoutException e) {
             throw new RuntimeException(e);
         } catch (MailjetException e) {
             throw new RuntimeException(e);
-        }
+        }*/
+
+
+        return ret;
+    }
+
+    public CompanyAdministrator register(CompanyAdministrator companyAdministrator) {
+
+        var ret = companyAdministratorRepository.save(companyAdministrator);
+        /*try {
+            this.emailService.sendRegistrationEmail(ret);
+        } catch (MailjetSocketTimeoutException e) {
+            throw new RuntimeException(e);
+        } catch (MailjetException e) {
+            throw new RuntimeException(e);
+        }*/
 
 
         return ret;

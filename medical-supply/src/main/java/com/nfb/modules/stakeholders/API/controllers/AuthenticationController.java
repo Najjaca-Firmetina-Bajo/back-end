@@ -1,8 +1,9 @@
 package com.nfb.modules.stakeholders.API.controllers;
 
-import com.nfb.modules.stakeholders.API.dtos.JwtAuthenticationRequest;
-import com.nfb.modules.stakeholders.API.dtos.UserDTO;
-import com.nfb.modules.stakeholders.API.dtos.UserTokenState;
+import com.nfb.modules.companies.core.usecases.CompanyService;
+import com.nfb.modules.stakeholders.API.dtos.*;
+import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
+import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
 import com.nfb.modules.stakeholders.core.domain.user.Role;
 import com.nfb.modules.stakeholders.core.domain.user.User;
 import com.nfb.modules.stakeholders.core.usecases.RoleService;
@@ -20,10 +21,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
@@ -45,6 +43,8 @@ public class AuthenticationController {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private CompanyService companyService;
 
     // Prvi endpoint koji pogadja korisnik kada se loguje.
     // Tada zna samo svoje korisnicko ime i lozinku i to prosledjuje na backend.
@@ -72,7 +72,7 @@ public class AuthenticationController {
 
     // Endpoint za registraciju novog korisnika
     @PostMapping("/signup")
-    public ResponseEntity<UserDTO> save(@RequestBody UserDTO userRequest) {
+    public ResponseEntity<RegisteredUserDTO> save(@RequestBody UserDTO userRequest) {
         User existUser = this.userService.findByUsername(userRequest.getEmail());
 
         if (existUser != null) {
@@ -80,7 +80,7 @@ public class AuthenticationController {
         }
 
         List<Role> roles = roleService.findByName("REGISTERED_USER");
-        User u = new User(
+        RegisteredUser u = new RegisteredUser(
                 userRequest.getEmail(),
                 passwordEncoder.encode(userRequest.getPassword()),
                 roles.get(0),
@@ -91,10 +91,44 @@ public class AuthenticationController {
                 userRequest.getPhoneNumber(),
                 userRequest.getOccupation(),
                 userRequest.getCompanyInfo(),
-                false
+                0
         );
 
         u = userService.register(u);
-        return new ResponseEntity<>(new UserDTO(u), HttpStatus.CREATED);
+        return new ResponseEntity<>(new RegisteredUserDTO(u), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/cadmin-signup")
+    public ResponseEntity<CompanyAdministratorDto> registerCompanyAdmin(@RequestBody CompanyAdministratorDto companyAdministratorDto) {
+        var role = new Role();
+        role.setName(companyAdministratorDto.getRole());
+        CompanyAdministrator admin = new CompanyAdministrator(
+                companyAdministratorDto.getEmail(),
+                companyAdministratorDto.getPassword(),
+                role,
+                companyAdministratorDto.getName(),
+                companyAdministratorDto.getSurname(),
+                companyAdministratorDto.getCity(),
+                companyAdministratorDto.getCountry(),
+                companyAdministratorDto.getPhoneNumber(),
+                companyAdministratorDto.getOccupation(),
+                companyAdministratorDto.getCompanyInfo(),
+                companyService.findById(companyAdministratorDto.getCompanyId()).orElse(null)
+        );
+        admin = userService.register(admin);
+        return new ResponseEntity<>(new CompanyAdministratorDto(admin), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/activate/{id}")
+    public ResponseEntity<String> validateUser(@PathVariable long id) {
+
+        User validatedUser = userService.activateUser(id);
+
+        String htmlMessage = "<html><body><h1>User Activated!</h1></body></html>";
+
+        // Respond with HTML message
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(htmlMessage);
+
     }
 }

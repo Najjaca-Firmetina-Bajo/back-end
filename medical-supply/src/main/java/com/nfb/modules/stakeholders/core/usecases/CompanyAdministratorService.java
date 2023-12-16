@@ -19,7 +19,6 @@ public class CompanyAdministratorService {
         this.companyAdministratorRepository = companyAdministratorRepository;
     }
     public List<CompanyAdministrator> findByCompany(Company company) { return companyAdministratorRepository.findByCompany(company); }
-    public CompanyAdministrator register(CompanyAdministrator admin) { return companyAdministratorRepository.save(admin); }
     public List<CompanyAdministrator> getAll() { return companyAdministratorRepository.findAll(); }
     public int setCompanyForAdministrator(long adminId, Company company) { return companyAdministratorRepository.setCompanyForAdministrator(adminId, company); }
     public Optional<CompanyAdministrator> findById(long id) { return companyAdministratorRepository.findById(id); }

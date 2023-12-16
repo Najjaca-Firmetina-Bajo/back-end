@@ -28,26 +28,6 @@ public class CompanyAdministratorController {
         this.companyService = companyService;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<CompanyAdministratorDto> registerCompanyAdmin(@RequestBody CompanyAdministratorDto companyAdministratorDto) {
-        var role = new Role();
-        role.setName(companyAdministratorDto.getRole());
-        CompanyAdministrator admin = new CompanyAdministrator(
-                companyAdministratorDto.getEmail(),
-                companyAdministratorDto.getPassword(),
-                role,
-                companyAdministratorDto.getName(),
-                companyAdministratorDto.getSurname(),
-                companyAdministratorDto.getCity(),
-                companyAdministratorDto.getCountry(),
-                companyAdministratorDto.getPhoneNumber(),
-                companyAdministratorDto.getOccupation(),
-                companyAdministratorDto.getCompanyInfo(),
-                companyService.findById(companyAdministratorDto.getCompanyId()).orElse(null)
-        );
-        admin = companyAdministratorService.register(admin);
-        return new ResponseEntity<>(new CompanyAdministratorDto(admin), HttpStatus.CREATED);
-    }
     @GetMapping ("/get-all")
     public ResponseEntity<List<CompanyAdministratorDto>> getAll() {
         List<CompanyAdministrator> administrators = companyAdministratorService.getAll();

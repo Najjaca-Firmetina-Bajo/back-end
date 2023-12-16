@@ -30,9 +30,6 @@ public class UserController {
     private UserService userService;
 
 
-
-
-
     @GetMapping
     public ResponseEntity<List<UserDTO>> getUsers() {
 
@@ -46,18 +43,7 @@ public class UserController {
         return new ResponseEntity<>(usersDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/activate/{id}")
-    public ResponseEntity<String> validateUser(@PathVariable long id) {
 
-        User validatedUser = userService.activateUser(id);
-
-        String htmlMessage = "<html><body><h1>User Activated!</h1></body></html>";
-
-        // Respond with HTML message
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(htmlMessage);
-
-    }
 
 
 
