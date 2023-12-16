@@ -23,7 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping(value = "/api/users")
+@CrossOrigin
 public class UserController {
 
     @Autowired

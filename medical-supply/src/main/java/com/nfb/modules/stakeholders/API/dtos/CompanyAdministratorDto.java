@@ -53,7 +53,7 @@ public class CompanyAdministratorDto {
     @Schema(description = "Appointments of company administrators")
     private List<Long> appointmentsIds;
 
-    public CompanyAdministratorDto(long id, String email, String password, UserRole role, String name, String surname, String city, String country, String phoneNumber, String occupation, String companyInfo, boolean activated, long companyId) {
+    public CompanyAdministratorDto(long id, String email, String password, String role, String name, String surname, String city, String country, String phoneNumber, String occupation, String companyInfo, boolean activated, long companyId) {
         this.id = id;
         this.email = email;
         this.password = password;
