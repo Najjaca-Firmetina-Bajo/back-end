@@ -1,6 +1,7 @@
 package com.nfb.modules.companies.core.domain.equipment;
 
 import com.nfb.buildingblocks.core.domain.BaseEntity;
+import com.nfb.modules.companies.core.domain.appointment.Appointment;
 import com.nfb.modules.companies.core.domain.company.Company;
 import jakarta.persistence.*;
 
@@ -20,6 +21,8 @@ public class Equipment extends BaseEntity {
     private double price;
     @ManyToMany(mappedBy = "availableEquipment")
     private List<Company> companies;
+    @ManyToMany(mappedBy = "reservedEquipment")
+    private List<Appointment> appointments;
 
 
     public Equipment() {
@@ -31,6 +34,7 @@ public class Equipment extends BaseEntity {
         this.description = description;
         this.price = price;
         this.companies = new ArrayList<>();
+        this.appointments = new ArrayList<>();
     }
 
     public double getPrice() {
@@ -71,5 +75,13 @@ public class Equipment extends BaseEntity {
 
     public String getDescription() {
         return description;
+    }
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    private void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
     }
 }
