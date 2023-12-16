@@ -1,5 +1,6 @@
 package com.nfb.modules.companies.core.domain.company;
 import com.nfb.buildingblocks.core.domain.BaseEntity;
+import com.nfb.modules.companies.core.domain.calendar.WorkingCalendar;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import jakarta.persistence.*;
@@ -26,6 +27,8 @@ public class Company extends BaseEntity {
     private List<Equipment> availableEquipment;
     @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<CompanyAdministrator> administrators;
+    @OneToOne(mappedBy = "company", cascade = CascadeType.ALL)
+    private WorkingCalendar workingCalendar;
 
     public Company() {
     }
@@ -36,7 +39,15 @@ public class Company extends BaseEntity {
         this.averageRating = averageRating;
         this.availableEquipment = new ArrayList<>();
         this.administrators = administrators;
-        //validateAddressFormat();
+        this.workingCalendar = null;
+    }
+
+    public WorkingCalendar getWorkingCalendar() {
+        return workingCalendar;
+    }
+
+    private void setWorkingCalendar(WorkingCalendar workingCalendar) {
+        this.workingCalendar = workingCalendar;
     }
 
     public List<CompanyAdministrator> getAdministrators() {
@@ -53,14 +64,6 @@ public class Company extends BaseEntity {
 
     private void setAvailableEquipment(List<Equipment> availableEquipment) {
         this.availableEquipment = availableEquipment;
-    }
-
-    private void validateAddressFormat() {
-
-        String regex = "^[\\w\\s]+,\\s*\\d{5},\\s*[\\w\\s]+,\\s*[\\w\\s]+$";
-        if (!(address != null && Pattern.matches(regex, address.trim()))) {
-            throw new IllegalArgumentException("Invalid address format");
-        }
     }
 
     private void setName(String name) {

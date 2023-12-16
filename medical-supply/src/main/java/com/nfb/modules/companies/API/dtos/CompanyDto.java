@@ -22,6 +22,8 @@ public class CompanyDto {
     private List<Long> availableEquipmentIds;
     @Schema(description = "Administrators of company")
     private List<Long> companyAdministraotrsIds;
+    @Schema(description = "Working calendar of company")
+    private Long workingCalendarId;
 
 
     public CompanyDto(long id, String name, String address, double averageRating) {
@@ -31,6 +33,7 @@ public class CompanyDto {
         this.averageRating = averageRating;
         this.availableEquipmentIds = new ArrayList<>();
         this.companyAdministraotrsIds = new ArrayList<>();
+        this.workingCalendarId = (long) -1;
     }
 
     public CompanyDto(Company company) {
@@ -44,6 +47,18 @@ public class CompanyDto {
         this.companyAdministraotrsIds = company.getAdministrators().stream()
                 .map(CompanyAdministrator::getId)
                 .collect(Collectors.toList());
+        if(company.getWorkingCalendar() != null)
+            this.workingCalendarId = company.getWorkingCalendar().getId();
+        else
+            this.workingCalendarId = (long) -1;
+    }
+
+    public Long getWorkingCalendarId() {
+        return workingCalendarId;
+    }
+
+    public void setWorkingCalendarId(Long workingCalendarId) {
+        this.workingCalendarId = workingCalendarId;
     }
 
     public List<Long> getCompanyAdministraotrsIds() {
