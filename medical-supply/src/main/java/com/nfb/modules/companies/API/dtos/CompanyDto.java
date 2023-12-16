@@ -47,7 +47,10 @@ public class CompanyDto {
         this.companyAdministraotrsIds = company.getAdministrators().stream()
                 .map(CompanyAdministrator::getId)
                 .collect(Collectors.toList());
-        this.workingCalendarId = company.getWorkingCalendar().getId();
+        if(company.getWorkingCalendar() != null)
+            this.workingCalendarId = company.getWorkingCalendar().getId();
+        else
+            this.workingCalendarId = (long) -1;
     }
 
     public Long getWorkingCalendarId() {
