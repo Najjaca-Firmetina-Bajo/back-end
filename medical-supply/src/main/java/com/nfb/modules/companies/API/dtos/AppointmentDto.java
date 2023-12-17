@@ -32,6 +32,8 @@ public class AppointmentDto {
     private Long companyAdministratorId;
     @Schema(description = "Working day of appointment")
     private Long workingDayId;
+    @Schema(description = "RegistredUser who made appointment")
+    private Long registredUserId;
 
     public AppointmentDto(long id, LocalDateTime pickUpDate, int duration, AppointmentType type, boolean isDownloaded, int reservationNumber) {
         this.id = id;
@@ -43,6 +45,7 @@ public class AppointmentDto {
         this.reservedEquipmentIds = new ArrayList<>();
         this.companyAdministratorId = (long) -1;
         this.workingDayId = (long) -1;
+        this.registredUserId = (long) -1;
     }
 
     public AppointmentDto(Appointment appointment) {
@@ -55,8 +58,29 @@ public class AppointmentDto {
         this.reservedEquipmentIds = appointment.getReservedEquipment().stream()
                 .map(Equipment::getId)
                 .collect(Collectors.toList());
-        this.companyAdministratorId = appointment.getCompanyAdministrator().getId();
-        this.workingDayId = appointment.getWorkingDay().getId();
+        if(appointment.getCompanyAdministrator() != null) {
+            this.companyAdministratorId = appointment.getCompanyAdministrator().getId();
+        } else {
+            this.companyAdministratorId = (long) -1;
+        }
+        if(appointment.getWorkingDay() != null) {
+            this.workingDayId = appointment.getWorkingDay().getId();
+        } else {
+            this.workingDayId = (long) -1;
+        }
+        if(appointment.getRegisteredUser() != null) {
+            this.registredUserId = appointment.getRegisteredUser().getId();
+        } else {
+            this.registredUserId = (long) -1;
+        }
+    }
+
+    public Long getRegistredUserId() {
+        return registredUserId;
+    }
+
+    public void setRegistredUserId(Long registredUserId) {
+        this.registredUserId = registredUserId;
     }
 
     public Long getWorkingDayId() {

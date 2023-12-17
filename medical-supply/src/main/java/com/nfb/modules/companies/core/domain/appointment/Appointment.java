@@ -4,6 +4,7 @@ import com.nfb.buildingblocks.core.domain.BaseEntity;
 import com.nfb.modules.companies.core.domain.calendar.WorkingDay;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
+import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -38,7 +39,19 @@ public class Appointment extends BaseEntity {
     @JoinColumn(name = "working_day_id")
     private WorkingDay workingDay;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "registred_user_id")
+    private RegisteredUser registeredUser;
+
     public Appointment() {
+    }
+
+    public RegisteredUser getRegisteredUser() {
+        return registeredUser;
+    }
+
+    public void setRegisteredUser(RegisteredUser registeredUser) {
+        this.registeredUser = registeredUser;
     }
 
     public WorkingDay getWorkingDay() {
