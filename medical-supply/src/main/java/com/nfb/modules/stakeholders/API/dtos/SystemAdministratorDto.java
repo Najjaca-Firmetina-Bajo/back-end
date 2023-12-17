@@ -44,10 +44,10 @@ public class SystemAdministratorDto {
     @Schema(description = "Activation Status")
     private boolean activated;
 
-    @Schema(description = "SystemAdministrator power")
-    private int power;
+    @Schema(description = "SystemAdministrator indication about change of password")
+    private boolean passwordChanged;
 
-    public SystemAdministratorDto(long id, String email, String password, String role, String name, String surname, String city, String country, String phoneNumber, String occupation, String companyInfo, boolean activated, int power) {
+    public SystemAdministratorDto(long id, String email, String password, String role, String name, String surname, String city, String country, String phoneNumber, String occupation, String companyInfo, boolean activated, boolean passwordChanged) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -60,7 +60,7 @@ public class SystemAdministratorDto {
         this.occupation = occupation;
         this.companyInfo = companyInfo;
         this.activated = activated;
-        this.power = power;
+        this.passwordChanged = passwordChanged;
     }
 
     public SystemAdministratorDto(SystemAdministrator user) {
@@ -76,7 +76,7 @@ public class SystemAdministratorDto {
         this.occupation = user.getOccupation();
         this.companyInfo = user.getCompanyInfo();
         this.activated = user.isEnabled();
-        this.power = user.getPower();
+        this.passwordChanged = user.isPasswordChanged();
     }
 
     public long getId() {
@@ -175,11 +175,11 @@ public class SystemAdministratorDto {
         this.activated = activated;
     }
 
-    public int getPower() {
-        return power;
+    public boolean isPasswordChanged() {
+        return passwordChanged;
     }
 
-    public void setPower(int power) {
-        this.power = power;
+    public void setPasswordChanged(boolean passwordChanged) {
+        this.passwordChanged = passwordChanged;
     }
 }

@@ -94,4 +94,6 @@ public class UserService {
     public User findByUsername(String email) {
         return userRepository.findByUsername(email);
     }
+
+    public User updatePassword(String password, String username) { return userRepository.updatePassword(password, username); }
 }

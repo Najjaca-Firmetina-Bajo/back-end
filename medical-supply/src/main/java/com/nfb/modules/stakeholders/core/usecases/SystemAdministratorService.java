@@ -16,4 +16,6 @@ public class SystemAdministratorService {
     }
 
     public SystemAdministrator register(SystemAdministrator systemAdministrator) { return systemAdministratorRepository.save(systemAdministrator); }
+
+    public void updatePasswordChanged(Long adminId) { systemAdministratorRepository.updatePasswordChanged(adminId); }
 }
