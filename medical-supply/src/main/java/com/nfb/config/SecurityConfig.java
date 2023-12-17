@@ -40,19 +40,14 @@ public class SecurityConfig {
             // -- Swagger UI v3 (OpenAPI)
             "/v3/api-docs/**",
             "/swagger-ui/**",
-            "/api/registration",
-            "/api/registration/**",
-            "/api/companies/all",
-            "/api/equipment"
-            // other public endpoints of your API may be appended to this array
     };
     @Bean
     public UserDetailsService userDetailsService(){
         return new CustomUserDetailsService();
     }
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public PasswordEncoder passwordEncoder() {
+        return new SimplePasswordEncoder(); // Use your custom PasswordEncoder
     }
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {

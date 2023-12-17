@@ -100,12 +100,11 @@ public class AuthenticationController {
 
     @PostMapping("/cadmin-signup")
     public ResponseEntity<CompanyAdministratorDto> registerCompanyAdmin(@RequestBody CompanyAdministratorDto companyAdministratorDto) {
-        var role = new Role();
-        role.setName(companyAdministratorDto.getRole());
+        List<Role> roles = roleService.findByName("COMPANY_ADMINISTRATOR");
         CompanyAdministrator admin = new CompanyAdministrator(
                 companyAdministratorDto.getEmail(),
                 companyAdministratorDto.getPassword(),
-                role,
+                roles.get(0),
                 companyAdministratorDto.getName(),
                 companyAdministratorDto.getSurname(),
                 companyAdministratorDto.getCity(),

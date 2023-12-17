@@ -74,7 +74,7 @@ public class CompanyAdministratorDto {
         this.id = administrator.getId();
         this.email = administrator.getUsername();
         this.password = administrator.getPassword();
-        this.role = "CompanyAdministrator";
+        this.role = "COMPANY_ADMINISTRATOR";
         this.name = administrator.getName();
         this.surname = administrator.getSurname();
         this.city = administrator.getCity();

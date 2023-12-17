@@ -1,8 +1,14 @@
 package com.nfb.modules.stakeholders.API.dtos;
 
+import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
+import com.nfb.modules.companies.core.domain.appointment.Appointment;
 import com.nfb.modules.stakeholders.core.domain.user.User;
 import com.nfb.modules.stakeholders.core.domain.user.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class RegisteredUserDTO {
 
@@ -45,6 +51,9 @@ public class RegisteredUserDTO {
     @Schema(description = "User's Penal points")
     private int penal;
 
+    @Schema(description = "User's appointments")
+    private List<Long> appointmentsIds;
+
     public int getPenal() {
         return penal;
     }
@@ -69,13 +78,14 @@ public class RegisteredUserDTO {
         this.companyInfo = companyInfo;
         this.activated = activated;
         this.penal = penal;
+        this.appointmentsIds = new ArrayList<>();
     }
 
-    public RegisteredUserDTO(User user) {
+    public RegisteredUserDTO(RegisteredUser user) {
         this.id = user.getId();
         this.email = user.getUsername();
         this.password = user.getPassword();
-        this.role = user.getRoles().get(0).getName();
+        this.role = "REGISTERED_USER";
         this.name = user.getName();
         this.surname = user.getSurname();
         this.city = user.getCity();
@@ -85,6 +95,9 @@ public class RegisteredUserDTO {
         this.companyInfo = user.getCompanyInfo();
         this.activated = user.isEnabled();
         this.penal = 0;
+        this.appointmentsIds = user.getAppointments().stream()
+                .map(Appointment::getId)
+                .collect(Collectors.toList());
     }
 
     public long getId() {

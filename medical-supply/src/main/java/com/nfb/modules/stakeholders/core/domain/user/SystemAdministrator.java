@@ -10,9 +10,9 @@ public class SystemAdministrator extends User {
 
     @Column(name = "power")
     private int power;
-    public SystemAdministrator(String email, String password, UserRole role, String name, String surname, String city,
+    public SystemAdministrator(String email, String password, Role role, String name, String surname, String city,
                                 String country, String phoneNumber, String occupation, String companyInfo) {
-        super(email, password, UserRole.SystemAdministrator, name, surname, city, country, phoneNumber, occupation, companyInfo);
+        super(email,password,role,name,surname,city,country,phoneNumber,occupation,companyInfo,false);
         this.power = 0;
     }
 

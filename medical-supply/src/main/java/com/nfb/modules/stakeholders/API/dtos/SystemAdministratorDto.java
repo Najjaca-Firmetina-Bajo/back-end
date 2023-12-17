@@ -3,7 +3,6 @@ package com.nfb.modules.stakeholders.API.dtos;
 import com.nfb.modules.companies.core.domain.appointment.Appointment;
 import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
 import com.nfb.modules.stakeholders.core.domain.user.SystemAdministrator;
-import com.nfb.modules.stakeholders.core.domain.user.UserRole;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.stream.Collectors;
@@ -19,7 +18,7 @@ public class SystemAdministratorDto {
     private String password;
 
     @Schema(description = "Role")
-    private UserRole role;
+    private String role;
 
     @Schema(description = "SystemAdministrator's Name")
     private String name;
@@ -48,7 +47,7 @@ public class SystemAdministratorDto {
     @Schema(description = "SystemAdministrator power")
     private int power;
 
-    public SystemAdministratorDto(long id, String email, String password, UserRole role, String name, String surname, String city, String country, String phoneNumber, String occupation, String companyInfo, boolean activated, int power) {
+    public SystemAdministratorDto(long id, String email, String password, String role, String name, String surname, String city, String country, String phoneNumber, String occupation, String companyInfo, boolean activated, int power) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -66,9 +65,9 @@ public class SystemAdministratorDto {
 
     public SystemAdministratorDto(SystemAdministrator user) {
         this.id = user.getId();
-        this.email = user.getEmail();
+        this.email = user.getUsername();
         this.password = user.getPassword();
-        this.role = user.getRole();
+        this.role = "SYSTEM_ADMINISTRATOR";
         this.name = user.getName();
         this.surname = user.getSurname();
         this.city = user.getCity();
@@ -76,7 +75,7 @@ public class SystemAdministratorDto {
         this.phoneNumber = user.getPhoneNumber();
         this.occupation = user.getOccupation();
         this.companyInfo = user.getCompanyInfo();
-        this.activated = user.isActivated();
+        this.activated = user.isEnabled();
         this.power = user.getPower();
     }
 
@@ -104,11 +103,11 @@ public class SystemAdministratorDto {
         this.password = password;
     }
 
-    public UserRole getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(UserRole role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
