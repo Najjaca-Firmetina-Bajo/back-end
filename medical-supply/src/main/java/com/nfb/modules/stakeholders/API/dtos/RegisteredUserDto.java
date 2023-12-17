@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RegistredUserDto {
-    @Schema(description = "RegistredUser ID")
+public class RegisteredUserDto {
+    @Schema(description = "RegisteredUser ID")
     private long id;
 
     @Schema(description = "Email")
@@ -22,34 +22,37 @@ public class RegistredUserDto {
     @Schema(description = "Role")
     private UserRole role;
 
-    @Schema(description = "RegistredUser's Name")
+    @Schema(description = "RegisteredUser's Name")
     private String name;
 
-    @Schema(description = "RegistredUser's Surname")
+    @Schema(description = "RegisteredUser's Surname")
     private String surname;
 
-    @Schema(description = "RegistredUser's City")
+    @Schema(description = "RegisteredUser's City")
     private String city;
 
-    @Schema(description = "RegistredUser's Country")
+    @Schema(description = "RegisteredUser's Country")
     private String country;
 
-    @Schema(description = "RegistredUser's Phone Number")
+    @Schema(description = "RegisteredUser's Phone Number")
     private String phoneNumber;
 
-    @Schema(description = "RegistredUser's Occupation")
+    @Schema(description = "RegisteredUser's Occupation")
     private String occupation;
 
-    @Schema(description = "RegistredUser's Company Information")
+    @Schema(description = "RegisteredUser's Company Information")
     private String companyInfo;
 
     @Schema(description = "Activation Status")
     private boolean activated;
 
+    @Schema(description = "RegisteredUser penalPoints")
+    private int penalPoints;
+
     @Schema(description = "Appointments that made registered user")
     private List<Long> appointmentsIds;
 
-    public RegistredUserDto(long id, String email, String password, UserRole role, String name, String surname, String city, String country, String phoneNumber, String occupation, String companyInfo, boolean activated) {
+    public RegisteredUserDto(long id, String email, String password, UserRole role, String name, String surname, String city, String country, String phoneNumber, String occupation, String companyInfo, boolean activated, int penalPoints) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -62,10 +65,11 @@ public class RegistredUserDto {
         this.occupation = occupation;
         this.companyInfo = companyInfo;
         this.activated = activated;
+        this.penalPoints = penalPoints;
         this.appointmentsIds = new ArrayList<>();
     }
 
-    public RegistredUserDto(RegisteredUser user) {
+    public RegisteredUserDto(RegisteredUser user) {
         this.id = user.getId();
         this.email = user.getEmail();
         this.password = user.getPassword();
@@ -78,9 +82,18 @@ public class RegistredUserDto {
         this.occupation = user.getOccupation();
         this.companyInfo = user.getCompanyInfo();
         this.activated = user.isActivated();
+        this.penalPoints = user.getPenalPoints();
         this.appointmentsIds = user.getAppointments().stream()
                 .map(Appointment::getId)
                 .collect(Collectors.toList());
+    }
+
+    public int getPenalPoints() {
+        return penalPoints;
+    }
+
+    public void setPenalPoints(int penalPoints) {
+        this.penalPoints = penalPoints;
     }
 
     public List<Long> getAppointmentsIds() {

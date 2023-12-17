@@ -24,7 +24,12 @@ public class WorkingCalendarDto {
 
     public WorkingCalendarDto(WorkingCalendar workingCalendar) {
         this.id = workingCalendar.getId();
-        this.companyId = workingCalendar.getCompany().getId();
+        if(workingCalendar.getCompany() != null){
+            this.companyId = workingCalendar.getCompany().getId();
+        }
+        else {
+            this.companyId = (long) -1;
+        }
         this.workingDaysIds = workingCalendar.getWorkingDays().stream()
                 .map(WorkingDay::getId)
                 .collect(Collectors.toList());

@@ -1,10 +1,8 @@
 package com.nfb.modules.stakeholders.API.controllers;
 
-import com.nfb.modules.stakeholders.API.dtos.CompanyAdministratorDto;
-import com.nfb.modules.stakeholders.API.dtos.RegistredUserDto;
-import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
+import com.nfb.modules.stakeholders.API.dtos.RegisteredUserDto;
 import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
-import com.nfb.modules.stakeholders.core.usecases.RegistredUserService;
+import com.nfb.modules.stakeholders.core.usecases.RegisteredUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,19 +17,19 @@ import java.util.List;
 public class RegisteredUserController {
 
     @Autowired
-    private RegistredUserService registredUserService;
+    private RegisteredUserService registeredUserService;
 
-    public RegisteredUserController(RegistredUserService registeredUserService) {
-        this.registredUserService = registeredUserService;
+    public RegisteredUserController(RegisteredUserService registeredUserService) {
+        this.registeredUserService = registeredUserService;
     }
 
     @GetMapping("/get-all")
-    public ResponseEntity<List<RegistredUserDto>> getAll() {
-        List<RegisteredUser> users = registredUserService.getAll();
+    public ResponseEntity<List<RegisteredUserDto>> getAll() {
+        List<RegisteredUser> users = registeredUserService.getAll();
 
-        List<RegistredUserDto> dtos = new ArrayList<>();
+        List<RegisteredUserDto> dtos = new ArrayList<>();
         for (RegisteredUser ru : users) {
-            dtos.add(new RegistredUserDto(ru));
+            dtos.add(new RegisteredUserDto(ru));
         }
 
         return ResponseEntity.ok(dtos);
