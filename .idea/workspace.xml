@@ -5,15 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b85d43e3-960f-45a6-82cf-64279029b517" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/controllers/QRCodeControler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/usecases/QRCodeGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/controllers/AppointmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/controllers/AppointmentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/domain/appointment/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/domain/appointment/Appointment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/repositories/AppointmentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/repositories/AppointmentRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/usecases/AppointmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/usecases/AppointmentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/controllers/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/controllers/AuthenticationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/core/repositories/RegisteredUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/core/repositories/RegisteredUserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/resources/data-postgres.sql" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/resources/data-postgres.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/controllers/QRCodeControler.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +119,7 @@
       <workItem from="1702751316929" duration="5750000" />
       <workItem from="1702819644632" duration="13465000" />
       <workItem from="1703074658705" duration="3686000" />
-      <workItem from="1703155452622" duration="6386000" />
+      <workItem from="1703155452622" duration="8905000" />
     </task>
     <servers />
   </component>
