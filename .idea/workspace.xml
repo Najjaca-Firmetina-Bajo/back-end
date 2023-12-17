@@ -5,17 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b85d43e3-960f-45a6-82cf-64279029b517" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/config/SimplePasswordEncoder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/controllers/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/controllers/AuthenticationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/controllers/RegisteredUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/controllers/RegisteredUserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/controllers/SystemAdministratorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/controllers/SystemAdministratorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/dtos/CompanyAdministratorDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/dtos/CompanyAdministratorDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/dtos/RegisteredUserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/dtos/RegisteredUserDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/dtos/SystemAdministratorDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/dtos/SystemAdministratorDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/core/domain/user/SystemAdministrator.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/core/domain/user/SystemAdministrator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/resources/data-postgres.sql" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/resources/data-postgres.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/dtos/RegisteredUserDto.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +49,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feat/reservations-qr-code",
+    "git-widget-placeholder": "develop",
     "last_opened_file_path": "C:/Users/ivanm/Desktop/Docs/ISA/Projekat/back-end",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -123,7 +115,7 @@
       <workItem from="1702735441776" duration="2602000" />
       <workItem from="1702738249219" duration="12902000" />
       <workItem from="1702751316929" duration="5750000" />
-      <workItem from="1702819644632" duration="4237000" />
+      <workItem from="1702819644632" duration="10198000" />
     </task>
     <servers />
   </component>

@@ -2,8 +2,6 @@ package com.nfb.modules.stakeholders.API.dtos;
 
 import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
 import com.nfb.modules.companies.core.domain.appointment.Appointment;
-import com.nfb.modules.stakeholders.core.domain.user.User;
-import com.nfb.modules.stakeholders.core.domain.user.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.ArrayList;
