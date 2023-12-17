@@ -8,17 +8,24 @@ import jakarta.persistence.*;
 @Table(name = "SystemAdministrator")
 public class SystemAdministrator extends User {
 
-    @Column(name = "jacina")
-    private int jak;
-    public SystemAdministrator(String email, String password, Role role, String name, String surname, String city,
-                                String country, String phoneNumber, String occupation, String companyInfo, Company company) {
-        super(email,password,role,name,surname,city,country,phoneNumber,occupation,companyInfo,false);
-        this.jak = 0;
+    @Column(name = "power")
+    private int power;
+    public SystemAdministrator(String email, String password, UserRole role, String name, String surname, String city,
+                                String country, String phoneNumber, String occupation, String companyInfo) {
+        super(email, password, UserRole.SystemAdministrator, name, surname, city, country, phoneNumber, occupation, companyInfo);
+        this.power = 0;
     }
 
     public SystemAdministrator() {
         // Default constructor required by JPA
     }
 
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
+    }
 }
 
