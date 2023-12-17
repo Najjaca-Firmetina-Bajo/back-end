@@ -1,6 +1,7 @@
 package com.nfb.modules.companies.core.domain.appointment;
 
 import com.nfb.buildingblocks.core.domain.BaseEntity;
+import com.nfb.modules.companies.API.dtos.AppointmentDto;
 import com.nfb.modules.companies.core.domain.calendar.WorkingDay;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
@@ -10,6 +11,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "appointments")
@@ -106,7 +108,7 @@ public class Appointment extends BaseEntity {
         return reservedEquipment;
     }
 
-    private void setReservedEquipment(List<Equipment> reservedEquipment) {
+    public void setReservedEquipment(List<Equipment> reservedEquipment) {
         this.reservedEquipment = reservedEquipment;
     }
 

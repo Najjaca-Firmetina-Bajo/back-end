@@ -70,6 +70,17 @@ public class AuthenticationController {
         return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
     }
 
+    @GetMapping("/who-am-i")
+    public ResponseEntity<Long> getAuthenticatedUserId(Authentication authentication) {
+        if (authentication != null && authentication.getPrincipal() instanceof User) {
+            User user = (User) authentication.getPrincipal();
+            return ResponseEntity.ok(user.getId());
+        } else {
+            // Handle the case where the user is not authenticated or not an instance of User
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
     // Endpoint za registraciju novog korisnika
     @PostMapping("/signup")
     public ResponseEntity<RegisteredUserDTO> save(@RequestBody UserDTO userRequest) {

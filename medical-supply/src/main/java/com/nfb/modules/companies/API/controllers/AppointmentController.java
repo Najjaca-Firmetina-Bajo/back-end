@@ -3,6 +3,7 @@ package com.nfb.modules.companies.API.controllers;
 import com.nfb.modules.companies.API.dtos.AppointmentDto;
 import com.nfb.modules.companies.API.dtos.CompanyDto;
 import com.nfb.modules.companies.core.domain.appointment.Appointment;
+import com.nfb.modules.companies.core.domain.appointment.AppointmentType;
 import com.nfb.modules.companies.core.domain.calendar.WorkingDay;
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.usecases.AppointmentService;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,11 +68,21 @@ public class AppointmentController {
         List<AppointmentDto> dtos = new ArrayList<>();
         for (Appointment a : appointments) {
             if(days.stream().anyMatch(item -> a.getWorkingDay().getId() ==item.getId() ) ){
-                dtos.add(new AppointmentDto(a));
+                if(a.getPickUpDate().isAfter(LocalDateTime.now()) && a.getType() != AppointmentType.Extraordinary && a.getRegisteredUser() == null){
+                    dtos.add(new AppointmentDto(a));
+                }
             }
 
         }
 
         return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @PostMapping("/reserve")
+    public ResponseEntity<AppointmentDto> reserve(@RequestBody AppointmentDto appointmentDto) {
+
+        var app = appointmentService.updateAppointment(appointmentDto);
+
+        return new ResponseEntity<>(new AppointmentDto(app), HttpStatus.OK);
     }
 }
