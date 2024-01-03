@@ -8,24 +8,24 @@ import jakarta.persistence.*;
 @Table(name = "SystemAdministrator")
 public class SystemAdministrator extends User {
 
-    @Column(name = "power")
-    private int power;
+    @Column(name = "passwordChanged")
+    private boolean passwordChanged;
     public SystemAdministrator(String email, String password, Role role, String name, String surname, String city,
                                 String country, String phoneNumber, String occupation, String companyInfo) {
         super(email,password,role,name,surname,city,country,phoneNumber,occupation,companyInfo,false);
-        this.power = 0;
+        this.passwordChanged = false;
     }
 
     public SystemAdministrator() {
         // Default constructor required by JPA
     }
 
-    public int getPower() {
-        return power;
+    public boolean isPasswordChanged() {
+        return passwordChanged;
     }
 
-    public void setPower(int power) {
-        this.power = power;
+    public void setPasswordChanged(boolean passwordChanged) {
+        this.passwordChanged = passwordChanged;
     }
 }
 

@@ -20,7 +20,7 @@ VALUES (true, 1, 'Gacko', 'ci1', 'BiH, RS', 'sk1@gmail.com', 'Stefan', 'oc1', 'e
 
 INSERT INTO public.users(
     enabled, id, city, company_info, country, username, name, occupation, password, phone_number, surname)
-VALUES (true, 2, 'Gacko', 'ci2', 'BiH, RS', 'sn2@gmail.com', 'Slobodan', 'oc2', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', '064789632', 'Nikolic');
+VALUES (true, 2, 'Gacko', 'ci2', 'BiH, RS', 'chief_administrator@gmail.com', 'Slobodan', 'oc2', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', '064789632', 'Nikolic');
 
 INSERT INTO public.users(
     enabled, id, city, company_info, country, username, name, occupation, password, phone_number, surname)
@@ -29,6 +29,11 @@ VALUES (true, 3, 'Gacko', 'ci3', 'BiH, RS', 'li3@gmail.com', 'Luka', 'oc3', 'ef7
 INSERT INTO public.users(
     enabled, id, city, company_info, country, username, name, occupation, password, phone_number, surname)
 VALUES (true, 4, 'Gacko', 'ci4', 'BiH, RS', 'vm4@gmail.com', 'Vladimir', 'oc4', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', '064789632', 'Mandic');
+
+INSERT INTO public.users(
+    enabled, id, city, company_info, country, username, name, occupation, password, phone_number, surname)
+VALUES (true, 5, 'Gacko', 'ci2', 'BiH, RS', 'new@gmail.com', 'Radoslav', 'oc2', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', '064789632', 'Nikolic');
+
 -----------------------------------------------------------------------------------------------------------------
 
 INSERT INTO public.companies(
@@ -55,9 +60,21 @@ INSERT INTO public.user_role(
     role_id, user_id)
 VALUES (1, 4);
 
+INSERT INTO public.user_role(
+    role_id, user_id)
+VALUES (2, 5);
+
 INSERT INTO public.company_administrator(
     company_id, id)
 VALUES (3, 4);
+
+INSERT INTO public.system_administrator(
+    password_changed, id)
+VALUES (true, 2);
+
+INSERT INTO public.system_administrator(
+    password_changed, id)
+VALUES (false, 5);
 
 ----------------------------------------------------------------
 INSERT INTO public.user_role(
@@ -66,7 +83,7 @@ VALUES (0, 1);
 
 INSERT INTO public.user_role(
     role_id, user_id)
-VALUES (0, 2);
+VALUES (2, 2);
 
 INSERT INTO public.user_role(
     role_id, user_id)
