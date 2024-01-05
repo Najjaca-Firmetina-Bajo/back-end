@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -53,4 +54,8 @@ public class CompanyService   {
     }
 
     public Company findByName(String name) { return companyRepository.findByName(name); }
+
+    public List<Company> search(String nameOrPlace){
+        return companyRepository.findByNameIgnoreCaseOrAddressContainingIgnoreCase(nameOrPlace, nameOrPlace);
+    }
 }

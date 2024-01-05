@@ -16,5 +16,11 @@ public class RegisteredUserService {
         this.registeredUserRepository = registeredUserRepository;
     }
 
+    public RegisteredUser getRegisteredUser(long id) {
+        return registeredUserRepository.findById(id);
+    }
     public List<RegisteredUser> getAll() { return registeredUserRepository.findAll(); }
+    public void updateRegisteredUser(RegisteredUser registeredUser){
+        registeredUserRepository.save(registeredUser);
+    }
 }

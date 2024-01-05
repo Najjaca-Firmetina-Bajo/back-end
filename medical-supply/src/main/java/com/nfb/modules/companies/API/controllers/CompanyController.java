@@ -1,7 +1,9 @@
 package com.nfb.modules.companies.API.controllers;
 
 import com.nfb.modules.companies.API.dtos.CompanyDto;
+import com.nfb.modules.companies.API.dtos.EquipmentDto;
 import com.nfb.modules.companies.core.domain.company.Company;
+import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.companies.core.usecases.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -67,5 +69,18 @@ public class CompanyController {
     public ResponseEntity<CompanyDto> addAdministratorToCompany(@PathVariable long companyId, @PathVariable long adminId) {
         CompanyDto dto = new CompanyDto (companyService.addAdministratorToCompany(companyId, adminId));
         return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping("/search/{nameOrPlace}")
+    public ResponseEntity<List<CompanyDto>> search(@PathVariable String nameOrPlace) {
+
+        List<Company> companies = companyService.search(nameOrPlace);
+
+        List<CompanyDto> companyDtos = new ArrayList<>();
+        for (Company c : companies) {
+            companyDtos.add(new CompanyDto(c));
+        }
+
+        return new ResponseEntity<>(companyDtos, HttpStatus.OK);
     }
 }

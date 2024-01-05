@@ -17,6 +17,8 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
     Company findByName(String name);
 
+    List<Company> findByNameIgnoreCaseOrAddressContainingIgnoreCase(String name, String place);
+
     @Modifying
     @Transactional
     @Query("UPDATE Company c SET c.administrators = :administrators WHERE c.id = :companyId")
