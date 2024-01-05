@@ -58,4 +58,28 @@ public class CompanyService   {
     public List<Company> search(String nameOrPlace){
         return companyRepository.findByNameIgnoreCaseOrAddressContainingIgnoreCase(nameOrPlace, nameOrPlace);
     }
+
+    public List<Company> filter(String nameOrPlace, double rating){
+        List<Company> filter = companyRepository.findCompaniesByAverageRating(rating);
+        List<Company> filterAndSearch = new ArrayList<>();
+
+        for(Company c: filter) {
+            if(c.getName().equals(nameOrPlace)) filterAndSearch.add(c);
+            else if(c.getAddress().toLowerCase().contains(nameOrPlace.toLowerCase())) filterAndSearch.add(c);
+        }
+
+        return filterAndSearch;
+    }
+
+    public List<Company> filterByEquipmentCount(String nameOrPlace,int equipmentCount) {
+        List<Company> filter = companyRepository.filterByEquipmentCount(equipmentCount);
+        List<Company> filterAndSearch = new ArrayList<>();
+
+        for(Company c: filter) {
+            if(c.getName().equals(nameOrPlace)) filterAndSearch.add(c);
+            else if(c.getAddress().toLowerCase().contains(nameOrPlace.toLowerCase())) filterAndSearch.add(c);
+        }
+
+        return filterAndSearch;
+    }
 }

@@ -23,4 +23,11 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     @Transactional
     @Query("UPDATE Company c SET c.administrators = :administrators WHERE c.id = :companyId")
     void addAdministratorToCompany(@Param("companyId") long companyId, @Param("administrators") List<CompanyAdministrator> administrators);
+
+    @Query("SELECT c FROM Company c WHERE :minAverageRating IS NULL OR c.averageRating < :minAverageRating")
+    List<Company> findCompaniesByAverageRating(@Param("minAverageRating") double minAverageRating);
+
+    @Query("SELECT c FROM Company c WHERE SIZE(c.availableEquipment) <= :equipmentCount")
+    List<Company> filterByEquipmentCount(@Param("equipmentCount") int equipmentCount);
+
 }
