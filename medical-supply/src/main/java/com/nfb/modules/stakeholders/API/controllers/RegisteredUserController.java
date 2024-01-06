@@ -45,8 +45,8 @@ public class RegisteredUserController {
         return ResponseEntity.ok(dtos);
     }
 
-    @GetMapping("/get_registered_user")
-    public ResponseEntity<RegisteredUserDTO> getRegisteredUser(long id){
+    @GetMapping("/get_registered_user/{id}")
+    public ResponseEntity<RegisteredUserDTO> getRegisteredUser(@PathVariable long id){
         RegisteredUserDTO registeredUserDTO = new RegisteredUserDTO(registeredUserService.getRegisteredUser(id));
         return ResponseEntity.ok(registeredUserDTO);
     }
@@ -55,20 +55,14 @@ public class RegisteredUserController {
     public ResponseEntity<RegisteredUserDTO> updateRegisteredUser(@RequestBody RegisteredUserDTO registeredUserDTO){
 
         List<Role> roles = roleService.findByName("REGISTERED_USER");
-        RegisteredUser userForUpdating = new RegisteredUser(
-                registeredUserDTO.getEmail(),
-                passwordEncoder.encode(registeredUserDTO.getPassword()),
-                roles.get(0),
-                registeredUserDTO.getName(),
-                registeredUserDTO.getSurname(),
-                registeredUserDTO.getCity(),
-                registeredUserDTO.getCountry(),
-                registeredUserDTO.getPhoneNumber(),
-                registeredUserDTO.getOccupation(),
-                registeredUserDTO.getCompanyInfo(),
-                registeredUserDTO.getPenal()
-        );
-        userForUpdating.setId(registeredUserDTO.getId());
+        RegisteredUser userForUpdating = registeredUserService.getRegisteredUser(registeredUserDTO.getId());
+        userForUpdating.setName(registeredUserDTO.getName());
+        userForUpdating.setSurname(registeredUserDTO.getSurname());
+        userForUpdating.setCity(registeredUserDTO.getCity());
+        userForUpdating.setCountry(registeredUserDTO.getCountry());
+        userForUpdating.setOccupation(registeredUserDTO.getOccupation());
+        userForUpdating.setCompanyInfo(registeredUserDTO.getCompanyInfo());
+        userForUpdating.setPhoneNumber(registeredUserDTO.getPhoneNumber());
         registeredUserService.updateRegisteredUser(userForUpdating);
         return new ResponseEntity<>(registeredUserDTO, HttpStatus.OK);
     }
