@@ -1,6 +1,7 @@
 package com.nfb.modules.companies.API.dtos;
 
 import com.nfb.modules.companies.core.domain.appointment.Appointment;
+import com.nfb.modules.companies.core.domain.appointment.QRCode;
 import com.nfb.modules.companies.core.domain.appointment.AppointmentType;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,8 +33,7 @@ public class AppointmentDto {
     private Long companyAdministratorId;
     @Schema(description = "Working day of appointment")
     private Long workingDayId;
-    @Schema(description = "RegistredUser who made appointment")
-    private Long registredUserId;
+
 
     public AppointmentDto(long id, LocalDateTime pickUpDate, int duration, AppointmentType type, boolean isDownloaded, int reservationNumber) {
         this.id = id;
@@ -45,7 +45,6 @@ public class AppointmentDto {
         this.reservedEquipmentIds = new ArrayList<>();
         this.companyAdministratorId = (long) -1;
         this.workingDayId = (long) -1;
-        this.registredUserId = (long) -1;
     }
 
     public AppointmentDto(Appointment appointment) {
@@ -55,7 +54,8 @@ public class AppointmentDto {
         this.type = appointment.getType();
         this.isDownloaded = appointment.isDownloaded();
         this.reservationNumber = appointment.getReservationNumber();
-        this.reservedEquipmentIds = appointment.getReservedEquipment().stream()
+        this.reservedEquipmentIds = appointment.getQRCodes().stream()
+                .flatMap(qrCode -> qrCode.getReservedEquipment().stream())
                 .map(Equipment::getId)
                 .collect(Collectors.toList());
         if(appointment.getCompanyAdministrator() != null) {
@@ -68,20 +68,8 @@ public class AppointmentDto {
         } else {
             this.workingDayId = (long) -1;
         }
-        if(appointment.getRegisteredUser() != null) {
-            this.registredUserId = appointment.getRegisteredUser().getId();
-        } else {
-            this.registredUserId = (long) -1;
-        }
     }
 
-    public Long getRegistredUserId() {
-        return registredUserId;
-    }
-
-    public void setRegistredUserId(Long registredUserId) {
-        this.registredUserId = registredUserId;
-    }
 
     public Long getWorkingDayId() {
         return workingDayId;

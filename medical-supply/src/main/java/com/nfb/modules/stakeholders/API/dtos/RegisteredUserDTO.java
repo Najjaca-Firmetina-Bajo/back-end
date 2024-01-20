@@ -1,5 +1,6 @@
 package com.nfb.modules.stakeholders.API.dtos;
 
+import com.nfb.modules.companies.core.domain.appointment.QRCode;
 import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
 import com.nfb.modules.companies.core.domain.appointment.Appointment;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -50,7 +51,7 @@ public class RegisteredUserDTO {
     private int penal;
 
     @Schema(description = "User's appointments")
-    private List<Long> appointmentsIds;
+    private List<Long> QRCodes;
 
     public int getPenal() {
         return penal;
@@ -76,7 +77,7 @@ public class RegisteredUserDTO {
         this.companyInfo = companyInfo;
         this.activated = activated;
         this.penal = penal;
-        this.appointmentsIds = new ArrayList<>();
+        this.QRCodes = new ArrayList<>();
     }
 
     public RegisteredUserDTO(RegisteredUser user) {
@@ -93,9 +94,18 @@ public class RegisteredUserDTO {
         this.companyInfo = user.getCompanyInfo();
         this.activated = user.isEnabled();
         this.penal = 0;
-        this.appointmentsIds = user.getAppointments().stream()
-                .map(Appointment::getId)
+        this.QRCodes = user.getQRcodes().stream()
+                .map(QRCode::getId)
                 .collect(Collectors.toList());
+    }
+
+
+    public List<Long> getQRCodes() {
+        return QRCodes;
+    }
+
+    public void setQRCodes(List<Long> QRCodes) {
+        this.QRCodes = QRCodes;
     }
 
     public long getId() {

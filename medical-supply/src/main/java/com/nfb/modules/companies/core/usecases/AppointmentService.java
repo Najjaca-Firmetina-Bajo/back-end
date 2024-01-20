@@ -35,8 +35,8 @@ public class AppointmentService {
         var user = registeredUserRepository.findById(updatedAppointment.getId());
         var eqipment = equipmentRepository.findByIdIn(updatedAppointment.getReservedEquipmentIds());
         if(appointment != null && user != null && eqipment.size() == updatedAppointment.getReservedEquipmentIds().size()){
-            appointment.setRegisteredUser(user);
-            appointment.setReservedEquipment(eqipment);
+            //appointment.setRegisteredUser(user);
+            //appointment.setReservedEquipment(eqipment);
 
         }
 

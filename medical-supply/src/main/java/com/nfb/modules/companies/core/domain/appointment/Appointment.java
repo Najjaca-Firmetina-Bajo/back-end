@@ -26,13 +26,8 @@ public class Appointment extends BaseEntity {
     private boolean isDownloaded;
     @Column(nullable = false)
     private int reservationNumber;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "appointment_equipment",
-            joinColumns = @JoinColumn(name = "appointment_id"),
-            inverseJoinColumns = @JoinColumn(name = "equipment_id")
-    )
-    private List<Equipment> reservedEquipment;
+    @OneToMany(mappedBy = "appointment", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<QRCode> QRCodes;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_administrator_id")
     private CompanyAdministrator companyAdministrator;
@@ -41,20 +36,10 @@ public class Appointment extends BaseEntity {
     @JoinColumn(name = "working_day_id")
     private WorkingDay workingDay;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "registred_user_id")
-    private RegisteredUser registeredUser;
 
     public Appointment() {
     }
 
-    public RegisteredUser getRegisteredUser() {
-        return registeredUser;
-    }
-
-    public void setRegisteredUser(RegisteredUser registeredUser) {
-        this.registeredUser = registeredUser;
-    }
 
     public WorkingDay getWorkingDay() {
         return workingDay;
@@ -104,19 +89,19 @@ public class Appointment extends BaseEntity {
         this.reservationNumber = reservationNumber;
     }
 
-    public List<Equipment> getReservedEquipment() {
-        return reservedEquipment;
-    }
-
-    public void setReservedEquipment(List<Equipment> reservedEquipment) {
-        this.reservedEquipment = reservedEquipment;
-    }
-
     public CompanyAdministrator getCompanyAdministrator() {
         return companyAdministrator;
     }
 
     private void setCompanyAdministrator(CompanyAdministrator companyAdministrator) {
         this.companyAdministrator = companyAdministrator;
+    }
+
+    public List<QRCode> getQRCodes() {
+        return QRCodes;
+    }
+
+    public void setQRCodes(List<QRCode> QRCodes) {
+        this.QRCodes = QRCodes;
     }
 }

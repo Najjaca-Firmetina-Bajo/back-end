@@ -2,6 +2,7 @@ package com.nfb.modules.companies.core.domain.equipment;
 
 import com.nfb.buildingblocks.core.domain.BaseEntity;
 import com.nfb.modules.companies.core.domain.appointment.Appointment;
+import com.nfb.modules.companies.core.domain.appointment.QRCode;
 import com.nfb.modules.companies.core.domain.company.Company;
 import jakarta.persistence.*;
 
@@ -22,7 +23,7 @@ public class Equipment extends BaseEntity {
     @ManyToMany(mappedBy = "availableEquipment")
     private List<Company> companies;
     @ManyToMany(mappedBy = "reservedEquipment")
-    private List<Appointment> appointments;
+    private List<QRCode> QRCodes;
 
 
     public Equipment() {
@@ -34,7 +35,7 @@ public class Equipment extends BaseEntity {
         this.description = description;
         this.price = price;
         this.companies = new ArrayList<>();
-        this.appointments = new ArrayList<>();
+        this.QRCodes = new ArrayList<>();
     }
 
     public double getPrice() {
@@ -77,11 +78,11 @@ public class Equipment extends BaseEntity {
         return description;
     }
 
-    public List<Appointment> getAppointments() {
-        return appointments;
+    public List<QRCode> getQRCodes() {
+        return QRCodes;
     }
 
-    private void setAppointments(List<Appointment> appointments) {
-        this.appointments = appointments;
+    public void setQRCodes(List<QRCode> QRCodes) {
+        this.QRCodes = QRCodes;
     }
 }

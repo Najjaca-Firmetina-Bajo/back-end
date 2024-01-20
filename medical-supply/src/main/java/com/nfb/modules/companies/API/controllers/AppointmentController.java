@@ -66,7 +66,7 @@ public class AppointmentController {
 
     @GetMapping("/get-all-calendar/{id}")
     public ResponseEntity<List<AppointmentDto>> findByCompany(@PathVariable long id) {
-
+        /*
         List<Appointment> appointments = appointmentService.getAll();
         List<WorkingDay> days = workingDayService.getBy(id);
 
@@ -79,8 +79,8 @@ public class AppointmentController {
             }
 
         }
-
-        return new ResponseEntity<>(dtos, HttpStatus.OK);
+        */
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @PostMapping("/reserve")
