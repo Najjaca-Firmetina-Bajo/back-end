@@ -238,164 +238,37 @@ INSERT INTO public.working_days(
     date, id, working_calendar_id)
 VALUES ('2023-11-6T12:30:00', 14, 3);
 -----------------------------------------------------------------------
-INSERT INTO public.appointments(duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, registred_user_id, working_day_id)
-VALUES (1, false, 111, 0, 4, 1, '2024-02-01T14:00:00', NULL, 3);
+INSERT INTO public.appointments (duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id)
+VALUES (1, false, 111, 0, 4, 1, '2024-02-01T14:00:00', 3);
 
--- Prvi entitet
-INSERT INTO public.appointments(duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, registred_user_id, working_day_id)
-VALUES (1, false, 151, 0, 4, 2, '2024-02-04T15:00:00', NULL, 4);
+INSERT INTO public.appointments (duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id)
+VALUES (1, false, 151, 0, 4, 2, '2024-02-04T15:00:00', 4);
 
--- Drugi entitet
-INSERT INTO public.appointments(duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, registred_user_id, working_day_id)
-VALUES (2, true, 222, 1, 4, 3, '2024-02-07T15:10:00', NULL, 5);
+INSERT INTO public.appointments (duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id)
+VALUES (2, true, 222, 1, 4, 3, '2024-02-07T15:10:00', 5);
 
--- Treći entitet
-INSERT INTO public.appointments(duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, registred_user_id, working_day_id)
-VALUES (3, false, 333, 0, 4, 4, '2024-07-07T16:00:00', 1, 9);
+-----------------------------------------------------------------------
 
--- Četvrti entitet
-INSERT INTO public.appointments(duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, registred_user_id, working_day_id)
-VALUES (4, true, 444, 1, 4, 5, '2024-04-10T17:00:00', 1, 7);
+INSERT INTO public.qrcodes (appointment_id, id, registered_user_id, code, status)
+VALUES (1, 1, 1, 'ABC123', 'NEW');
 
--- Peti entitet
-INSERT INTO public.appointments(duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, registred_user_id, working_day_id)
-VALUES (1, false, 555, 0, 4, 6, '2024-06-17T18:00:00', 1, 8);
+INSERT INTO public.qrcodes (appointment_id, id, registered_user_id, code, status)
+VALUES (2, 2, 2, 'XYZ456', 'PROCESSED');
 
--- Šesti entitet
-INSERT INTO public.appointments(duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, registred_user_id, working_day_id)
-VALUES (2, true, 666, 1, 4, 7, '2024-07-07T09:00:00', 1, 9);
+INSERT INTO public.qrcodes (appointment_id, id, registered_user_id, code, status)
+VALUES (3, 3, 3, '123ABC', 'DECLINED');
+-----------------------------------------------------------------------
 
--- Sedmi entitet
-INSERT INTO public.appointments(duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, registred_user_id, working_day_id)
-VALUES (3, false, 777, 0, 4, 8, '2024-09-09T10:00:00', 1, 10);
-
--- Osmi entitet
-INSERT INTO public.appointments(duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, registred_user_id, working_day_id)
-VALUES (4, true, 888, 1, 4, 9, '2024-10-07T11:30:00', 1, 11);
-
--- Deveti entitet
-INSERT INTO public.appointments(duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, registred_user_id, working_day_id)
-VALUES (1, false, 999, 0, 4, 10, '2024-07-06T22:00:00', 1, 12);
-
--- Deseti entitet
-INSERT INTO public.appointments(duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, registred_user_id, working_day_id)
-VALUES (2, true, 1010, 1, 4, 11, '2024-12-07T23:00:00',  2, 13);
-
--- Jedanaesti entitet
-INSERT INTO public.appointments(duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, registred_user_id, working_day_id)
-VALUES (3, false, 1111, 0, 4, 12, '2024-11-06T14:00:00',  3, 14);
-
--- Dvanaesti entitet
-INSERT INTO public.appointments(duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, registred_user_id, working_day_id)
-VALUES (4, true, 1212, 1, 4, 13, '2024-02-01T15:00:00', 1, 3);
-
--- Trinaesti entitet
-INSERT INTO public.appointments(duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, registred_user_id, working_day_id)
-VALUES (1, false, 1313, 0, 4, 14, '2024-04-10T16:00:00', 2, 7);
-
--- Četrnaesti entitet
-INSERT INTO public.appointments(duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, registred_user_id, working_day_id)
-VALUES (2, true, 1414, 1, 4, 15, '2024-09-09T17:00:00', 3, 10);
-
-------------------------------------------------------------------------------------------------
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
+INSERT INTO public.qrcode_equipment (equipment_id, qrcode_id)
 VALUES (1, 1);
 
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
+INSERT INTO public.qrcode_equipment (equipment_id, qrcode_id)
+VALUES (2, 1);
+
+INSERT INTO public.qrcode_equipment (equipment_id, qrcode_id)
 VALUES (1, 2);
 
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (1, 4);
+INSERT INTO public.qrcode_equipment (equipment_id, qrcode_id)
+VALUES (3, 2);
 
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (2, 3);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (3, 4);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (3, 5);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (4, 1);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (4, 3);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (4, 4);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (5, 1);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (7, 5);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (7, 1);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (8, 2);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (8, 3);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (8, 4);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (10, 2);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (10, 5);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (11, 2);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (11, 3);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (11, 4);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (11, 5);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (12, 2);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (13, 1);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (15, 4);
-
-INSERT INTO public.appointment_equipment(
-    appointment_id, equipment_id)
-VALUES (15, 5);
 
