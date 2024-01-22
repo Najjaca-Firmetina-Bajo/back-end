@@ -1,11 +1,14 @@
 package com.nfb.modules.companies.API.controllers;
 
 import com.nfb.modules.companies.API.dtos.AppointmentDto;
+import com.nfb.modules.companies.API.dtos.QRCodeDto;
 import com.nfb.modules.companies.core.domain.appointment.Appointment;
 import com.nfb.modules.companies.core.domain.appointment.AppointmentType;
+import com.nfb.modules.companies.core.domain.appointment.QRCode;
 import com.nfb.modules.companies.core.domain.calendar.WorkingDay;
 import com.nfb.modules.companies.core.usecases.AppointmentService;
 import com.nfb.modules.companies.core.usecases.QRCodeGenerator;
+import com.nfb.modules.companies.core.usecases.QRCodeService;
 import com.nfb.modules.companies.core.usecases.WorkingDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,11 +29,14 @@ public class AppointmentController {
     private AppointmentService appointmentService;
     @Autowired
     private WorkingDayService workingDayService;
+    @Autowired
+    private QRCodeService qrCodeService;
 
 
-    public AppointmentController(AppointmentService appointmentService,WorkingDayService workingDayService) {
+    public AppointmentController(AppointmentService appointmentService,WorkingDayService workingDayService, QRCodeService qrCodeService) {
         this.appointmentService = appointmentService;
         this.workingDayService = workingDayService;
+        this.qrCodeService = qrCodeService;
     }
 
     @GetMapping("/findBy/{workingDayId}")
@@ -79,12 +85,6 @@ public class AppointmentController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @PostMapping("/reserve")
-    public ResponseEntity<AppointmentDto> reserve(@RequestBody AppointmentDto appointmentDto) throws Exception {
-
-        var app = appointmentService.updateAppointment(appointmentDto);
-        return new ResponseEntity<>(new AppointmentDto(app), HttpStatus.OK);
-    }
 
     @GetMapping(value = "/generate/{appointmentId}", produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<byte[]> generateQRCodeImage(@PathVariable long appointmentId) {
@@ -100,6 +100,30 @@ public class AppointmentController {
         } catch (Exception e) {
             // Handle exceptions, e.g., appointment not found
             return ResponseEntity.status(500).build();
+        }
+    }
+
+    @GetMapping("/get-all-qr")
+    public ResponseEntity<List<QRCodeDto>> getAllQR() {
+        List<QRCode> qrCodes = qrCodeService.getAll();
+
+        List<QRCodeDto> dtos = new ArrayList<>();
+        for (QRCode qrCode : qrCodes) {
+            dtos.add(new QRCodeDto(qrCode));
+        }
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @PostMapping("/reserve")
+    public ResponseEntity<QRCodeDto> addQRCode(@RequestBody QRCodeDto qrCodeDto) {
+        QRCode addedQRCode = qrCodeService.addQRCodeFromDto(qrCodeDto);
+
+        if (addedQRCode != null) {
+            QRCodeDto addedQRCodeDto = new QRCodeDto(addedQRCode);
+            return new ResponseEntity<>(addedQRCodeDto, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
