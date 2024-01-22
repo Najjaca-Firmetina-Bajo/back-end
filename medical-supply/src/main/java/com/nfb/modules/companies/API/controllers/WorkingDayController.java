@@ -1,9 +1,7 @@
 package com.nfb.modules.companies.API.controllers;
 
-import com.nfb.modules.companies.API.dtos.CompanyDto;
 import com.nfb.modules.companies.API.dtos.WorkingDayDto;
 import com.nfb.modules.companies.core.domain.calendar.WorkingDay;
-import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.usecases.WorkingDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +26,7 @@ public class WorkingDayController {
     @GetMapping("/findBy/{workingCalendarId}")
     public ResponseEntity<List<WorkingDayDto>> findBy(@PathVariable long workingCalendarId) {
 
-        List<WorkingDay> workingDays = workingDayService.getBy(workingCalendarId);
+        List<WorkingDay> workingDays = workingDayService.getByWorkingCalendarId(workingCalendarId);
 
         List<WorkingDayDto> dtos = new ArrayList<>();
         for (WorkingDay wd : workingDays) {

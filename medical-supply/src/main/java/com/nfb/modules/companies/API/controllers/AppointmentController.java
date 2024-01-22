@@ -1,13 +1,10 @@
 package com.nfb.modules.companies.API.controllers;
 
 import com.nfb.modules.companies.API.dtos.AppointmentDto;
-import com.nfb.modules.companies.API.dtos.CompanyDto;
 import com.nfb.modules.companies.core.domain.appointment.Appointment;
 import com.nfb.modules.companies.core.domain.appointment.AppointmentType;
 import com.nfb.modules.companies.core.domain.calendar.WorkingDay;
-import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.usecases.AppointmentService;
-import com.nfb.modules.companies.core.usecases.CompanyService;
 import com.nfb.modules.companies.core.usecases.QRCodeGenerator;
 import com.nfb.modules.companies.core.usecases.WorkingDayService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,23 +61,22 @@ public class AppointmentController {
 
 
 
-    @GetMapping("/get-all-calendar/{id}")
+    @GetMapping("/get-all-from-calendar/{id}")
     public ResponseEntity<List<AppointmentDto>> findByCompany(@PathVariable long id) {
-        /*
         List<Appointment> appointments = appointmentService.getAll();
-        List<WorkingDay> days = workingDayService.getBy(id);
+        List<WorkingDay> days = workingDayService.getByWorkingCalendarId(id);
 
         List<AppointmentDto> dtos = new ArrayList<>();
         for (Appointment a : appointments) {
             if(days.stream().anyMatch(item -> a.getWorkingDay().getId() ==item.getId() ) ){
-                if(a.getPickUpDate().isAfter(LocalDateTime.now()) && a.getType() != AppointmentType.Extraordinary && a.getRegisteredUser() == null){
+                if(a.getPickUpDate().isAfter(LocalDateTime.now()) && a.getType() != AppointmentType.Extraordinary ){
                     dtos.add(new AppointmentDto(a));
                 }
             }
 
         }
-        */
-        return new ResponseEntity<>(null, HttpStatus.OK);
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @PostMapping("/reserve")
