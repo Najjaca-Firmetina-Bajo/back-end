@@ -129,16 +129,21 @@ public class AuthenticationController {
         return new ResponseEntity<>(new CompanyAdministratorDto(admin), HttpStatus.CREATED);
     }
 
-    @GetMapping("/activate/{id}")
+    @GetMapping(value = "/activate/{id}", produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<String> validateUser(@PathVariable long id) {
-
         User validatedUser = userService.activateUser(id);
 
-        String htmlMessage = "<html><body><h1>User Activated!</h1></body></html>";
+        // HTML content with centered div and link to return to app
+        String htmlMessage = "<html><head><style>" +
+                "body { display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }" +
+                "div { text-align: center; }" +
+                "</style></head><body><div>" +
+                "<h1>User Activated!</h1>" +
+                "<a href='http://localhost:4200'>Return to App</a>" +
+                "</div></body></html>";
 
         // Respond with HTML message
         return ResponseEntity.status(HttpStatus.OK)
                 .body(htmlMessage);
-
     }
 }

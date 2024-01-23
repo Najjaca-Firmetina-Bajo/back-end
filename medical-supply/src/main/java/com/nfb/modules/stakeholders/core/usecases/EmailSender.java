@@ -1,25 +1,88 @@
 package com.nfb.modules.stakeholders.core.usecases;
 
+
 import com.nfb.modules.stakeholders.core.domain.user.User;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import jakarta.activation.DataHandler;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
+import jakarta.mail.util.ByteArrayDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import com.mailjet.client.errors.MailjetException;
-import com.mailjet.client.errors.MailjetSocketTimeoutException;
-import com.mailjet.client.MailjetClient;
-import com.mailjet.client.MailjetRequest;
-import com.mailjet.client.MailjetResponse;
-import com.mailjet.client.ClientOptions;
-import com.mailjet.client.resource.Emailv31;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Service
-public class EmailService {
-    private final MailjetClient client = new MailjetClient("e6484e76886fcfce8389e075b46a012e","e9737c93bad248f1bc2648eea8586117" , new ClientOptions("v3.1"));
-    public String createHTML(User user){
+public class EmailSender {
+    private static final String FROM_EMAIL = "lukaivanpk@gmail.com";
+    private static final String CONTENT_TYPE = "application/octet-stream";
+
+    private final JavaMailSender javaMailSender;
+
+    @Autowired
+    public EmailSender(JavaMailSender javaMailSender) {
+        this.javaMailSender = javaMailSender;
+    }
+
+    @Async
+    public void sendEmail(String mail, String subject, String message) {
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(mail);
+        mailMessage.setFrom(FROM_EMAIL);
+        mailMessage.setSubject(subject);
+        mailMessage.setText(message);
+        javaMailSender.send(mailMessage);
+    }
+
+    @Async
+    public void sendEmailWithAttachment(String mail, String subject, String message, byte[] attachment, String attachmentName) throws MessagingException {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+        helper.setTo(mail);
+        helper.setFrom(FROM_EMAIL);
+        helper.setSubject(subject);
+        helper.setText(message);
+
+        MimeBodyPart textBodyPart = new MimeBodyPart();
+        textBodyPart.setText(message);
+
+        MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+        attachmentBodyPart.setDataHandler(new DataHandler(new ByteArrayDataSource(attachment, CONTENT_TYPE)));
+        attachmentBodyPart.setFileName(attachmentName);
+
+        MimeMultipart multipart = new MimeMultipart();
+        multipart.addBodyPart(textBodyPart);
+        multipart.addBodyPart(attachmentBodyPart);
+
+        mimeMessage.setContent(multipart);
+
+        javaMailSender.send(mimeMessage);
+    }
+
+    @Async
+    public void sendHtmlEmail(User user, String subject) {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            helper.setTo(user.getUsername());
+            helper.setFrom(FROM_EMAIL);
+            helper.setSubject(subject);
+            helper.setText(createHTML(user), true);
+
+            javaMailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            // Handle exception
+            e.printStackTrace();
+        }
+    }
+
+    private String createHTML(User user){
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "<head>\n" +
@@ -66,7 +129,7 @@ public class EmailService {
                 "        <p>Dear "+ user.getName() +",</p>\n" +
                 "        <p>Thank you for choosing NFB Medical Supplies. To complete your registration, please click the link below to verify your email address:</p>\n" +
                 "        \n" +
-                "        <a href=\""+ buildServerUrl() +"/api/users/activate/" +   user.getId() +"\" class=\"verification-link\">Verify Email Address</a>\n" +
+                "        <a href=\""+ buildServerUrl() +"/auth/activate/" +   user.getId() +"\" class=\"verification-link\">Verify Email Address</a>\n" +
                 "\n" +
                 "        <p>If you did not create an account with NFB Medical Supplies, you can safely ignore this email.</p>\n" +
                 "\n" +
@@ -76,30 +139,7 @@ public class EmailService {
                 "</html>\n";
     }
 
-    public void sendRegistrationEmail(User user) throws MailjetException, MailjetSocketTimeoutException {
-        MailjetClient client;
-        MailjetRequest request;
-        MailjetResponse response;
-        client = this.client;
-        request = new MailjetRequest(Emailv31.resource)
-                .property(Emailv31.MESSAGES, new JSONArray()
-                        .put(new JSONObject()
-                                .put(Emailv31.Message.FROM, new JSONObject()
-                                        .put("Email", "medicinskaopremagas@outlook.com")
-                                        .put("Name", "Dragomir"))
-                                .put(Emailv31.Message.TO, new JSONArray()
-                                        .put(new JSONObject()
-                                                .put("Email", user.getUsername())))
-                                .put(Emailv31.Message.SUBJECT, "Authentication")
-                                .put(Emailv31.Message.TEXTPART, "Greetings from NFB.")
-                                .put(Emailv31.Message.HTMLPART, createHTML(user) )
-                        ));
-        response = client.post(request);
-        System.out.println(response.getStatus());
-        System.out.println(response.getData());
-    }
     private String buildServerUrl() {
         return ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
     }
-
 }

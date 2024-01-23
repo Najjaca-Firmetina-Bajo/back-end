@@ -25,13 +25,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final RegisteredUserRepository registeredUserRepository;
     private final CompanyAdministratorRepository companyAdministratorRepository;
-    private EmailService emailService = new EmailService();
+    private final EmailSender emailSender;
 
     @Autowired
-    public UserService(UserRepository userRepository,RegisteredUserRepository registeredUserRepository,CompanyAdministratorRepository companyAdministratorRepository) {
+    public UserService(UserRepository userRepository,RegisteredUserRepository registeredUserRepository,CompanyAdministratorRepository companyAdministratorRepository,EmailSender emailSender) {
         this.userRepository = userRepository;
         this.registeredUserRepository = registeredUserRepository;
         this.companyAdministratorRepository = companyAdministratorRepository;
+        this.emailSender = emailSender;
     }
 
 
@@ -46,14 +47,7 @@ public class UserService {
     public RegisteredUser register(RegisteredUser registeredUser) {
 
         var ret = registeredUserRepository.save(registeredUser);
-        /*try {
-            this.emailService.sendRegistrationEmail(ret);
-        } catch (MailjetSocketTimeoutException e) {
-            throw new RuntimeException(e);
-        } catch (MailjetException e) {
-            throw new RuntimeException(e);
-        }*/
-
+        emailSender.sendHtmlEmail(registeredUser,"User verification");
 
         return ret;
     }
@@ -61,13 +55,7 @@ public class UserService {
     public CompanyAdministrator register(CompanyAdministrator companyAdministrator) {
 
         var ret = companyAdministratorRepository.save(companyAdministrator);
-        /*try {
-            this.emailService.sendRegistrationEmail(ret);
-        } catch (MailjetSocketTimeoutException e) {
-            throw new RuntimeException(e);
-        } catch (MailjetException e) {
-            throw new RuntimeException(e);
-        }*/
+        emailSender.sendHtmlEmail(companyAdministrator,"User verification");
 
 
         return ret;

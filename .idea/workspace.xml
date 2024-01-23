@@ -5,9 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b85d43e3-960f-45a6-82cf-64279029b517" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/config/MailConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/core/usecases/EmailSender.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/repositories/QRCodeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/repositories/QRCodeRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/usecases/QRCodeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/usecases/QRCodeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/controllers/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/controllers/AuthenticationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/core/usecases/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/core/usecases/EmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/core/usecases/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/core/usecases/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +54,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feat/add-qrcode-class&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/ivanm/Desktop/Docs/ISA/Projekat/back-end&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -121,7 +126,8 @@
       <workItem from="1705771132479" duration="5296000" />
       <workItem from="1705836914487" duration="2843000" />
       <workItem from="1705932022602" duration="5889000" />
-      <workItem from="1706014514193" duration="381000" />
+      <workItem from="1706014514193" duration="1756000" />
+      <workItem from="1706017951467" duration="4278000" />
     </task>
     <servers />
   </component>
