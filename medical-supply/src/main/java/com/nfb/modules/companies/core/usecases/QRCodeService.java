@@ -53,13 +53,15 @@ public class QRCodeService {
             Appointment appointment = appointmentRepository.findById(qrCodeDto.getAppointmentId()).orElse(null);
 
             if (user != null && appointment != null) {
-                QRCode qrCode = new QRCode(qrCodeDto.getCode(), qrCodeDto.getStatus(), user, appointment);
-
-                // Retrieve equipment based on the provided equipment IDs
                 List<Equipment> reservedEquipment = equipmentRepository.findByIdIn(qrCodeDto.getReservedEquipmentIds());
-                qrCode.setReservedEquipment(reservedEquipment);
 
-                return qrCodeRepository.save(qrCode);
+                if (!qrCodeRepository.existsByReservedEquipmentInAndAppointment(reservedEquipment, appointment)) {
+                    QRCode qrCode = new QRCode(qrCodeDto.getCode(), qrCodeDto.getStatus(), user, appointment);
+                    qrCode.setReservedEquipment(reservedEquipment);
+                    return qrCodeRepository.save(qrCode);
+                } else {
+                    return null;
+                }
             } else {
                 return null;
             }
