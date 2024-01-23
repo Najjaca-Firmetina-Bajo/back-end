@@ -80,7 +80,18 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-
+    /*
+    @GetMapping("/which-is-my-role")
+    public ResponseEntity<List<Role>> getAuthenticatedUserRole(Authentication authentication) {
+        if (authentication != null && authentication.getPrincipal() instanceof User) {
+            User user = (User) authentication.getPrincipal();
+            return ResponseEntity.ok(user.getRoles());
+        } else {
+            // Handle the case where the user is not authenticated or not an instance of User
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+    */
     // Endpoint za registraciju novog korisnika
     @PostMapping("/signup")
     public ResponseEntity<RegisteredUserDTO> save(@RequestBody UserDTO userRequest) {
