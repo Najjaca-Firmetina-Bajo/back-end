@@ -247,6 +247,9 @@ VALUES (1, false, 151, 0, 1004, 1002, '2024-02-04T15:00:00', 1004);
 INSERT INTO public.appointments (duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id)
 VALUES (2, true, 222, 1, 1004, 1003, '2024-02-07T15:10:00', 1005);
 
+INSERT INTO public.appointments (duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id)
+VALUES (2, false, 222, 0, 1004, 1004, '2024-02-07T15:10:00', 1006);
+
 -----------------------------------------------------------------------
 
 INSERT INTO public.qrcodes (appointment_id, id, registered_user_id, code, status)

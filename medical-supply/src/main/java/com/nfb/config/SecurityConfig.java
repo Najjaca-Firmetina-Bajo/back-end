@@ -40,6 +40,8 @@ public class SecurityConfig {
             // -- Swagger UI v3 (OpenAPI)
             "/v3/api-docs/**",
             "/swagger-ui/**",
+            "/api/companies/getAll",
+            "/api/equipment/getAll",
     };
     @Bean
     public UserDetailsService userDetailsService(){

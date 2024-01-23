@@ -20,6 +20,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -45,28 +46,20 @@ public class AuthenticationController {
     private RoleService roleService;
     @Autowired
     private CompanyService companyService;
-
-    // Prvi endpoint koji pogadja korisnik kada se loguje.
-    // Tada zna samo svoje korisnicko ime i lozinku i to prosledjuje na backend.
     @PostMapping("/login")
     public ResponseEntity<UserTokenState> createAuthenticationToken(
             @RequestBody JwtAuthenticationRequest authenticationRequest, HttpServletResponse response) {
 
-        // Ukoliko kredencijali nisu ispravni, logovanje nece biti uspesno, desice se
-        // AuthenticationException
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 authenticationRequest.getUsername(), authenticationRequest.getPassword()));
 
-        // Ukoliko je autentifikacija uspesna, ubaci korisnika u trenutni security
-        // kontekst
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // Kreiraj token za tog korisnika
         User user = (User) authentication.getPrincipal();
         String jwt = tokenUtils.generateToken(user.getUsername());
         int expiresIn = tokenUtils.getExpiredIn();
 
-        // Vrati token kao odgovor na uspesnu autentifikaciju
         return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
     }
 
@@ -76,12 +69,23 @@ public class AuthenticationController {
             User user = (User) authentication.getPrincipal();
             return ResponseEntity.ok(user.getId());
         } else {
-            // Handle the case where the user is not authenticated or not an instance of User
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
-    // Endpoint za registraciju novog korisnika
+    @GetMapping("/who-am-i-detailed")
+    public ResponseEntity<UserDetailsDto> getAuthenticatedUserDetails(Authentication authentication) {
+        if (authentication != null && authentication.getPrincipal() instanceof User) {
+            User user = (User) authentication.getPrincipal();
+            Role role = user.getRoles().get(0);
+            String rolestr = (role != null) ? role.getName() : "";
+            UserDetailsDto userDetailsDto = new UserDetailsDto(user.getId(), user.getUsername(), rolestr);
+            return ResponseEntity.ok(userDetailsDto);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
     @PostMapping("/signup")
     public ResponseEntity<RegisteredUserDTO> save(@RequestBody UserDTO userRequest) {
         User existUser = this.userService.findByUsername(userRequest.getEmail());
