@@ -98,7 +98,17 @@ public class Appointment extends BaseEntity {
     }
 
     public List<QRCode> getQRCodes() {
-        return QRCodes;
+        // Assuming QRCode has a getStatus() method that returns the status
+        return QRCodes.stream()
+                .filter(qrCode -> !QRStatus.CANCELED.equals(qrCode.getStatus()))
+                .collect(Collectors.toList());
+    }
+
+    public List<QRCode> getCanceledQRCodes() {
+        // Assuming QRCode has a getStatus() method that returns the status
+        return QRCodes.stream()
+                .filter(qrCode -> QRStatus.CANCELED.equals(qrCode.getStatus()))
+                .collect(Collectors.toList());
     }
 
     public void setQRCodes(List<QRCode> QRCodes) {

@@ -262,7 +262,7 @@ INSERT INTO public.qrcodes (appointment_id, id, registered_user_id, code, status
 VALUES (1003, 1003, 1003, '123ABC', 'DECLINED');
 
 INSERT INTO public.qrcodes (appointment_id, id, registered_user_id, code, status)
-VALUES (1001, 1004, 1003, 'ABC3123', 'NEW');
+VALUES (1004, 1004, 1003, 'ABC3123', 'CANCELED');
 -----------------------------------------------------------------------
 
 INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)
@@ -280,8 +280,6 @@ VALUES (1004,1003, 1002,4);
 INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)
 VALUES (1005,1003, 1004,6);
 
-INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)
-VALUES (1006,1001, 1001,4);
 
 
 

@@ -8,5 +8,7 @@ public enum QRStatus {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     PROCESSED,
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    DECLINED
+    DECLINED,
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    CANCELED
 }
