@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b85d43e3-960f-45a6-82cf-64279029b517" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/repositories/QREqipmentRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/controllers/CompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/controllers/CompanyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/dtos/AppointmentDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/dtos/AppointmentDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/dtos/CompanyDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/dtos/CompanyDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/dtos/QRCodeDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/dtos/QRCodeDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/dtos/QRCodeEquipmentDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/usecases/QRCodeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/usecases/QRCodeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/resources/data-postgres.sql" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/resources/data-postgres.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,7 +125,7 @@
       <workItem from="1706014514193" duration="1756000" />
       <workItem from="1706017951467" duration="8852000" />
       <workItem from="1706102035684" duration="1387000" />
-      <workItem from="1706117101668" duration="6627000" />
+      <workItem from="1706117101668" duration="9621000" />
     </task>
     <servers />
   </component>

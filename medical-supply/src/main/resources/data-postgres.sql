@@ -280,5 +280,8 @@ VALUES (1004,1003, 1002,4);
 INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)
 VALUES (1005,1003, 1004,6);
 
+INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)
+VALUES (1006,1001, 1001,4);
+
 
 
