@@ -1,6 +1,7 @@
 package com.nfb.modules.companies.API.dtos;
 
 import com.nfb.modules.companies.core.domain.company.Company;
+import com.nfb.modules.companies.core.domain.company.CompanyEquipment;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -41,8 +42,8 @@ public class CompanyDto {
         this.name = company.getName();
         this.address = company.getAddress();
         this.averageRating = company.getAverageRating();
-        this.availableEquipmentIds = company.getAvailableEquipment().stream()
-                .map(Equipment::getId)
+        this.availableEquipmentIds = company.getCompanyEquipmentList().stream()
+                .map(CompanyEquipment::getEquipmentId)
                 .collect(Collectors.toList());
         this.companyAdministraotrsIds = company.getAdministrators().stream()
                 .map(CompanyAdministrator::getId)

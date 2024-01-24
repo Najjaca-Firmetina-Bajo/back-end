@@ -26,13 +26,8 @@ public class QRCode extends BaseEntity {
     @JoinColumn(name = "appointment_id")
     private Appointment appointment;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "qrcode_equipment",
-            joinColumns = @JoinColumn(name = "qrcode_id"),
-            inverseJoinColumns = @JoinColumn(name = "equipment_id")
-    )
-    private List<Equipment> reservedEquipment;
+    @OneToMany(mappedBy = "qrCode", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<QREquipment> reservedEquipment;
 
     public QRCode() {
     }
@@ -77,11 +72,19 @@ public class QRCode extends BaseEntity {
         this.appointment = appointment;
     }
 
-    public List<Equipment> getReservedEquipment() {
+    public RegisteredUser getRegisteredUser() {
+        return registeredUser;
+    }
+
+    public void setRegisteredUser(RegisteredUser registeredUser) {
+        this.registeredUser = registeredUser;
+    }
+
+    public List<QREquipment> getReservedEquipment() {
         return reservedEquipment;
     }
 
-    public void setReservedEquipment(List<Equipment> reservedEquipment) {
+    public void setReservedEquipment(List<QREquipment> reservedEquipment) {
         this.reservedEquipment = reservedEquipment;
     }
 }

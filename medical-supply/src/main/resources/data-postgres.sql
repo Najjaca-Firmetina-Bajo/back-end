@@ -125,40 +125,40 @@ VALUES (9.1, 1005, 'd5', 'pet', 't5');
 ------------------------------------------------------
 
 INSERT INTO public.company_equipment(
-    company_id, equipment_id)
-VALUES (1001, 1001);
+    id,company_id, equipment_id,quantity)
+VALUES (1001,1001, 1001,10);
 
 INSERT INTO public.company_equipment(
-    company_id, equipment_id)
-VALUES (1001, 1003);
+    id,company_id, equipment_id,quantity)
+VALUES (1002,1001, 1003,11);
 
 INSERT INTO public.company_equipment(
-    company_id, equipment_id)
-VALUES (1002, 1002);
+    id,company_id, equipment_id,quantity)
+VALUES (1003,1002, 1002,1);
 
 INSERT INTO public.company_equipment(
-    company_id, equipment_id)
-VALUES (1002, 1004);
+    id,company_id, equipment_id,quantity)
+VALUES (1004,1002, 1004,8);
 
 INSERT INTO public.company_equipment(
-    company_id, equipment_id)
-VALUES (1003, 1003);
+    id,company_id, equipment_id,quantity)
+VALUES (1005,1003, 1003,89);
 
 INSERT INTO public.company_equipment(
-    company_id, equipment_id)
-VALUES (1004, 1004);
+    id,company_id, equipment_id,quantity)
+VALUES (1006,1004, 1004,5);
 
 INSERT INTO public.company_equipment(
-    company_id, equipment_id)
-VALUES (1005, 1001);
+    id,company_id, equipment_id,quantity)
+VALUES (1007,1005, 1001,54);
 
 INSERT INTO public.company_equipment(
-    company_id, equipment_id)
-VALUES (1005, 1003);
+    id,company_id, equipment_id,quantity)
+VALUES (1008,1005, 1003,67);
 
 INSERT INTO public.company_equipment(
-    company_id, equipment_id)
-VALUES (1005, 1005);
+    id,company_id, equipment_id,quantity)
+VALUES (1009,1005, 1005,34);
 
 -----------------------------------------------------
 
@@ -260,18 +260,25 @@ VALUES (1002, 1002, 1002, 'XYZ456', 'PROCESSED');
 
 INSERT INTO public.qrcodes (appointment_id, id, registered_user_id, code, status)
 VALUES (1003, 1003, 1003, '123ABC', 'DECLINED');
+
+INSERT INTO public.qrcodes (appointment_id, id, registered_user_id, code, status)
+VALUES (1001, 1004, 1003, 'ABC3123', 'NEW');
 -----------------------------------------------------------------------
 
-INSERT INTO public.qrcode_equipment (equipment_id, qrcode_id)
-VALUES (1001, 1001);
+INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)
+VALUES (1001,1001, 1001,1);
 
-INSERT INTO public.qrcode_equipment (equipment_id, qrcode_id)
-VALUES (1002, 1001);
+INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)
+VALUES (1002,1002, 1001,2);
 
-INSERT INTO public.qrcode_equipment (equipment_id, qrcode_id)
-VALUES (1001, 1002);
+INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)
+VALUES (1003,1001, 1002,3);
 
-INSERT INTO public.qrcode_equipment (equipment_id, qrcode_id)
-VALUES (1003, 1002);
+INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)
+VALUES (1004,1003, 1002,4);
+
+INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)
+VALUES (1005,1003, 1004,6);
+
 
 

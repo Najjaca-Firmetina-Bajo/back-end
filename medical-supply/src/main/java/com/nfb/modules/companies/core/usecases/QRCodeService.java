@@ -48,7 +48,7 @@ public class QRCodeService {
     }
 
     public QRCode addQRCodeFromDto(QRCodeDto qrCodeDto) {
-        try {
+       /* try {
             RegisteredUser user = registeredUserRepository.findById(qrCodeDto.getRegisteredUserId()).orElse(null);
             Appointment appointment = appointmentRepository.findById(qrCodeDto.getAppointmentId()).orElse(null);
 
@@ -57,7 +57,7 @@ public class QRCodeService {
 
                 if (!qrCodeRepository.existsByReservedEquipmentInAndAppointment(reservedEquipment, appointment)) {
                     QRCode qrCode = new QRCode(qrCodeDto.getCode(), qrCodeDto.getStatus(), user, appointment);
-                    qrCode.setReservedEquipment(reservedEquipment);
+                    //qrCode.setReservedEquipment(reservedEquipment);
                     return qrCodeRepository.save(qrCode);
                 } else {
                     return null;
@@ -68,5 +68,7 @@ public class QRCodeService {
         } catch (Exception e) {
             return null;
         }
+        */
+        return null;
     }
 }

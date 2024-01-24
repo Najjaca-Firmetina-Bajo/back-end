@@ -20,7 +20,7 @@ public class QRCodeDto {
     @Schema(description = "Appointment ID associated with QRCode")
     private Long appointmentId;
     @Schema(description = "Reserved equipment IDs associated with QRCode")
-    private List<Long> reservedEquipmentIds;
+    private List<QRCodeEquipmentDto> reservedEquipment;
 
     public QRCodeDto(QRCode qrCode) {
         this.id = qrCode.getId();
@@ -28,19 +28,20 @@ public class QRCodeDto {
         this.status = qrCode.getStatus();
         this.registeredUserId = (qrCode.getUser() != null) ? qrCode.getUser().getId() : null;
         this.appointmentId = (qrCode.getAppointment() != null) ? qrCode.getAppointment().getId() : null;
-        this.reservedEquipmentIds = qrCode.getReservedEquipment().stream()
-                .map(Equipment::getId)
+        this.reservedEquipment = qrCode.getReservedEquipment().stream()
+                .map(equipment -> new QRCodeEquipmentDto(equipment.getEquipmentId(), equipment.getQuantity()))
                 .collect(Collectors.toList());
+
     }
 
 
-    public QRCodeDto(long id, String code, QRStatus status, Long registeredUserId, Long appointmentId, List<Long> reservedEquipmentIds) {
+    public QRCodeDto(long id, String code, QRStatus status, Long registeredUserId, Long appointmentId, List<QRCodeEquipmentDto> reservedEquipment) {
         this.id = id;
         this.code = code;
         this.status = status;
         this.registeredUserId = registeredUserId;
         this.appointmentId = appointmentId;
-        this.reservedEquipmentIds = reservedEquipmentIds;
+        this.reservedEquipment = reservedEquipment;
     }
 
     public long getId() {
@@ -63,7 +64,31 @@ public class QRCodeDto {
         return appointmentId;
     }
 
-    public List<Long> getReservedEquipmentIds() {
-        return reservedEquipmentIds;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setStatus(QRStatus status) {
+        this.status = status;
+    }
+
+    public void setRegisteredUserId(Long registeredUserId) {
+        this.registeredUserId = registeredUserId;
+    }
+
+    public void setAppointmentId(Long appointmentId) {
+        this.appointmentId = appointmentId;
+    }
+
+    public List<QRCodeEquipmentDto> getReservedEquipment() {
+        return reservedEquipment;
+    }
+
+    public void setReservedEquipment(List<QRCodeEquipmentDto> reservedEquipment) {
+        this.reservedEquipment = reservedEquipment;
     }
 }

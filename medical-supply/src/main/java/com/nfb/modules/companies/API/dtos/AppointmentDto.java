@@ -28,7 +28,7 @@ public class AppointmentDto {
     @Schema(description = "Appointment reservation number")
     private int reservationNumber;
     @Schema(description = "Reserved equipment in appointment")
-    private List<Long> reservedEquipmentIds;
+    private List<QRCodeEquipmentDto> reservedEquipment;
     @Schema(description = "Administrator of appointment")
     private Long companyAdministratorId;
     @Schema(description = "Working day of appointment")
@@ -42,7 +42,7 @@ public class AppointmentDto {
         this.type = type;
         this.isDownloaded = isDownloaded;
         this.reservationNumber = reservationNumber;
-        this.reservedEquipmentIds = new ArrayList<>();
+        this.reservedEquipment = new ArrayList<>();
         this.companyAdministratorId = (long) -1;
         this.workingDayId = (long) -1;
     }
@@ -54,9 +54,9 @@ public class AppointmentDto {
         this.type = appointment.getType();
         this.isDownloaded = appointment.isDownloaded();
         this.reservationNumber = appointment.getReservationNumber();
-        this.reservedEquipmentIds = appointment.getQRCodes().stream()
+        this.reservedEquipment = appointment.getQRCodes().stream()
                 .flatMap(qrCode -> qrCode.getReservedEquipment().stream())
-                .map(Equipment::getId)
+                .map(equipment -> new QRCodeEquipmentDto(equipment.getEquipmentId(), equipment.getQuantity()))
                 .collect(Collectors.toList());
         if(appointment.getCompanyAdministrator() != null) {
             this.companyAdministratorId = appointment.getCompanyAdministrator().getId();
@@ -127,12 +127,12 @@ public class AppointmentDto {
         this.reservationNumber = reservationNumber;
     }
 
-    public List<Long> getReservedEquipmentIds() {
-        return reservedEquipmentIds;
+    public List<QRCodeEquipmentDto> getReservedEquipment() {
+        return reservedEquipment;
     }
 
-    public void setReservedEquipmentIds(List<Long> reservedEquipmentIds) {
-        this.reservedEquipmentIds = reservedEquipmentIds;
+    public void setReservedEquipment(List<QRCodeEquipmentDto> reservedEquipment) {
+        this.reservedEquipment = reservedEquipment;
     }
 
     public Long getCompanyAdministratorId() {

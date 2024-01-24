@@ -3,7 +3,9 @@ package com.nfb.modules.companies.core.domain.equipment;
 import com.nfb.buildingblocks.core.domain.BaseEntity;
 import com.nfb.modules.companies.core.domain.appointment.Appointment;
 import com.nfb.modules.companies.core.domain.appointment.QRCode;
+import com.nfb.modules.companies.core.domain.appointment.QREquipment;
 import com.nfb.modules.companies.core.domain.company.Company;
+import com.nfb.modules.companies.core.domain.company.CompanyEquipment;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -20,10 +22,10 @@ public class Equipment extends BaseEntity {
     private String description;
     @Column(nullable = false)
     private double price;
-    @ManyToMany(mappedBy = "availableEquipment")
-    private List<Company> companies;
-    @ManyToMany(mappedBy = "reservedEquipment")
-    private List<QRCode> QRCodes;
+    @OneToMany(mappedBy = "equipment", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<CompanyEquipment> companyEquipmentList;
+    @OneToMany(mappedBy = "equipment", cascade = CascadeType.ALL)
+    private List<QREquipment> qrEquipments;
 
 
     public Equipment() {
@@ -34,8 +36,8 @@ public class Equipment extends BaseEntity {
         this.type = type;
         this.description = description;
         this.price = price;
-        this.companies = new ArrayList<>();
-        this.QRCodes = new ArrayList<>();
+        this.companyEquipmentList = new ArrayList<>();
+        this.qrEquipments = new ArrayList<>();
     }
 
     public double getPrice() {
@@ -46,12 +48,12 @@ public class Equipment extends BaseEntity {
         this.price = price;
     }
 
-    public List<Company> getCompanies() {
-        return companies;
+    public List<CompanyEquipment> getCompanyEquipmentList() {
+        return companyEquipmentList;
     }
 
-    private void setCompanies(List<Company> companies) {
-        this.companies = companies;
+    public void setCompanyEquipmentList(List<CompanyEquipment> companyEquipmentList) {
+        this.companyEquipmentList = companyEquipmentList;
     }
 
     private void setName(String name) {
@@ -78,11 +80,11 @@ public class Equipment extends BaseEntity {
         return description;
     }
 
-    public List<QRCode> getQRCodes() {
-        return QRCodes;
+    public List<QREquipment> getQrEquipments() {
+        return qrEquipments;
     }
 
-    public void setQRCodes(List<QRCode> QRCodes) {
-        this.QRCodes = QRCodes;
+    public void setQrEquipments(List<QREquipment> qrEquipments) {
+        this.qrEquipments = qrEquipments;
     }
 }

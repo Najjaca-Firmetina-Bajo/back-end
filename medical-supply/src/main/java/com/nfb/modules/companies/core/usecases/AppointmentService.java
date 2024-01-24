@@ -30,17 +30,4 @@ public class AppointmentService {
     public List<Appointment> getAll() { return appointmentRepository.findAll(); }
     public List<Appointment> getBy(long workingDayId) { return appointmentRepository.findByWorkingDayId(workingDayId); }
 
-    public Appointment updateAppointment(AppointmentDto updatedAppointment) {
-        var appointment = appointmentRepository.findById(updatedAppointment.getId());
-        var user = registeredUserRepository.findById(updatedAppointment.getId());
-        var eqipment = equipmentRepository.findByIdIn(updatedAppointment.getReservedEquipmentIds());
-        if(appointment != null && user != null && eqipment.size() == updatedAppointment.getReservedEquipmentIds().size()){
-            //appointment.setRegisteredUser(user);
-            //appointment.setReservedEquipment(eqipment);
-
-        }
-
-        return appointmentRepository.save(appointment);
-
-    }
 }

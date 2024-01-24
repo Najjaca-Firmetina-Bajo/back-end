@@ -18,13 +18,8 @@ public class Company extends BaseEntity {
     private String address;
     @Column(nullable = false)
     private double averageRating;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "company_equipment",
-            joinColumns = @JoinColumn(name = "company_id"),
-            inverseJoinColumns = @JoinColumn(name = "equipment_id")
-    )
-    private List<Equipment> availableEquipment;
+    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<CompanyEquipment> companyEquipmentList;
     @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<CompanyAdministrator> administrators;
     @OneToOne(mappedBy = "company", cascade = CascadeType.ALL)
@@ -37,7 +32,7 @@ public class Company extends BaseEntity {
         this.name = name;
         this.address = address;
         this.averageRating = averageRating;
-        this.availableEquipment = new ArrayList<>();
+        this.companyEquipmentList = new ArrayList<>();
         this.administrators = administrators;
         this.workingCalendar = null;
     }
@@ -58,12 +53,12 @@ public class Company extends BaseEntity {
         this.administrators = administrators;
     }
 
-    public List<Equipment> getAvailableEquipment() {
-        return availableEquipment;
+    public List<CompanyEquipment> getCompanyEquipmentList() {
+        return companyEquipmentList;
     }
 
-    private void setAvailableEquipment(List<Equipment> availableEquipment) {
-        this.availableEquipment = availableEquipment;
+    public void setCompanyEquipmentList(List<CompanyEquipment> companyEquipmentList) {
+        this.companyEquipmentList = companyEquipmentList;
     }
 
     private void setName(String name) {
