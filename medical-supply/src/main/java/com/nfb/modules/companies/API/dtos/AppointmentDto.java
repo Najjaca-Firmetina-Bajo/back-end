@@ -1,16 +1,11 @@
 package com.nfb.modules.companies.API.dtos;
 
 import com.nfb.modules.companies.core.domain.appointment.Appointment;
-import com.nfb.modules.companies.core.domain.appointment.QRCode;
 import com.nfb.modules.companies.core.domain.appointment.AppointmentType;
-import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.springframework.cglib.core.Local;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +23,7 @@ public class AppointmentDto {
     @Schema(description = "Appointment reservation number")
     private int reservationNumber;
     @Schema(description = "Reserved equipment in appointment")
-    private List<QRCodeEquipmentDto> reservedEquipment;
+    private List<EquipmentQuantityDto> reservedEquipment;
     @Schema(description = "Administrator of appointment")
     private Long companyAdministratorId;
     @Schema(description = "Working day of appointment")
@@ -56,7 +51,7 @@ public class AppointmentDto {
         this.reservationNumber = appointment.getReservationNumber();
         this.reservedEquipment = appointment.getQRCodes().stream()
                 .flatMap(qrCode -> qrCode.getReservedEquipment().stream())
-                .map(equipment -> new QRCodeEquipmentDto(equipment.getEquipmentId(), equipment.getQuantity()))
+                .map(equipment -> new EquipmentQuantityDto(equipment.getEquipmentId(), equipment.getQuantity()))
                 .collect(Collectors.toList());
         if(appointment.getCompanyAdministrator() != null) {
             this.companyAdministratorId = appointment.getCompanyAdministrator().getId();
@@ -127,11 +122,11 @@ public class AppointmentDto {
         this.reservationNumber = reservationNumber;
     }
 
-    public List<QRCodeEquipmentDto> getReservedEquipment() {
+    public List<EquipmentQuantityDto> getReservedEquipment() {
         return reservedEquipment;
     }
 
-    public void setReservedEquipment(List<QRCodeEquipmentDto> reservedEquipment) {
+    public void setReservedEquipment(List<EquipmentQuantityDto> reservedEquipment) {
         this.reservedEquipment = reservedEquipment;
     }
 

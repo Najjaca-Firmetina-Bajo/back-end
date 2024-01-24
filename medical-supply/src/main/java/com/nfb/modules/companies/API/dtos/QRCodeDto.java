@@ -2,7 +2,6 @@ package com.nfb.modules.companies.API.dtos;
 
 import com.nfb.modules.companies.core.domain.appointment.QRCode;
 import com.nfb.modules.companies.core.domain.appointment.QRStatus;
-import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
@@ -20,7 +19,7 @@ public class QRCodeDto {
     @Schema(description = "Appointment ID associated with QRCode")
     private Long appointmentId;
     @Schema(description = "Reserved equipment IDs associated with QRCode")
-    private List<QRCodeEquipmentDto> reservedEquipment;
+    private List<EquipmentQuantityDto> reservedEquipment;
 
     public QRCodeDto(QRCode qrCode) {
         this.id = qrCode.getId();
@@ -29,13 +28,13 @@ public class QRCodeDto {
         this.registeredUserId = (qrCode.getUser() != null) ? qrCode.getUser().getId() : null;
         this.appointmentId = (qrCode.getAppointment() != null) ? qrCode.getAppointment().getId() : null;
         this.reservedEquipment = qrCode.getReservedEquipment().stream()
-                .map(equipment -> new QRCodeEquipmentDto(equipment.getEquipmentId(), equipment.getQuantity()))
+                .map(equipment -> new EquipmentQuantityDto(equipment.getEquipmentId(), equipment.getQuantity()))
                 .collect(Collectors.toList());
 
     }
 
 
-    public QRCodeDto(long id, String code, QRStatus status, Long registeredUserId, Long appointmentId, List<QRCodeEquipmentDto> reservedEquipment) {
+    public QRCodeDto(long id, String code, QRStatus status, Long registeredUserId, Long appointmentId, List<EquipmentQuantityDto> reservedEquipment) {
         this.id = id;
         this.code = code;
         this.status = status;
@@ -84,11 +83,11 @@ public class QRCodeDto {
         this.appointmentId = appointmentId;
     }
 
-    public List<QRCodeEquipmentDto> getReservedEquipment() {
+    public List<EquipmentQuantityDto> getReservedEquipment() {
         return reservedEquipment;
     }
 
-    public void setReservedEquipment(List<QRCodeEquipmentDto> reservedEquipment) {
+    public void setReservedEquipment(List<EquipmentQuantityDto> reservedEquipment) {
         this.reservedEquipment = reservedEquipment;
     }
 }

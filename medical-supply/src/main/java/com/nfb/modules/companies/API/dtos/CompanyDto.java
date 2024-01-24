@@ -1,8 +1,6 @@
 package com.nfb.modules.companies.API.dtos;
 
 import com.nfb.modules.companies.core.domain.company.Company;
-import com.nfb.modules.companies.core.domain.company.CompanyEquipment;
-import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -20,7 +18,7 @@ public class CompanyDto {
     @Schema(description = "Company rating")
     private double averageRating;
     @Schema(description = "Available equipment in company")
-    private List<Long> availableEquipmentIds;
+    private List<EquipmentQuantityDto> availableEquipment;
     @Schema(description = "Administrators of company")
     private List<Long> companyAdministraotrsIds;
     @Schema(description = "Working calendar of company")
@@ -32,7 +30,7 @@ public class CompanyDto {
         this.name = name;
         this.address = address;
         this.averageRating = averageRating;
-        this.availableEquipmentIds = new ArrayList<>();
+        this.availableEquipment = new ArrayList<>();
         this.companyAdministraotrsIds = new ArrayList<>();
         this.workingCalendarId = (long) -1;
     }
@@ -42,8 +40,8 @@ public class CompanyDto {
         this.name = company.getName();
         this.address = company.getAddress();
         this.averageRating = company.getAverageRating();
-        this.availableEquipmentIds = company.getCompanyEquipmentList().stream()
-                .map(CompanyEquipment::getEquipmentId)
+        this.availableEquipment = company.getCompanyEquipmentList().stream()
+                .map(ce -> new EquipmentQuantityDto(ce.getEquipmentId(), ce.getQuantity())) // Use EquipmentQuantityDto here
                 .collect(Collectors.toList());
         this.companyAdministraotrsIds = company.getAdministrators().stream()
                 .map(CompanyAdministrator::getId)
@@ -70,13 +68,7 @@ public class CompanyDto {
         this.companyAdministraotrsIds = companyAdministraotrsIds;
     }
 
-    public List<Long> getAvailableEquipmentIds() {
-        return availableEquipmentIds;
-    }
 
-    public void setAvailableEquipmentIds(List<Long> availableEquipmentIds) {
-        this.availableEquipmentIds = availableEquipmentIds;
-    }
 
     public long getId() {
         return id;
@@ -108,5 +100,13 @@ public class CompanyDto {
 
     public double getAverageRating() {
         return averageRating;
+    }
+
+    public List<EquipmentQuantityDto> getAvailableEquipment() {
+        return availableEquipment;
+    }
+
+    public void setAvailableEquipment(List<EquipmentQuantityDto> availableEquipment) {
+        this.availableEquipment = availableEquipment;
     }
 }
