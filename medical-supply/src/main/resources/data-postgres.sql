@@ -248,7 +248,7 @@ INSERT INTO public.appointments (duration, is_downloaded, reservation_number, ty
 VALUES (2, true, 222, 1, 1004, 1003, '2023-02-07T15:10:00', 1005);
 
 INSERT INTO public.appointments (duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id)
-VALUES (2, false, 222, 0, 1004, 1004, '2023-02-07T15:10:00', 1006);
+VALUES (4, false, 223, 0, 1004, 1004, '2023-03-08T15:10:00', 1006);
 
 -----------------------------------------------------------------------
 
