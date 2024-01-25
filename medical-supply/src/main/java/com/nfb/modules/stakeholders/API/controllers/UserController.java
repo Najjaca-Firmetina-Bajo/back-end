@@ -25,7 +25,7 @@ public class UserController {
     private UserService userService;
 
 
-    @GetMapping
+    @GetMapping("/get-all")
     public ResponseEntity<List<UserDTO>> getUsers() {
 
         List<User> users = userService.getAll();
