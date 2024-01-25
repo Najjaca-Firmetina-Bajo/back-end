@@ -239,16 +239,16 @@ INSERT INTO public.working_days(
 VALUES ('2023-11-6T12:30:00', 10014, 1003);
 -----------------------------------------------------------------------
 INSERT INTO public.appointments (duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id)
-VALUES (1, false, 111, 0, 1004, 1001, '2024-02-01T14:00:00', 1003);
+VALUES (1, false, 111, 0, 1004, 1001, '2023-02-01T14:00:00', 1003);
 
 INSERT INTO public.appointments (duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id)
-VALUES (1, false, 151, 0, 1004, 1002, '2024-02-04T15:00:00', 1004);
+VALUES (1, false, 151, 0, 1004, 1002, '2023-02-04T15:00:00', 1004);
 
 INSERT INTO public.appointments (duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id)
-VALUES (2, true, 222, 1, 1004, 1003, '2024-02-07T15:10:00', 1005);
+VALUES (2, true, 222, 1, 1004, 1003, '2023-02-07T15:10:00', 1005);
 
 INSERT INTO public.appointments (duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id)
-VALUES (2, false, 222, 0, 1004, 1004, '2024-02-07T15:10:00', 1006);
+VALUES (4, false, 223, 0, 1004, 1004, '2023-03-08T15:10:00', 1006);
 
 -----------------------------------------------------------------------
 

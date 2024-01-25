@@ -21,20 +21,6 @@ public class EquipmentController {
     public EquipmentController(EquipmentService equipmentService) {
         this.equipmentService = equipmentService;
     }
-    /*
-    @GetMapping("/filter/{name}/{type}/{minPrice}/{maxPrice}")
-    public ResponseEntity<List<EquipmentDto>> filter(@RequestParam(required = true) String name, @RequestParam(required = false) String type, @RequestParam(required = false) double minPrice, @RequestParam(required = false) double maxPrice) {
-
-        List<Equipment> equipment = equipmentService.filter(name, type, minPrice, maxPrice);
-
-        List<EquipmentDto> equipmentDtos = new ArrayList<>();
-        for (Equipment e : equipment) {
-            equipmentDtos.add(new EquipmentDto(e));
-        }
-
-        return new ResponseEntity<>(equipmentDtos, HttpStatus.OK);
-    }
-    */
 
     @GetMapping("/filter/{params}")
     public ResponseEntity<List<EquipmentDto>> filter(@PathVariable String params) {
