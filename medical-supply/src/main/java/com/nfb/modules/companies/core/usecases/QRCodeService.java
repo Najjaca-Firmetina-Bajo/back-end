@@ -6,6 +6,7 @@ import com.nfb.modules.companies.core.domain.appointment.Appointment;
 import com.nfb.modules.companies.core.domain.appointment.QRCode;
 import com.nfb.modules.companies.API.dtos.QRCodeDto;
 import com.nfb.modules.companies.core.domain.appointment.QREquipment;
+import com.nfb.modules.companies.core.domain.appointment.QRStatus;
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.domain.company.CompanyEquipment;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
@@ -132,5 +133,20 @@ public class QRCodeService {
             }
         }
         return returnList;
+    }
+
+    public QRCode cancelQRCodeById(long id) {
+        Optional<QRCode> optionalQRCode = qrCodeRepository.findById(id);
+
+        if (optionalQRCode.isPresent()) {
+            QRCode qrCode = optionalQRCode.get();
+
+            if (qrCode.getStatus() != QRStatus.CANCELED) {
+                qrCode.setStatus(QRStatus.CANCELED);
+                return qrCodeRepository.save(qrCode);
+            }
+        }
+
+        return null;
     }
 }

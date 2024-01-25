@@ -127,4 +127,16 @@ public class AppointmentController {
         }
     }
 
+    @PostMapping("/cancel-reservation/{id}")
+    public ResponseEntity<QRCodeDto> cancelQRCode(@PathVariable long id) {
+        QRCode canceledQRCode = qrCodeService.cancelQRCodeById(id);
+
+        if (canceledQRCode != null) {
+            QRCodeDto canceledQRCodeDto = new QRCodeDto(canceledQRCode);
+            return new ResponseEntity<>(canceledQRCodeDto, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

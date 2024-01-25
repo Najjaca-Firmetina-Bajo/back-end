@@ -6,10 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="b85d43e3-960f-45a6-82cf-64279029b517" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/domain/appointment/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/domain/appointment/Appointment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/domain/appointment/QRStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/domain/appointment/QRStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/controllers/AppointmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/controllers/AppointmentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/controllers/CompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/controllers/CompanyController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/usecases/QRCodeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/usecases/QRCodeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/resources/data-postgres.sql" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/resources/data-postgres.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,7 +126,8 @@
       <workItem from="1706014514193" duration="1756000" />
       <workItem from="1706017951467" duration="8852000" />
       <workItem from="1706102035684" duration="1387000" />
-      <workItem from="1706117101668" duration="15769000" />
+      <workItem from="1706117101668" duration="16392000" />
+      <workItem from="1706187203224" duration="5456000" />
     </task>
     <servers />
   </component>
@@ -161,7 +162,7 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/usecases/QRCodeService.java</url>
-          <line>61</line>
+          <line>62</line>
           <properties class="com.nfb.modules.companies.core.usecases.QRCodeService" method="addQRCodeFromDto">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />

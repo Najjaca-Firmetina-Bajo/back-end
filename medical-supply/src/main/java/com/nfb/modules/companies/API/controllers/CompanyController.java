@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/companies")
@@ -68,5 +69,17 @@ public class CompanyController {
     public ResponseEntity<CompanyDto> addAdministratorToCompany(@PathVariable long companyId, @PathVariable long adminId) {
         CompanyDto dto = new CompanyDto (companyService.addAdministratorToCompany(companyId, adminId));
         return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping("/findById/{companyId}")
+    public ResponseEntity<CompanyDto> findById(@PathVariable Long companyId) {
+        Optional<Company> companyOptional = companyService.findById(companyId);
+
+        if (companyOptional.isPresent()) {
+            CompanyDto companyDto = new CompanyDto(companyOptional.get());
+            return new ResponseEntity<>(companyDto, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
