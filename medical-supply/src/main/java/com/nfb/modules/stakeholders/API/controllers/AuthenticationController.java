@@ -2,11 +2,10 @@ package com.nfb.modules.stakeholders.API.controllers;
 
 import com.nfb.modules.companies.core.usecases.CompanyService;
 import com.nfb.modules.stakeholders.API.dtos.*;
-import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
-import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
-import com.nfb.modules.stakeholders.core.domain.user.Role;
-import com.nfb.modules.stakeholders.core.domain.user.User;
+import com.nfb.modules.stakeholders.core.domain.user.*;
+import com.nfb.modules.stakeholders.core.usecases.CompanyAdministratorService;
 import com.nfb.modules.stakeholders.core.usecases.RoleService;
+import com.nfb.modules.stakeholders.core.usecases.SystemAdministratorService;
 import com.nfb.modules.stakeholders.core.usecases.UserService;
 import com.nfb.security.auth.ResourceConflictException;
 import com.nfb.security.auth.TokenUtils;
@@ -46,6 +45,11 @@ public class AuthenticationController {
     private RoleService roleService;
     @Autowired
     private CompanyService companyService;
+    @Autowired
+    private CompanyAdministratorService companyAdministratorService;
+    @Autowired
+    private SystemAdministratorService systemAdministratorService;
+
     @PostMapping("/login")
     public ResponseEntity<UserTokenState> createAuthenticationToken(
             @RequestBody JwtAuthenticationRequest authenticationRequest, HttpServletResponse response) {
@@ -113,12 +117,12 @@ public class AuthenticationController {
         return new ResponseEntity<>(new RegisteredUserDTO(u), HttpStatus.CREATED);
     }
 
-    @PostMapping("/cadmin-signup")
-    public ResponseEntity<CompanyAdministratorDto> registerCompanyAdmin(@RequestBody CompanyAdministratorDto companyAdministratorDto) {
+    @PostMapping("/register-company-admin")
+    public ResponseEntity<CompanyAdministratorDto> registerSystemAdmin(@RequestBody CompanyAdministratorDto companyAdministratorDto) {
         List<Role> roles = roleService.findByName("COMPANY_ADMINISTRATOR");
         CompanyAdministrator admin = new CompanyAdministrator(
                 companyAdministratorDto.getEmail(),
-                companyAdministratorDto.getPassword(),
+                passwordEncoder.encode(companyAdministratorDto.getPassword()),
                 roles.get(0),
                 companyAdministratorDto.getName(),
                 companyAdministratorDto.getSurname(),
@@ -129,8 +133,28 @@ public class AuthenticationController {
                 companyAdministratorDto.getCompanyInfo(),
                 companyService.findById(companyAdministratorDto.getCompanyId()).orElse(null)
         );
-        admin = userService.register(admin);
+        admin = companyAdministratorService.register(admin);
+
         return new ResponseEntity<>(new CompanyAdministratorDto(admin), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/register-system-admin")
+    public ResponseEntity<SystemAdministratorDto> registerSystemAdmin(@RequestBody SystemAdministratorDto systemAdministratorDto) {
+        List<Role> roles = roleService.findByName("SYSTEM_ADMINISTRATOR");
+        SystemAdministrator admin = new SystemAdministrator(
+                systemAdministratorDto.getEmail(),
+                passwordEncoder.encode(systemAdministratorDto.getPassword()),
+                roles.get(0),
+                systemAdministratorDto.getName(),
+                systemAdministratorDto.getSurname(),
+                systemAdministratorDto.getCity(),
+                systemAdministratorDto.getCountry(),
+                systemAdministratorDto.getPhoneNumber(),
+                systemAdministratorDto.getOccupation(),
+                systemAdministratorDto.getCompanyInfo()
+        );
+        admin = systemAdministratorService.register(admin);
+        return new ResponseEntity<>(new SystemAdministratorDto(admin), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/activate/{id}", produces = MediaType.TEXT_HTML_VALUE)

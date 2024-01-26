@@ -3,6 +3,7 @@ package com.nfb.modules.stakeholders.core.usecases;
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.usecases.CompanyService;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
+import com.nfb.modules.stakeholders.core.domain.user.SystemAdministrator;
 import com.nfb.modules.stakeholders.core.repositories.CompanyAdministratorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ public class CompanyAdministratorService {
     public CompanyAdministratorService(CompanyAdministratorRepository companyAdministratorRepository) {
         this.companyAdministratorRepository = companyAdministratorRepository;
     }
+
+    public CompanyAdministrator register(CompanyAdministrator companyAdministrator) { return companyAdministratorRepository.save(companyAdministrator); }
     public List<CompanyAdministrator> findByCompany(Company company) { return companyAdministratorRepository.findByCompany(company); }
     public List<CompanyAdministrator> getAll() { return companyAdministratorRepository.findAll(); }
     public int setCompanyForAdministrator(long adminId, Company company) { return companyAdministratorRepository.setCompanyForAdministrator(adminId, company); }

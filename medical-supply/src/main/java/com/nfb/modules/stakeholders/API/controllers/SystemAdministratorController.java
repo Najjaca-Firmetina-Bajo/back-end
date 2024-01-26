@@ -26,25 +26,6 @@ public class SystemAdministratorController {
         this.systemAdministratorService = systemAdministratorService;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<SystemAdministratorDto> registerSystemAdmin(@RequestBody SystemAdministratorDto systemAdministratorDto) {
-        List<Role> roles = roleService.findByName("SYSTEM_ADMINISTRATOR");
-        SystemAdministrator admin = new SystemAdministrator(
-                systemAdministratorDto.getEmail(),
-                systemAdministratorDto.getPassword(),
-                roles.get(0),
-                systemAdministratorDto.getName(),
-                systemAdministratorDto.getSurname(),
-                systemAdministratorDto.getCity(),
-                systemAdministratorDto.getCountry(),
-                systemAdministratorDto.getPhoneNumber(),
-                systemAdministratorDto.getOccupation(),
-                systemAdministratorDto.getCompanyInfo()
-        );
-        admin = systemAdministratorService.register(admin);
-        return new ResponseEntity<>(new SystemAdministratorDto(admin), HttpStatus.CREATED);
-    }
-
     @PutMapping("/update-password/{adminId}")
     public void updatePassword(@PathVariable long adminId) {
         systemAdministratorService.updatePasswordChanged(adminId);
