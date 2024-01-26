@@ -14,13 +14,20 @@ import java.util.Optional;
 @Service
 public class CompanyAdministratorService {
     private final CompanyAdministratorRepository companyAdministratorRepository;
+    private final UserService userService;
 
     @Autowired
-    public CompanyAdministratorService(CompanyAdministratorRepository companyAdministratorRepository) {
+    public CompanyAdministratorService(CompanyAdministratorRepository companyAdministratorRepository, UserService userService) {
         this.companyAdministratorRepository = companyAdministratorRepository;
+        this.userService = userService;
     }
 
-    public CompanyAdministrator register(CompanyAdministrator companyAdministrator) { return companyAdministratorRepository.save(companyAdministrator); }
+    public CompanyAdministrator register(CompanyAdministrator companyAdministrator) {
+        CompanyAdministrator ca = companyAdministratorRepository.save(companyAdministrator);
+        userService.activateUser(ca.getId());
+        return ca;
+    }
+
     public List<CompanyAdministrator> findByCompany(Company company) { return companyAdministratorRepository.findByCompany(company); }
     public List<CompanyAdministrator> getAll() { return companyAdministratorRepository.findAll(); }
     public int setCompanyForAdministrator(long adminId, Company company) { return companyAdministratorRepository.setCompanyForAdministrator(adminId, company); }

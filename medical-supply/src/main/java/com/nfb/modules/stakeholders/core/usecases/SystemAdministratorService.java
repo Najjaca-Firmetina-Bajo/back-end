@@ -9,13 +9,19 @@ import org.springframework.stereotype.Service;
 public class SystemAdministratorService {
 
     private final SystemAdministratorRepository systemAdministratorRepository;
+    private final UserService userService;
 
     @Autowired
-    public SystemAdministratorService(SystemAdministratorRepository systemAdministratorRepository) {
+    public SystemAdministratorService(SystemAdministratorRepository systemAdministratorRepository, UserService userService) {
         this.systemAdministratorRepository = systemAdministratorRepository;
+        this.userService = userService;
     }
 
-    public SystemAdministrator register(SystemAdministrator systemAdministrator) { return systemAdministratorRepository.save(systemAdministrator); }
+    public SystemAdministrator register(SystemAdministrator systemAdministrator) {
+        SystemAdministrator sa = systemAdministratorRepository.save(systemAdministrator);
+        userService.activateUser(sa.getId());
+        return sa;
+    }
 
     public void updatePasswordChanged(Long adminId) { systemAdministratorRepository.updatePasswordChanged(adminId); }
 }
