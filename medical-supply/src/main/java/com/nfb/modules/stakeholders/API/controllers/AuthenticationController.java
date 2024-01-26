@@ -174,4 +174,17 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(htmlMessage);
     }
+
+    /*
+    @PutMapping ("/update-password/{password}/{username}")
+    public ResponseEntity<UserDTO> addAdministratorToCompany(Authentication authentication, @PathVariable String password, @PathVariable String username) {
+        if (authentication != null && authentication.getPrincipal() instanceof User) {
+            String encodedPassword = passwordEncoder.encode(password);
+            UserDTO dto = new UserDTO (userService.updatePassword(encodedPassword, username));
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+    */
 }

@@ -7,7 +7,9 @@ import com.nfb.modules.stakeholders.core.domain.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +26,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     @GetMapping("/get-all")
     public ResponseEntity<List<UserDTO>> getUsers() {
@@ -38,12 +43,15 @@ public class UserController {
         return new ResponseEntity<>(usersDTO, HttpStatus.OK);
     }
 
+    /*
     //401 - ovaj PutMapping ne radi
     @PutMapping ("/update-password/{password}/{username}")
-    public ResponseEntity<UserDTO> addAdministratorToCompany(@PathVariable String password, @PathVariable String username) {
-        UserDTO dto = new UserDTO (userService.updatePassword(password, username));
+    public ResponseEntity<UserDTO> updatePassword(@PathVariable String password, @PathVariable String username) {
+        String encodedPassword = passwordEncoder.encode(password);
+        UserDTO dto = new UserDTO (userService.updatePassword(encodedPassword, username));
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
+    */
 
     @GetMapping("/is-system-administrator/{username}")
     public boolean isSystemAdministrator(@PathVariable String username) {

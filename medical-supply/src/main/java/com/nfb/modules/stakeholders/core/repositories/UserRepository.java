@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
     @Modifying
-    @Query("UPDATE User u SET u.password = :password WHERE u.username = :username")
+    @Query("UPDATE User u SET u.password = :password WHERE u.id = :id")
     @Transactional
-    User updatePassword(@Param("password") String password, @Param("username") String username);
+    User updatePassword(@Param("password") String password, @Param("id") long id);
 }
 
