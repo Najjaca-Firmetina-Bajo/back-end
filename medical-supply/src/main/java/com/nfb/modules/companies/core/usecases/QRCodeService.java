@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class QRCodeService {
@@ -135,11 +134,14 @@ public class QRCodeService {
         return returnList;
     }
 
-    public QRCode cancelQRCodeById(long id) {
+    public QRCode cancelQRCodeById(long id, Long userId) {
         Optional<QRCode> optionalQRCode = qrCodeRepository.findById(id);
+
+
 
         if (optionalQRCode.isPresent()) {
             QRCode qrCode = optionalQRCode.get();
+            if(!Objects.equals(qrCode.getUser().getId(), userId)) return null;
 
             if (qrCode.getStatus() != QRStatus.CANCELED) {
                 qrCode.setStatus(QRStatus.CANCELED);

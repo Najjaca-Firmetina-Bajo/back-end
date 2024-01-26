@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EquipmentService {
@@ -33,4 +34,13 @@ public class EquipmentService {
     }
     public List<Equipment> search(String name) { return equipmentRepository.findByNameContainingIgnoreCase(name); }
     public List<Equipment> findByIdIn(List<Long> ids) { return equipmentRepository.findByIdIn(ids); }
+
+    public Equipment getById(Long id) {
+        Optional<Equipment> equipmentOptional = equipmentRepository.findById(id);
+        return equipmentOptional.orElse(null);
+    }
+
+    public List<Equipment> getByIds(List<Long> ids) {
+        return equipmentRepository.findAllById(ids);
+    }
 }

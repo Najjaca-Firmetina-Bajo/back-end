@@ -70,4 +70,26 @@ public class EquipmentController {
         return new ResponseEntity<>(equipmentDtos, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<EquipmentDto> getById(@PathVariable Long id) {
+        Equipment equipment = equipmentService.getById(id);
+        if (equipment != null) {
+            return new ResponseEntity<>(new EquipmentDto(equipment), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/getByIds")
+    public ResponseEntity<List<EquipmentDto>> getByIds(@RequestParam List<Long> ids) {
+        List<Equipment> equipmentList = equipmentService.getByIds(ids);
+
+        List<EquipmentDto> equipmentDtos = new ArrayList<>();
+        for (Equipment e : equipmentList) {
+            equipmentDtos.add(new EquipmentDto(e));
+        }
+
+        return new ResponseEntity<>(equipmentDtos, HttpStatus.OK);
+    }
+
 }

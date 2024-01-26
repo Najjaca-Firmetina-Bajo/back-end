@@ -10,10 +10,14 @@ import com.nfb.modules.companies.core.usecases.AppointmentService;
 import com.nfb.modules.companies.core.usecases.QRCodeGenerator;
 import com.nfb.modules.companies.core.usecases.QRCodeService;
 import com.nfb.modules.companies.core.usecases.WorkingDayService;
+import com.nfb.modules.stakeholders.core.usecases.RegisteredUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -31,12 +35,16 @@ public class AppointmentController {
     private WorkingDayService workingDayService;
     @Autowired
     private QRCodeService qrCodeService;
+    @Autowired
+    private RegisteredUserService registeredUserService;
 
 
-    public AppointmentController(AppointmentService appointmentService,WorkingDayService workingDayService, QRCodeService qrCodeService) {
+
+    public AppointmentController(AppointmentService appointmentService,WorkingDayService workingDayService, QRCodeService qrCodeService, RegisteredUserService registeredUserService) {
         this.appointmentService = appointmentService;
         this.workingDayService = workingDayService;
         this.qrCodeService = qrCodeService;
+        this.registeredUserService = registeredUserService;
     }
 
     @GetMapping("/findBy/{workingDayId}")
@@ -129,7 +137,13 @@ public class AppointmentController {
 
     @PostMapping("/cancel-reservation/{id}")
     public ResponseEntity<QRCodeDto> cancelQRCode(@PathVariable long id) {
-        QRCode canceledQRCode = qrCodeService.cancelQRCodeById(id);
+        // Retrieve the user ID from the authentication token
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = ((UserDetails) authentication.getPrincipal()).getUsername();
+        Long userId = registeredUserService.getByUsername(username).getId();
+
+        // Now you have the user ID and can use it as needed
+        QRCode canceledQRCode = qrCodeService.cancelQRCodeById(id, userId);
 
         if (canceledQRCode != null) {
             QRCodeDto canceledQRCodeDto = new QRCodeDto(canceledQRCode);

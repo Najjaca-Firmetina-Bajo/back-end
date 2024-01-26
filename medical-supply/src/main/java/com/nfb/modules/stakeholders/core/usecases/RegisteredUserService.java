@@ -16,5 +16,8 @@ public class RegisteredUserService {
         this.registeredUserRepository = registeredUserRepository;
     }
 
+    public RegisteredUser getByUsername(String username) {
+        return registeredUserRepository.findByUsername(username);
+    }
     public List<RegisteredUser> getAll() { return registeredUserRepository.findAll(); }
 }
