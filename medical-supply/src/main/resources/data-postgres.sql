@@ -250,6 +250,12 @@ VALUES (2, true, 222, 1, 1004, 1003, '2023-02-07T15:10:00', 1005);
 INSERT INTO public.appointments (duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id)
 VALUES (4, false, 223, 0, 1004, 1004, '2023-03-08T15:10:00', 1006);
 
+INSERT INTO public.appointments (duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id)
+VALUES (4, false, 223, 0, 1004, 1005, '2024-03-06T15:10:00', 1006);
+
+INSERT INTO public.appointments (duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id)
+VALUES (4, false, 223, 0, 1004, 1006, '2024-03-09T15:10:00', 1006);
+
 -----------------------------------------------------------------------
 
 INSERT INTO public.qrcodes (appointment_id, id, registered_user_id, code, status)
@@ -263,6 +269,8 @@ VALUES (1003, 1003, 1003, '123ABC', 'DECLINED');
 
 INSERT INTO public.qrcodes (appointment_id, id, registered_user_id, code, status)
 VALUES (1004, 1004, 1003, 'ABC3123', 'CANCELED');
+
+
 -----------------------------------------------------------------------
 
 INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)

@@ -5,6 +5,7 @@ import com.nfb.modules.companies.API.dtos.QRCodeDto;
 import com.nfb.modules.companies.core.domain.appointment.Appointment;
 import com.nfb.modules.companies.core.domain.appointment.AppointmentType;
 import com.nfb.modules.companies.core.domain.appointment.QRCode;
+import com.nfb.modules.companies.core.domain.appointment.QRStatus;
 import com.nfb.modules.companies.core.domain.calendar.WorkingDay;
 import com.nfb.modules.companies.core.usecases.AppointmentService;
 import com.nfb.modules.companies.core.usecases.QRCodeGenerator;
@@ -77,13 +78,15 @@ public class AppointmentController {
 
     @GetMapping("/get-all-from-calendar/{id}")
     public ResponseEntity<List<AppointmentDto>> findByCompany(@PathVariable long id) {
-        List<Appointment> appointments = appointmentService.getAll();
+        List<Appointment> appointments = appointmentService.getAllAvailable();
         List<WorkingDay> days = workingDayService.getByWorkingCalendarId(id);
 
         List<AppointmentDto> dtos = new ArrayList<>();
         for (Appointment a : appointments) {
             if(days.stream().anyMatch(item -> a.getWorkingDay().getId() ==item.getId() ) ){
-                if(a.getPickUpDate().isAfter(LocalDateTime.now()) && a.getType() != AppointmentType.Extraordinary ){
+                if(a.getPickUpDate().isAfter(LocalDateTime.now()) &&
+                        a.getType() != AppointmentType.Extraordinary)
+                {
                     dtos.add(new AppointmentDto(a));
                 }
             }
