@@ -83,5 +83,5 @@ public class UserService {
         return userRepository.findByUsername(email);
     }
 
-    public User updatePassword(String password, long id) { return userRepository.updatePassword(password, id); }
+    public void updatePassword(String password, long id) { userRepository.updatePassword(password, id); }
 }

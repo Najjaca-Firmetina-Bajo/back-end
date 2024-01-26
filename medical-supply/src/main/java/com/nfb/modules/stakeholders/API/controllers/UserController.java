@@ -43,16 +43,6 @@ public class UserController {
         return new ResponseEntity<>(usersDTO, HttpStatus.OK);
     }
 
-    /*
-    //401 - ovaj PutMapping ne radi
-    @PutMapping ("/update-password/{password}/{username}")
-    public ResponseEntity<UserDTO> updatePassword(@PathVariable String password, @PathVariable String username) {
-        String encodedPassword = passwordEncoder.encode(password);
-        UserDTO dto = new UserDTO (userService.updatePassword(encodedPassword, username));
-        return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
-    */
-
     @GetMapping("/is-system-administrator/{username}")
     public boolean isSystemAdministrator(@PathVariable String username) {
         User user = userService.findByUsername(username);

@@ -41,12 +41,4 @@ public class SystemAdministratorController {
         systemAdministratorService.updatePasswordChanged(adminId);
     }
 
-    /*
-    @PutMapping ("/update-password/{password}/{username}")
-    public ResponseEntity<UserDTO> addAdministratorToCompany(@PathVariable String password, @PathVariable String username) {
-        String encodedPassword = passwordEncoder.encode(password);
-        UserDTO dto = new UserDTO (userService.updatePassword(encodedPassword, username));
-        return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
-    */
 }
