@@ -42,7 +42,8 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/api/companies/getAll",
             "/api/equipment/getAll",
-            "/api/companies/findById",
+            "/api/equipment/getByIds",
+            "/api/companies/findById/{id}",
     };
     @Bean
     public UserDetailsService userDetailsService(){
