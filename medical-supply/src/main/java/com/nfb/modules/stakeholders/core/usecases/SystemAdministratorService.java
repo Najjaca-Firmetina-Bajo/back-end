@@ -1,9 +1,12 @@
 package com.nfb.modules.stakeholders.core.usecases;
 
+import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import com.nfb.modules.stakeholders.core.domain.user.SystemAdministrator;
 import com.nfb.modules.stakeholders.core.repositories.SystemAdministratorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SystemAdministratorService {
@@ -24,4 +27,6 @@ public class SystemAdministratorService {
     }
 
     public void updatePasswordChanged(Long adminId) { systemAdministratorRepository.updatePasswordChanged(adminId); }
+
+    public List<SystemAdministrator> getAll() { return systemAdministratorRepository.findAll(); }
 }
