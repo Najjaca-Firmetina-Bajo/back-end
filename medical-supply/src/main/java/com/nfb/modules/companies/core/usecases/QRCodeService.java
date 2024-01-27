@@ -17,6 +17,8 @@ import com.nfb.modules.stakeholders.core.usecases.EmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -76,6 +78,9 @@ public class QRCodeService {
             if (user != null && appointment != null) {
                 Company company = appointment.getCompanyAdministrator().getCompany();
                 if(company == null) return null;
+
+                //TODO: dal korisnik ima vise od 3 penala
+                if(user.getPenalPoints() >= 3) return null;
 
                 List<CompanyEquipment> companyEquipmentList = company.getCompanyEquipmentList();
                 QRCode qrCode = new QRCode(qrCodeDto.getCode(), qrCodeDto.getStatus(), user, appointment);
@@ -143,17 +148,31 @@ public class QRCodeService {
         return returnList;
     }
 
-    public QRCode cancelQRCodeById(long id, Long userId) {
+    public QRCode cancelQRCodeById(long id, RegisteredUser registeredUser) {
         Optional<QRCode> optionalQRCode = qrCodeRepository.findById(id);
 
 
 
         if (optionalQRCode.isPresent()) {
             QRCode qrCode = optionalQRCode.get();
-            if(!Objects.equals(qrCode.getUser().getId(), userId)) return null;
+            if(!Objects.equals(qrCode.getUser().getId(), registeredUser)) return null;
+
+            if(qrCode.getAppointment().getPickUpDate().isBefore(LocalDateTime.now())) return null;
+
+
 
             if (qrCode.getStatus() != QRStatus.CANCELED) {
                 qrCode.setStatus(QRStatus.CANCELED);
+
+                Duration timeDifference = Duration.between(LocalDateTime.now(), qrCode.getAppointment().getPickUpDate());
+
+                // Check if the cancellation is within 24 hours of the appointment
+                if (timeDifference.toHours() < 24) {
+                    registeredUser.setPenalPoints(registeredUser.getPenalPoints() + 2); // Apply 2 penalty points
+                } else {
+                    registeredUser.setPenalPoints(registeredUser.getPenalPoints() + 1); // Apply 1 penalty point
+                }
+
                 return qrCodeRepository.save(qrCode);
             }
         }

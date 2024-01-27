@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +45,9 @@ public class QRCodeController {
 
         List<QRCodeDto> dtos = new ArrayList<>();
         for (QRCode q : qrCodes) {
-            dtos.add(new QRCodeDto(q));
+            if(q.getAppointment().getPickUpDate().isAfter(LocalDateTime.now())) {
+                dtos.add(new QRCodeDto(q));
+            }
         }
 
         return new ResponseEntity<>(dtos, HttpStatus.OK);

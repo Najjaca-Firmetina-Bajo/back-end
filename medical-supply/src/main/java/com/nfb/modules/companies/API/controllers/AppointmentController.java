@@ -11,6 +11,7 @@ import com.nfb.modules.companies.core.usecases.AppointmentService;
 import com.nfb.modules.companies.core.usecases.QRCodeGenerator;
 import com.nfb.modules.companies.core.usecases.QRCodeService;
 import com.nfb.modules.companies.core.usecases.WorkingDayService;
+import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
 import com.nfb.modules.stakeholders.core.usecases.RegisteredUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -146,10 +147,10 @@ public class AppointmentController {
         // Retrieve the user ID from the authentication token
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = ((UserDetails) authentication.getPrincipal()).getUsername();
-        Long userId = registeredUserService.getByUsername(username).getId();
+        RegisteredUser user = registeredUserService.getByUsername(username);
 
         // Now you have the user ID and can use it as needed
-        QRCode canceledQRCode = qrCodeService.cancelQRCodeById(id, userId);
+        QRCode canceledQRCode = qrCodeService.cancelQRCodeById(id, user);
 
         if (canceledQRCode != null) {
             QRCodeDto canceledQRCodeDto = new QRCodeDto(canceledQRCode);
