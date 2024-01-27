@@ -1,6 +1,10 @@
 package com.nfb.modules.stakeholders.core.usecases;
 
 
+import com.nfb.modules.companies.core.domain.appointment.Appointment;
+import com.nfb.modules.companies.core.domain.appointment.QRCode;
+import com.nfb.modules.companies.core.usecases.QRCodeGenerator;
+import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
 import com.nfb.modules.stakeholders.core.domain.user.User;
 import jakarta.activation.DataHandler;
 import jakarta.mail.MessagingException;
@@ -15,6 +19,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class EmailSender {
@@ -42,14 +48,16 @@ public class EmailSender {
     public void sendEmailWithAttachment(String mail, String subject, String message, byte[] attachment, String attachmentName) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
         helper.setTo(mail);
         helper.setFrom(FROM_EMAIL);
         helper.setSubject(subject);
-        helper.setText(message);
+
+        // Set the email body as HTML
+        helper.setText(message, true);
 
         MimeBodyPart textBodyPart = new MimeBodyPart();
-        textBodyPart.setText(message);
+        textBodyPart.setText(message, "UTF-8", "html");
 
         MimeBodyPart attachmentBodyPart = new MimeBodyPart();
         attachmentBodyPart.setDataHandler(new DataHandler(new ByteArrayDataSource(attachment, CONTENT_TYPE)));
@@ -81,6 +89,7 @@ public class EmailSender {
             e.printStackTrace();
         }
     }
+
 
     private String createHTML(User user){
         return "<!DOCTYPE html>\n" +
@@ -141,5 +150,28 @@ public class EmailSender {
 
     private String buildServerUrl() {
         return ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+    }
+
+    @Async
+    public void sendQREmail(RegisteredUser user, QRCode qrCode) {
+        try {
+            // Generate QR code image
+            String data = user.getId() + "|" + qrCode.getId() + "|" + qrCode.getAppointment().getPickUpDate().format(DateTimeFormatter.ISO_DATE);
+            byte[] qrCodeImage = QRCodeGenerator.generateQRCodeImage(data, 200, 200);
+            // Construct a more professional email body
+            String subject = "NFB Medical Supplies - Reservation Confirmation";
+            String greeting = "Dear " + user.getName() + ",";
+            String introduction = "Thank you for choosing NFB Medical Supplies. Your reservation has been confirmed.";
+            String reservationDetails = "Reservation Details:";
+            String reservationInfo = "Date: " + qrCode.getAppointment().getPickUpDate().format(DateTimeFormatter.ofPattern("MMM dd, yyyy")) +
+                    "<br>Reservation Code: " + qrCode.getId() +
+                    "<br><br> Please find your QR code for the reservation attached to this email.";
+
+            // Send email with attachment and professional body
+            sendEmailWithAttachment(user.getUsername(), subject, greeting + "<br><br>" + introduction + "<br><br>" +
+                    reservationDetails + "<br>" + reservationInfo, qrCodeImage, "reservation_qr_code.png");} catch (Exception e) {
+            // Handle exception
+            e.printStackTrace();
+        }
     }
 }

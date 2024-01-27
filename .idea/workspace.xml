@@ -7,6 +7,9 @@
     <list default="true" id="b85d43e3-960f-45a6-82cf-64279029b517" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/controllers/AppointmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/controllers/AppointmentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/usecases/QRCodeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/usecases/QRCodeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/core/usecases/EmailSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/core/usecases/EmailSender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/resources/data-postgres.sql" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/resources/data-postgres.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +128,8 @@
       <workItem from="1706102035684" duration="1387000" />
       <workItem from="1706117101668" duration="16392000" />
       <workItem from="1706187203224" duration="5456000" />
-      <workItem from="1706293449595" duration="5989000" />
+      <workItem from="1706293449595" duration="6152000" />
+      <workItem from="1706363080954" duration="2849000" />
     </task>
     <servers />
   </component>
@@ -160,7 +164,7 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/usecases/QRCodeService.java</url>
-          <line>61</line>
+          <line>65</line>
           <properties class="com.nfb.modules.companies.core.usecases.QRCodeService" method="addQRCodeFromDto">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -169,12 +173,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/controllers/AppointmentController.java</url>
-          <line>145</line>
+          <line>146</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/controllers/AppointmentController.java</url>
-          <line>131</line>
+          <line>132</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>

@@ -103,6 +103,7 @@ public class AppointmentController {
             // Convert the appointment ID to a string
             String data = String.valueOf(appointmentId);
 
+
             // Assuming you have a utility method to generate the QR code image
             byte[] qrCodeImage = QRCodeGenerator.generateQRCodeImage(data, 200, 200);
 

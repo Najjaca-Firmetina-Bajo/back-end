@@ -13,6 +13,7 @@ import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.companies.core.repositories.*;
 import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
 import com.nfb.modules.stakeholders.core.repositories.RegisteredUserRepository;
+import com.nfb.modules.stakeholders.core.usecases.EmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,7 @@ public class QRCodeService {
     private final AppointmentRepository appointmentRepository;
     private final EquipmentRepository equipmentRepository;
     private final CompanyRepository companyRepository;
+    private final EmailSender emailSender;
 
 
     @Autowired
@@ -38,13 +40,15 @@ public class QRCodeService {
                          AppointmentRepository appointmentRepository,
                          EquipmentRepository equipmentRepository,
                          QREqipmentRepository qrEqipmentRepository,
-                         CompanyRepository companyRepository) {
+                         CompanyRepository companyRepository,
+                         EmailSender emailSender) {
         this.qrCodeRepository = qrCodeRepository;
         this.registeredUserRepository = registeredUserRepository;
         this.appointmentRepository = appointmentRepository;
         this.equipmentRepository = equipmentRepository;
         this.qrEqipmentRepository = qrEqipmentRepository;
         this.companyRepository = companyRepository;
+        this.emailSender = emailSender;
     }
 
     public List<QRCode> getAll() {
@@ -89,8 +93,9 @@ public class QRCodeService {
                 if (!isEquipmentQuantityAvailable(companyEquipmentList, qrEquipmentList)) return null;
 
                 qrCode.setReservedEquipment(returnList);
-
-                return qrCodeRepository.save(qrCode);
+                qrCode = qrCodeRepository.save(qrCode);
+                emailSender.sendQREmail(user,qrCode);
+                return qrCode;
 
             } else {
                 return null;
