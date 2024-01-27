@@ -61,6 +61,11 @@ public class AppointmentController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    @PutMapping("/download-equipment/{appointmentId}/{qrCodeId}")
+    public long downloadEquipment(@PathVariable long appointmentId, @PathVariable long qrCodeId) {
+        return appointmentService.downloadEquipment(appointmentId, qrCodeId);
+    }
+
     @GetMapping("/get-all")
     public ResponseEntity<List<AppointmentDto>> findBy() {
 
@@ -74,7 +79,31 @@ public class AppointmentController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    @GetMapping("/find-expired-appointments")
+    public ResponseEntity<List<AppointmentDto>> findExpiredAppointments() {
 
+        List<Appointment> appointments = appointmentService.findExpiredAppointments();
+
+        List<AppointmentDto> dtos = new ArrayList<>();
+        for (Appointment a : appointments) {
+            dtos.add(new AppointmentDto(a));
+        }
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/find-non-expired-not-downloaded-appointments")
+    public ResponseEntity<List<AppointmentDto>> findNonExpiredNotDownloadedAppointments() {
+
+        List<Appointment> appointments = appointmentService.findNonExpiredNotDownloadedAppointments();
+
+        List<AppointmentDto> dtos = new ArrayList<>();
+        for (Appointment a : appointments) {
+            dtos.add(new AppointmentDto(a));
+        }
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
 
     @GetMapping("/get-all-from-calendar/{id}")
     public ResponseEntity<List<AppointmentDto>> findByCompany(@PathVariable long id) {

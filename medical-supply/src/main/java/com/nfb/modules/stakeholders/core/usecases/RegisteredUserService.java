@@ -19,5 +19,15 @@ public class RegisteredUserService {
     public RegisteredUser getByUsername(String username) {
         return registeredUserRepository.findByUsername(username);
     }
+
+    public RegisteredUser findById(long id) { return registeredUserRepository.findById(id); }
+
     public List<RegisteredUser> getAll() { return registeredUserRepository.findAll(); }
+
+    public int givePenalPoints(long userId) {
+        RegisteredUser ru = registeredUserRepository.findById(userId);
+        int penalPoints = ru.getPenalPoints() + 2;
+        registeredUserRepository.updatePenalPoints(penalPoints, userId);
+        return penalPoints;
+    }
 }

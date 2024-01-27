@@ -174,4 +174,49 @@ public class EmailSender {
             e.printStackTrace();
         }
     }
+
+    @Async
+    public void sendReservationExecutionEmail(RegisteredUser user, QRCode qrCode) {
+        try {
+            // Construct a more professional email body
+            String subject = "NFB Medical Supplies - Reservation Execution";
+            String greeting = "Dear " + user.getName() + ",";
+            String introduction = "Thank you for choosing NFB Medical Supplies. Your reservation has been executed.";
+            String reservationDetails = "Reservation Details:";
+            String reservationInfo = "Date: " + qrCode.getAppointment().getPickUpDate().format(DateTimeFormatter.ofPattern("MMM dd, yyyy")) +
+                    "<br>Reservation Code: " + qrCode.getId() +
+                    "<br><br> Best regards!" + "<br> Your NFB Medical Supplies";
+
+            // Send email
+            sending(user.getUsername(), subject, greeting + "<br><br>" + introduction + "<br><br>" +
+                      reservationDetails + "<br>" + reservationInfo); }
+        catch (Exception e) {
+            // Handle exception
+            e.printStackTrace();
+        }
+    }
+
+    @Async
+    public void sending(String mail, String subject, String message) throws MessagingException {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+        helper.setTo(mail);
+        helper.setFrom(FROM_EMAIL);
+        helper.setSubject(subject);
+
+        // Set the email body as HTML
+        helper.setText(message, true);
+
+        MimeBodyPart textBodyPart = new MimeBodyPart();
+        textBodyPart.setText(message, "UTF-8", "html");
+
+        MimeMultipart multipart = new MimeMultipart();
+        multipart.addBodyPart(textBodyPart);
+
+        // Set the multipart content to the mime message
+        mimeMessage.setContent(multipart);
+
+        javaMailSender.send(mimeMessage);
+    }
 }

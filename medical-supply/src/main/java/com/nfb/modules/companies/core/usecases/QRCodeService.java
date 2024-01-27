@@ -55,6 +55,8 @@ public class QRCodeService {
         return qrCodeRepository.findAll();
     }
 
+    public QRCode findById(long id) { return qrCodeRepository.findById(id).orElse(null); }
+
     public List<QRCode> getByAppointmentId(long appointmentId) {
         return qrCodeRepository.findByAppointmentId(appointmentId);
     }
