@@ -24,13 +24,12 @@ public class CompanyController {
         this.companyService = companyService;
     }
 
-    //TODO: fix the companyEqipment adding
-    /*@PostMapping("/register")
+    @PostMapping("/register")
     public ResponseEntity<CompanyDto> registerCompany(@RequestBody CompanyDto companyDto) {
-        Company company = companyService.prepareCompanyModel(companyDto.getId(), companyDto.getName(), companyDto.getAddress(), companyDto.getAverageRating(), companyDto.getAvailableEquipmentIds());
+        Company company = companyService.prepareCompanyModel(companyDto.getId(), companyDto.getName(), companyDto.getAddress(), companyDto.getAverageRating());
         company = companyService.register(company);
         return new ResponseEntity<>(new CompanyDto(company), HttpStatus.CREATED);
-    }*/
+    }
 
     @GetMapping("/getCompaniesForEquipment/{companiesIds}")
     public ResponseEntity<List<CompanyDto>> getCompaniesForEquipment(@PathVariable List<Long> companiesIds) {

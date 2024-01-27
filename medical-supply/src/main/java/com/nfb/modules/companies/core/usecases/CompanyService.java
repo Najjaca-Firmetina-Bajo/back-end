@@ -29,9 +29,8 @@ public class CompanyService   {
 
     public Company register(Company company) { return companyRepository.save(company); }
     public List<Company> getAll() { return companyRepository.findAll(); }
-    public Company prepareCompanyModel(Long companyId, String name, String address, double rating, List<Long> availableEquipmentIds)
+    public Company prepareCompanyModel(Long companyId, String name, String address, double rating)
     {
-        List<Equipment> availableEquipment = equipmentService.findByIdIn(availableEquipmentIds);
         Company company = companyRepository.findById(companyId).orElse(null);
         List<CompanyAdministrator> admins = companyAdministratorService.findByCompany(company);
         return new Company(name, address, rating, admins);
