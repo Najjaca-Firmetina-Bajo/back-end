@@ -155,7 +155,7 @@ public class QRCodeService {
 
         if (optionalQRCode.isPresent()) {
             QRCode qrCode = optionalQRCode.get();
-            if(!Objects.equals(qrCode.getUser().getId(), registeredUser)) return null;
+            if(!Objects.equals(qrCode.getUser().getId(), registeredUser.getId())) return null;
 
             if(qrCode.getAppointment().getPickUpDate().isBefore(LocalDateTime.now())) return null;
 
