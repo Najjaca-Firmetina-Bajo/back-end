@@ -281,10 +281,10 @@ INSERT INTO public.qrcodes (appointment_id, id, registered_user_id, code, status
 VALUES (1001, 1001, 1001, 'ABC123', 'NEW');
 
 INSERT INTO public.qrcodes (appointment_id, id, registered_user_id, code, status)
-VALUES (1002, 1002, 1002, 'XYZ456', 'PROCESSED');
+VALUES (1002, 1002, 1003, 'XYZ456', 'PROCESSED');
 
 INSERT INTO public.qrcodes (appointment_id, id, registered_user_id, code, status)
-VALUES (1003, 1003, 1003, '123ABC', 'DECLINED');
+VALUES (1003, 1003, 1006, '123ABC', 'DECLINED');
 
 INSERT INTO public.qrcodes (appointment_id, id, registered_user_id, code, status)
 VALUES (1004, 1004, 1003, 'ABC3123', 'CANCELED');

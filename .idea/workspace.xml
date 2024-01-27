@@ -6,9 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="b85d43e3-960f-45a6-82cf-64279029b517" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/controllers/AppointmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/controllers/AppointmentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/controllers/QRCodeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/controllers/QRCodeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/repositories/QRCodeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/repositories/QRCodeRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/usecases/QRCodeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/usecases/QRCodeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/core/usecases/EmailSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/core/usecases/EmailSender.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/medical-supply/src/main/resources/data-postgres.sql" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/resources/data-postgres.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -129,7 +129,7 @@
       <workItem from="1706117101668" duration="16392000" />
       <workItem from="1706187203224" duration="5456000" />
       <workItem from="1706293449595" duration="6152000" />
-      <workItem from="1706363080954" duration="2849000" />
+      <workItem from="1706363080954" duration="4175000" />
     </task>
     <servers />
   </component>
@@ -164,7 +164,7 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/usecases/QRCodeService.java</url>
-          <line>65</line>
+          <line>69</line>
           <properties class="com.nfb.modules.companies.core.usecases.QRCodeService" method="addQRCodeFromDto">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />

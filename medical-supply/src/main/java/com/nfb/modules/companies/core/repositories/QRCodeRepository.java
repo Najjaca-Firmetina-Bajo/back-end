@@ -11,5 +11,6 @@ import java.util.List;
 @Repository
 public interface QRCodeRepository extends JpaRepository<QRCode, Long> {
     List<QRCode> findByAppointmentId(long appointmentId);
+    List<QRCode> findByRegisteredUser_Id(Long registeredUserId);
     boolean existsByReservedEquipmentInAndAppointment(List<Equipment> reservedEquipment, Appointment appointment);
 }

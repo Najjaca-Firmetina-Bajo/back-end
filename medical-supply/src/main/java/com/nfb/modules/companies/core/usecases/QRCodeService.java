@@ -59,6 +59,10 @@ public class QRCodeService {
         return qrCodeRepository.findByAppointmentId(appointmentId);
     }
 
+    public List<QRCode> getByUserId(long userId) {
+        return qrCodeRepository.findByRegisteredUser_Id(userId);
+    }
+
     public QRCode addQRCode(QRCode qrCode) {
         return qrCodeRepository.save(qrCode);
     }

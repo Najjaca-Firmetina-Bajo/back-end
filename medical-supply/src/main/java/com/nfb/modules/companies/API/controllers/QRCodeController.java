@@ -8,10 +8,7 @@ import com.nfb.modules.companies.core.usecases.QRCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,4 +37,18 @@ public class QRCodeController {
 
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
+
+    @GetMapping("/get-all-by-user/{id}")
+    public ResponseEntity<List<QRCodeDto>> getAllByUser(@PathVariable Long id) {
+        List<QRCode> qrCodes = qrCodeService.getByUserId(id);
+
+        List<QRCodeDto> dtos = new ArrayList<>();
+        for (QRCode q : qrCodes) {
+            dtos.add(new QRCodeDto(q));
+        }
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+
 }
