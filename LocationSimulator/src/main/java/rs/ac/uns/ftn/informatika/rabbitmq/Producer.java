@@ -27,8 +27,8 @@ public class Producer {
 		log.info("Sending> ... Message=[ " + message + " ] RoutingKey=[" + routingkey + "]");
 		this.rabbitTemplate.convertAndSend(routingkey, message);
 	}
-	
-	
+
+
 	/*
 	 * U ovom slucaju routingKey ce biti ime queue.
 	 * Poruka se salje u exchange ciji je naziv prosledjen kao prvi parametar i
@@ -38,4 +38,6 @@ public class Producer {
 		log.info("Sending> ... Message=[ " + message + " ] Exchange=[" + exchange + "] RoutingKey=[" + routingkey + "]");
 		this.rabbitTemplate.convertAndSend(exchange, routingkey, message);
 	}
+
+
 }

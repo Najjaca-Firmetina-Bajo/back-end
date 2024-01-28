@@ -2,29 +2,23 @@ package rs.ac.uns.ftn.informatika.rabbitmq;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "api")
 public class ProducerController {
-	
+
 	@Autowired
-	private Producer producer;
-	
+	private LocationSimulatorService simulatorService;
+
 	@PostMapping(value="/{queue}", consumes = "text/plain")
-	public ResponseEntity<String> sendMessage(@PathVariable("queue") String queue, @RequestBody String message) {
-		producer.sendTo(queue, message);
+	public ResponseEntity<String> sendMessage(
+			@PathVariable("queue") String queue,
+			@RequestParam(value = "frequency", defaultValue = "30") int frequencyInSeconds
+	) {
+		simulatorService.simulateRoute(queue, frequencyInSeconds);
 		return ResponseEntity.ok().build();
 	}
-	
-	@PostMapping(value="/{exchange}/{queue}", consumes = "text/plain")
-	public ResponseEntity<String> sendMessageToExchange(@PathVariable("exchange") String exchange, @PathVariable("queue") String queue, @RequestBody String message) {
-		producer.sendToExchange(exchange, queue, message);
-		return ResponseEntity.ok().build();
-	}
+
 
 }
