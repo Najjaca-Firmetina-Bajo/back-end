@@ -7,12 +7,16 @@ import com.nfb.modules.companies.core.domain.appointment.QRStatus;
 import com.nfb.modules.companies.core.repositories.AppointmentRepository;
 import com.nfb.modules.companies.core.repositories.CompanyRepository;
 import com.nfb.modules.companies.core.repositories.EquipmentRepository;
+import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
 import com.nfb.modules.stakeholders.core.repositories.RegisteredUserRepository;
 import com.nfb.modules.stakeholders.core.repositories.UserRepository;
 import com.nfb.modules.stakeholders.core.usecases.CompanyAdministratorService;
+import com.nfb.modules.stakeholders.core.usecases.EmailSender;
+import com.nfb.modules.stakeholders.core.usecases.RegisteredUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,17 +24,40 @@ import java.util.stream.Collectors;
 public class AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
-    private final RegisteredUserRepository registeredUserRepository;
-    private final EquipmentRepository equipmentRepository;
+    private final RegisteredUserService registeredUserService;
+    private final QRCodeService qrCodeService;
+    private final EmailSender emailSender;
+
     @Autowired
-    public AppointmentService(AppointmentRepository appointmentRepository,RegisteredUserRepository registeredUserRepository,EquipmentRepository equipmentRepository) {
+    public AppointmentService(AppointmentRepository appointmentRepository, RegisteredUserService registeredUserService, QRCodeService qrCodeService, EmailSender emailSender) {
         this.appointmentRepository = appointmentRepository;
-        this.registeredUserRepository = registeredUserRepository;
-        this.equipmentRepository = equipmentRepository;
+        this.registeredUserService = registeredUserService;
+        this.qrCodeService = qrCodeService;
+        this.emailSender = emailSender;
     }
 
 
     public List<Appointment> getAll() { return appointmentRepository.findAll(); }
+
+    public List<Appointment> findDownloadedAppointments() { return appointmentRepository.findDownloadedAppointments(); }
+
+    public long downloadEquipment(long appointmentId, long qrCodeId) {
+        appointmentRepository.updateIsDownloaded(true, appointmentId);
+        QRCode qr = qrCodeService.findById(qrCodeId);
+        RegisteredUser ru = qr.getRegisteredUser();
+        emailSender.sendReservationExecutionEmail(ru, qr);
+        return appointmentId;
+    }
+
+    public List<Appointment> findExpiredAppointments() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        return appointmentRepository.findExpiredAppointments(currentDateTime);
+    }
+
+    public List<Appointment> findNonExpiredNotDownloadedAppointments() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        return appointmentRepository.findNonExpiredNotDownloadedAppointments(currentDateTime);
+    }
 
     public List<Appointment> getAllAvailable() {
         return appointmentRepository.findAll().stream()
