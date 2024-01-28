@@ -79,6 +79,19 @@ public class AppointmentController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    @GetMapping("/find-downloaded-appointments")
+    public ResponseEntity<List<AppointmentDto>> findDownloadedAppointments() {
+
+        List<Appointment> appointments = appointmentService.findDownloadedAppointments();
+
+        List<AppointmentDto> dtos = new ArrayList<>();
+        for (Appointment a : appointments) {
+            dtos.add(new AppointmentDto(a));
+        }
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
     @GetMapping("/find-expired-appointments")
     public ResponseEntity<List<AppointmentDto>> findExpiredAppointments() {
 

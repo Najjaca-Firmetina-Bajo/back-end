@@ -39,6 +39,8 @@ public class AppointmentService {
 
     public List<Appointment> getAll() { return appointmentRepository.findAll(); }
 
+    public List<Appointment> findDownloadedAppointments() { return appointmentRepository.findDownloadedAppointments(); }
+
     public long downloadEquipment(long appointmentId, long qrCodeId) {
         appointmentRepository.updateIsDownloaded(true, appointmentId);
         QRCode qr = qrCodeService.findById(qrCodeId);

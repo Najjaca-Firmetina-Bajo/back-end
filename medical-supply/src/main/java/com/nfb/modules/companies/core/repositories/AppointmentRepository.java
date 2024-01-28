@@ -27,5 +27,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Query("SELECT a FROM Appointment a WHERE a.pickUpDate >= :currentDate AND a.isDownloaded = false")
     List<Appointment> findNonExpiredNotDownloadedAppointments(@Param("currentDate") LocalDateTime currentDate);
 
+    @Query("SELECT a FROM Appointment a WHERE a.isDownloaded = true")
+    List<Appointment> findDownloadedAppointments();
+
 
 }
