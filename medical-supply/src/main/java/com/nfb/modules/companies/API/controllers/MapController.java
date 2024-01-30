@@ -41,7 +41,7 @@ public class MapController {
 
         // Create headers
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.TEXT_PLAIN); 
+        headers.setContentType(MediaType.TEXT_PLAIN);
 
         // Create a request entity with the desired body
         HttpEntity<String> requestEntity = new HttpEntity<>("hello", headers);
