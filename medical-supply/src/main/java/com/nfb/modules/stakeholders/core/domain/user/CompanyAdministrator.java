@@ -36,7 +36,7 @@ public class CompanyAdministrator extends User{
         return company;
     }
 
-    private void setCompany(Company company) {
+    public void setCompany(Company company) {
         this.company = company;
     }
 
@@ -44,7 +44,7 @@ public class CompanyAdministrator extends User{
         return appointments;
     }
 
-    private void setAppointments(List<Appointment> appointments) {
+    public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
     }
 }

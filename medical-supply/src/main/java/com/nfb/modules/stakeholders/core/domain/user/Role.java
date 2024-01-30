@@ -20,6 +20,11 @@ public class Role implements GrantedAuthority {
     @Column(name="name")
     String name;
 
+    public Role(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     @JsonIgnore
     @Override
     public String getAuthority() {

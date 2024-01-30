@@ -16,6 +16,9 @@ import com.nfb.modules.stakeholders.core.repositories.RegisteredUserRepository;
 import com.nfb.modules.stakeholders.core.usecases.EmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -71,6 +74,8 @@ public class QRCodeService {
         return qrCodeRepository.save(qrCode);
     }
 
+    //@Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public QRCode addQRCodeFromDto(QRCodeDto qrCodeDto) {
         try {
             RegisteredUser user = registeredUserRepository.findById(qrCodeDto.getRegisteredUserId()).orElse(null);
@@ -79,10 +84,17 @@ public class QRCodeService {
 
             if (user != null && appointment != null) {
                 Company company = appointment.getCompanyAdministrator().getCompany();
-                if(company == null) return null;
+                if(company == null) {
+                    System.out.println("Company is null");
+                    return null;
+                }
+
 
                 //TODO: dal korisnik ima vise od 3 penala
-                if(user.getPenalPoints() >= 3) return null;
+                if(user.getPenalPoints() >= 3) {
+                    System.out.println("User has 3+ penal points");
+                    return null;
+                }
 
                 List<CompanyEquipment> companyEquipmentList = company.getCompanyEquipmentList();
                 QRCode qrCode = new QRCode(qrCodeDto.getCode(), qrCodeDto.getStatus(), user, appointment);
@@ -92,29 +104,46 @@ public class QRCodeService {
 
                 //dal su ispravni svi eqipID
                 List<QREquipment> returnList = getQrEquipments(qrEquipmentList, qrCode);
-                if (returnList == null) return null;
+                if (returnList == null) {
+                    System.out.println("OREquipment list is null");
+                    return null;
+                }
 
                 //TODO: dal je ko rezervisao
-                if(!appointment.getQRCodes().isEmpty() || appointment.getQRCodes() == null) return null;
+                if(!appointment.getQRCodes().isEmpty() || appointment.getQRCodes() == null) {
+                    System.out.println("1");
+                    return null;
+                }
 
                 //TODO: dal je korisnik vec rezervisao ranije
-                if (appointment.getCanceledQRCodes().stream().anyMatch(qr -> qr.getUser() != null && qr.getUser().getId().equals(user.getId()))) return null;  // User has already made a reservation
+                if (appointment.getCanceledQRCodes().stream().anyMatch(qr -> qr.getUser() != null && qr.getUser().getId().equals(user.getId()))) {
+                    System.out.println("2");
+                    return null;
+                }  // User has already made a reservation
 
                 //TODO: dal je kolicina opreme na lageru uopste
-                if (!isEquipmentQuantityAvailable(companyEquipmentList, qrEquipmentList)) return null;
+                if (!isEquipmentQuantityAvailable(companyEquipmentList, qrEquipmentList)) {
+                    System.out.println("3");
+                    return null;
+                }
 
+                System.out.println("A");
                 qrCode.setReservedEquipment(returnList);
+                System.out.println("B");
                 qrCode = qrCodeRepository.save(qrCode);
+                System.out.println("C");
                 emailSender.sendQREmail(user,qrCode);
+                System.out.println("D");
                 return qrCode;
 
             } else {
+                System.out.println("!(user != null && appointment != null)");
                 return null;
             }
         } catch (Exception e) {
+            System.out.println("e");
             return null;
         }
-
     }
 
     private boolean isEquipmentQuantityAvailable(List<CompanyEquipment> companyEquipmentList, List<EquipmentQuantityDto> qrEquipmentList) {
@@ -127,7 +156,14 @@ public class QRCodeService {
                     .findFirst()
                     .orElse(null);
 
+            //for(CompanyEquipment ce: companyEquipmentList) {
+            //    System.out.println(ce.getEquipment().getId());
+            //}
+            //System.out.println(equipmentId);
+
             if (companyEquipment == null || companyEquipment.getQuantity() < requestedQuantity) {
+                System.out.println(companyEquipment == null);
+                System.out.println(companyEquipment.getQuantity() < requestedQuantity);
                 return false;
             }
         }

@@ -44,7 +44,7 @@ public class Equipment extends BaseEntity {
         return price;
     }
 
-    private void setPrice(double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -56,15 +56,15 @@ public class Equipment extends BaseEntity {
         this.companyEquipmentList = companyEquipmentList;
     }
 
-    private void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    private void setType(String type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    private void setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

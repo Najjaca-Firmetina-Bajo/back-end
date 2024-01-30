@@ -41,7 +41,7 @@ public class Company extends BaseEntity {
         return workingCalendar;
     }
 
-    private void setWorkingCalendar(WorkingCalendar workingCalendar) {
+    public void setWorkingCalendar(WorkingCalendar workingCalendar) {
         this.workingCalendar = workingCalendar;
     }
 
@@ -49,7 +49,7 @@ public class Company extends BaseEntity {
         return administrators;
     }
 
-    private void setAdministrators(List<CompanyAdministrator> administrators) {
+    public void setAdministrators(List<CompanyAdministrator> administrators) {
         this.administrators = administrators;
     }
 
@@ -61,15 +61,15 @@ public class Company extends BaseEntity {
         this.companyEquipmentList = companyEquipmentList;
     }
 
-    private void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    private void setAddress(String address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
-    private void setAverageRating(double averageRating) {
+    public void setAverageRating(double averageRating) {
         this.averageRating = averageRating;
     }
 

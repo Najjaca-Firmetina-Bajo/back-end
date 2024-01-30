@@ -45,7 +45,7 @@ public class Appointment extends BaseEntity {
         return workingDay;
     }
 
-    private void setWorkingDay(WorkingDay workingDay) {
+    public void setWorkingDay(WorkingDay workingDay) {
         this.workingDay = workingDay;
     }
 
@@ -53,7 +53,7 @@ public class Appointment extends BaseEntity {
         return pickUpDate;
     }
 
-    private void setPickUpDate(LocalDateTime pickUpDate) {
+    public void setPickUpDate(LocalDateTime pickUpDate) {
         this.pickUpDate = pickUpDate;
     }
 
@@ -61,7 +61,7 @@ public class Appointment extends BaseEntity {
         return type;
     }
 
-    private void setType(AppointmentType type) {
+    public void setType(AppointmentType type) {
         this.type = type;
     }
 
@@ -69,7 +69,7 @@ public class Appointment extends BaseEntity {
         return duration;
     }
 
-    private void setDuration(int duration) {
+    public void setDuration(int duration) {
         this.duration = duration;
     }
 
@@ -77,7 +77,7 @@ public class Appointment extends BaseEntity {
         return isDownloaded;
     }
 
-    private void setDownloaded(boolean downloaded) {
+    public void setDownloaded(boolean downloaded) {
         isDownloaded = downloaded;
     }
 
@@ -85,7 +85,7 @@ public class Appointment extends BaseEntity {
         return reservationNumber;
     }
 
-    private void setReservationNumber(int reservationNumber) {
+    public void setReservationNumber(int reservationNumber) {
         this.reservationNumber = reservationNumber;
     }
 
@@ -93,7 +93,7 @@ public class Appointment extends BaseEntity {
         return companyAdministrator;
     }
 
-    private void setCompanyAdministrator(CompanyAdministrator companyAdministrator) {
+    public void setCompanyAdministrator(CompanyAdministrator companyAdministrator) {
         this.companyAdministrator = companyAdministrator;
     }
 
