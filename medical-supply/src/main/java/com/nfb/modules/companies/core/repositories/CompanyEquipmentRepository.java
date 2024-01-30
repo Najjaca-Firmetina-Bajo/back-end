@@ -1,10 +1,10 @@
 package com.nfb.modules.companies.core.repositories;
 
 import com.nfb.modules.companies.core.domain.company.CompanyEquipment;
+import jakarta.persistence.LockModeType;
+import jakarta.persistence.QueryHint;
 import jakarta.transaction.Transactional;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +14,10 @@ public interface CompanyEquipmentRepository extends JpaRepository<CompanyEquipme
     @Modifying
     @Query("UPDATE CompanyEquipment ce SET ce.quantity = :quantity WHERE ce.equipment.id = :equipmentId AND ce.company.id = :companyId")
     @Transactional
+    /*
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="0")})
+    */
     void updateQuantity(@Param("equipmentId") long equipmentId, @Param("companyId") long companyId, @Param("quantity") int quantity);
 
     @Query("SELECT ce FROM CompanyEquipment ce WHERE ce.company.id = :companyId AND ce.equipment.id = :equipmentId")

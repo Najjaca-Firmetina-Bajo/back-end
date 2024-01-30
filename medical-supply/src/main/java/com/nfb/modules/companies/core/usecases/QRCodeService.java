@@ -74,8 +74,8 @@ public class QRCodeService {
         return qrCodeRepository.save(qrCode);
     }
 
-    //@Transactional(propagation = Propagation.REQUIRES_NEW)
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
+
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public QRCode addQRCodeFromDto(QRCodeDto qrCodeDto) {
         try {
             RegisteredUser user = registeredUserRepository.findById(qrCodeDto.getRegisteredUserId()).orElse(null);
@@ -127,13 +127,9 @@ public class QRCodeService {
                     return null;
                 }
 
-                System.out.println("A");
                 qrCode.setReservedEquipment(returnList);
-                System.out.println("B");
                 qrCode = qrCodeRepository.save(qrCode);
-                System.out.println("C");
                 emailSender.sendQREmail(user,qrCode);
-                System.out.println("D");
                 return qrCode;
 
             } else {
@@ -155,11 +151,6 @@ public class QRCodeService {
                     .filter(ce -> ce.getEquipment().getId() == equipmentId)
                     .findFirst()
                     .orElse(null);
-
-            //for(CompanyEquipment ce: companyEquipmentList) {
-            //    System.out.println(ce.getEquipment().getId());
-            //}
-            //System.out.println(equipmentId);
 
             if (companyEquipment == null || companyEquipment.getQuantity() < requestedQuantity) {
                 System.out.println(companyEquipment == null);

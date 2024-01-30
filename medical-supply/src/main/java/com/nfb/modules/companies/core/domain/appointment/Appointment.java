@@ -36,6 +36,9 @@ public class Appointment extends BaseEntity {
     @JoinColumn(name = "working_day_id")
     private WorkingDay workingDay;
 
+    //@Version
+    //private Long version;
+
 
     public Appointment() {
     }
@@ -114,4 +117,14 @@ public class Appointment extends BaseEntity {
     public void setQRCodes(List<QRCode> QRCodes) {
         this.QRCodes = QRCodes;
     }
+
+    /*
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+    */
 }
