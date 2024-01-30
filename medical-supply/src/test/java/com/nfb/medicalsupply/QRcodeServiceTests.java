@@ -261,8 +261,8 @@ public class QRcodeServiceTests {
 
     }
 
-    /*
-    @Test
+
+    /*@Test
     public void addQRCodeFromDtoTest1() {
         Role r = new Role((long)0, "REGISTERED_USER");
 
@@ -415,6 +415,6 @@ public class QRcodeServiceTests {
         assertThat(retVal[1]).isNull();
         //assertThat(retVal[1].getCode()).isEqualTo("XYZ123");
 
-    }
-    */
+    }*/
+
 }
