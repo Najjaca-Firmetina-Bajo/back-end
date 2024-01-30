@@ -1,8 +1,6 @@
 package com.nfb.modules.stakeholders.core.usecases;
 
 import com.nfb.modules.companies.core.domain.company.Company;
-import com.mailjet.client.errors.MailjetException;
-import com.mailjet.client.errors.MailjetSocketTimeoutException;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
 import com.nfb.modules.stakeholders.core.domain.user.User;
