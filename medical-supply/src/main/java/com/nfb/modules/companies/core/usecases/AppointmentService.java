@@ -72,4 +72,7 @@ public class AppointmentService {
     }
     public List<Appointment> getBy(long workingDayId) { return appointmentRepository.findByWorkingDayId(workingDayId); }
 
+    public Appointment getById(long id) {
+        return appointmentRepository.getById(id);
+    }
 }

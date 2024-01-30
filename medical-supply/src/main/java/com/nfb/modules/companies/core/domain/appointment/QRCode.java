@@ -29,8 +29,8 @@ public class QRCode extends BaseEntity {
     @OneToMany(mappedBy = "qrCode", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QREquipment> reservedEquipment;
 
-    //@Version
-    //private Long version;
+    @Version
+    private Long version;
 
     public QRCode() {
     }
@@ -90,7 +90,7 @@ public class QRCode extends BaseEntity {
     public void setReservedEquipment(List<QREquipment> reservedEquipment) {
         this.reservedEquipment = reservedEquipment;
     }
-    /*
+
     public Long getVersion() {
         return version;
     }
@@ -98,5 +98,5 @@ public class QRCode extends BaseEntity {
     public void setVersion(Long version) {
         this.version = version;
     }
-    */
+
 }

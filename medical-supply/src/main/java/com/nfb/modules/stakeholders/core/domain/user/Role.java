@@ -19,7 +19,7 @@ public class Role implements GrantedAuthority {
 
     @Column(name="name")
     String name;
-    
+
 
     @JsonIgnore
     @Override

@@ -10,13 +10,8 @@ import com.nfb.modules.companies.core.repositories.*;
 import com.nfb.modules.companies.core.usecases.QRCodeService;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
-import com.nfb.modules.stakeholders.core.domain.user.Role;
 import com.nfb.modules.stakeholders.core.repositories.CompanyAdministratorRepository;
 import com.nfb.modules.stakeholders.core.repositories.RegisteredUserRepository;
-import com.nfb.modules.stakeholders.core.repositories.RoleRepository;
-import com.nfb.modules.stakeholders.core.usecases.EmailSender;
-import com.nfb.modules.stakeholders.core.usecases.RegisteredUserService;
-import com.nfb.modules.stakeholders.core.usecases.RoleService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -93,6 +88,7 @@ public class QRcodeServiceTests {
         ru1.setCompanyInfo("ci1");
         ru1.setPhoneNumber("066123987");
         ru1.setPenalPoints(0);
+        ru1.setEnabled(true);
         registeredUserRepository.save(ru1);
 
         RegisteredUser ru2 = new RegisteredUser();
@@ -106,6 +102,7 @@ public class QRcodeServiceTests {
         ru2.setCompanyInfo("ci2");
         ru2.setPhoneNumber("066123987");
         ru2.setPenalPoints(1);
+        ru1.setEnabled(true);
         registeredUserRepository.save(ru2);
 
         Equipment e1 = new Equipment();
@@ -190,7 +187,7 @@ public class QRcodeServiceTests {
     }
 
     //@Test(expected = UnexpectedRollbackException.class)
-    @Test(expected = ObjectOptimisticLockingFailureException.class)
+    @Test(expected = UnexpectedRollbackException.class)
     public void testOptimisticLockingScenario() throws Throwable {
 
         ExecutorService executor = Executors.newFixedThreadPool(2);
@@ -210,19 +207,20 @@ public class QRcodeServiceTests {
                 lqre.add(qre2);
                 lqre.add(qre3);
 
-                qrc.setUser(registeredUserRepository.findById(0L));
-                qrc.setAppointment(appointmentRepository.findById(0L));
+                qrc.setUser(registeredUserRepository.findById(1L));
+                Appointment app = appointmentRepository.findById(1L);
+                qrc.setAppointment(app);
                 qrc.setCode("ABC123");
                 qrc.setStatus(QRStatus.NEW);
                 qrc.setReservedEquipment(lqre);
 
                 QRCodeDto qrd = new QRCodeDto(qrc);
                 try { Thread.sleep(3000); } catch (InterruptedException e) {}// thread uspavan na 3 sekunde da bi drugi thread mogao da izvrsi istu operaciju
-                qrCodeService.addQRCodeFromDto(qrd);// bacice ObjectOptimisticLockingFailureException
+                qrCodeService.addQRCodeFromDto(qrd,app);// bacice ObjectOptimisticLockingFailureException
                 System.out.println("Zavrsio thread 1");
             }
         });
-        executor.submit(new Runnable() {
+        Future<?> future2 = executor.submit(new Runnable() {
 
             @Override
             public void run() {
@@ -238,14 +236,15 @@ public class QRcodeServiceTests {
                 lqre.add(qre2);
                 lqre.add(qre3);
 
-                qrc.setUser(registeredUserRepository.findById(1L));
-                qrc.setAppointment(appointmentRepository.findById(0L));
+                qrc.setUser(registeredUserRepository.findById(2L));
+                Appointment app = appointmentRepository.findById(1L);
+                qrc.setAppointment(app);
                 qrc.setCode("XYZ123");
                 qrc.setStatus(QRStatus.NEW);
                 qrc.setReservedEquipment(lqre);
 
                 QRCodeDto qrd = new QRCodeDto(qrc);
-                qrCodeService.addQRCodeFromDto(qrd);
+                qrCodeService.addQRCodeFromDto(qrd,app);
                 System.out.println("Zavrsio thread 2");
             }
         });

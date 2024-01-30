@@ -76,10 +76,10 @@ public class QRCodeService {
 
 
     @Transactional(readOnly = false , propagation = Propagation.REQUIRES_NEW)
-    public QRCode addQRCodeFromDto(QRCodeDto qrCodeDto) {
+    public QRCode addQRCodeFromDto(QRCodeDto qrCodeDto,Appointment appointment) {
         try {
             RegisteredUser user = registeredUserRepository.findById(qrCodeDto.getRegisteredUserId()).orElse(null);
-            Appointment appointment = appointmentRepository.findById(qrCodeDto.getAppointmentId()).orElse(null);
+
 
 
             if (user != null && appointment != null) {
@@ -129,7 +129,10 @@ public class QRCodeService {
 
                 qrCode.setReservedEquipment(returnList);
                 qrCode = qrCodeRepository.save(qrCode);
-                emailSender.sendQREmail(user,qrCode);
+                appointment.setWinnerId(qrCode.getId());
+                appointmentRepository.save(appointment);
+
+                //emailSender.sendQREmail(user,qrCode);
                 return qrCode;
 
             } else {

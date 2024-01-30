@@ -26,6 +26,9 @@ public class Appointment extends BaseEntity {
     private boolean isDownloaded;
     @Column(nullable = false)
     private int reservationNumber;
+
+    @Column(nullable = false)
+    private long winnerId;
     @OneToMany(mappedBy = "appointment", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<QRCode> QRCodes;
     @ManyToOne(fetch = FetchType.EAGER)
@@ -36,13 +39,20 @@ public class Appointment extends BaseEntity {
     @JoinColumn(name = "working_day_id")
     private WorkingDay workingDay;
 
-    //@Version
-    //private Long version;
+    @Version
+    private Long version;
 
 
     public Appointment() {
     }
 
+    public long getWinnerId() {
+        return winnerId;
+    }
+
+    public void setWinnerId(long winnerId) {
+        this.winnerId = winnerId;
+    }
 
     public WorkingDay getWorkingDay() {
         return workingDay;
@@ -118,7 +128,7 @@ public class Appointment extends BaseEntity {
         this.QRCodes = QRCodes;
     }
 
-    /*
+
     public Long getVersion() {
         return version;
     }
@@ -126,5 +136,5 @@ public class Appointment extends BaseEntity {
     public void setVersion(Long version) {
         this.version = version;
     }
-    */
+
 }
