@@ -27,6 +27,6 @@ public class LocationSimulatorConsumer {
     )
     public void handleMessage(String message) {
         log.info("Consumer> " + message);
-        messagingTemplate.convertAndSend("/topic/location-update", message);
+        messagingTemplate.convertAndSend("/socket-publisher", message);
     }
 }
