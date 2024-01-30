@@ -40,6 +40,24 @@ public class LocationSimulatorService {
         return new ArrayList<>(Arrays.asList(
                 new Coordinate(40.7128, -74.0060),
                 new Coordinate(34.0522, -118.2437),
+                new Coordinate(41.8781, -87.6298),
+                new Coordinate(40.7128, -74.0060),
+                new Coordinate(34.0522, -118.2437),
+                new Coordinate(41.8781, -87.6298),
+                new Coordinate(40.7128, -74.0060),
+                new Coordinate(34.0522, -118.2437),
+                new Coordinate(41.8781, -87.6298),
+                new Coordinate(40.7128, -74.0060),
+                new Coordinate(34.0522, -118.2437),
+                new Coordinate(41.8781, -87.6298),
+                new Coordinate(40.7128, -74.0060),
+                new Coordinate(34.0522, -118.2437),
+                new Coordinate(41.8781, -87.6298),
+                new Coordinate(40.7128, -74.0060),
+                new Coordinate(34.0522, -118.2437),
+                new Coordinate(41.8781, -87.6298),
+                new Coordinate(40.7128, -74.0060),
+                new Coordinate(34.0522, -118.2437),
                 new Coordinate(41.8781, -87.6298)
         ));
     }

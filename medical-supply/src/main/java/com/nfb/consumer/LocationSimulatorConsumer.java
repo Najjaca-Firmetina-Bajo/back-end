@@ -3,12 +3,17 @@ package com.nfb.consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
 public class LocationSimulatorConsumer {
 
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
     private static final Logger log = LoggerFactory.getLogger(LocationSimulatorConsumer.class);
+
 
     /*
      * @RabbitListener anotira metode za kreiranje handlera za bilo koju poruku koja
@@ -22,5 +27,6 @@ public class LocationSimulatorConsumer {
     )
     public void handleMessage(String message) {
         log.info("Consumer> " + message);
+        messagingTemplate.convertAndSend("/topic/location-update", message);
     }
 }
