@@ -14,10 +14,6 @@ public interface CompanyEquipmentRepository extends JpaRepository<CompanyEquipme
     @Modifying
     @Query("UPDATE CompanyEquipment ce SET ce.quantity = :quantity WHERE ce.equipment.id = :equipmentId AND ce.company.id = :companyId")
     @Transactional
-    /*
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="0")})
-    */
     void updateQuantity(@Param("equipmentId") long equipmentId, @Param("companyId") long companyId, @Param("quantity") int quantity);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)

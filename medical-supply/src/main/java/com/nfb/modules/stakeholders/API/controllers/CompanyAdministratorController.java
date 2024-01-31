@@ -51,8 +51,8 @@ public class CompanyAdministratorController {
 
     @PutMapping ("/set-company/{adminId}/{companyId}")
     public int setCompanyForAdministrator(@PathVariable long adminId, @PathVariable long companyId) {
-        Company company = companyService.findById(companyId).orElse(null);
-        return companyAdministratorService.setCompanyForAdministrator(adminId, company);
+        //Company company = companyService.findById(companyId).orElse(null);
+        return companyAdministratorService.setCompanyForAdministrator(adminId, companyId);
     }
 
 }

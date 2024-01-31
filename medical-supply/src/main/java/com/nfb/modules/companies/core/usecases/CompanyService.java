@@ -36,7 +36,13 @@ public class CompanyService   {
         return new Company(name, address, rating, admins);
     }
     public List<Company> findByIdIn(List<Long> ids) { return companyRepository.findByIdIn(ids); }
-    public Optional<Company> findById(Long id) { return companyRepository.findById(id); }
+    public Optional<Company> findById(Long id) {
+        return companyRepository.findById(id);
+    }
+
+    public Company findOneById(Long id) {
+        return companyRepository.findOneById(id);
+    }
 
     @Transactional
     public Company addAdministratorToCompany(long companyId, long administratorId)

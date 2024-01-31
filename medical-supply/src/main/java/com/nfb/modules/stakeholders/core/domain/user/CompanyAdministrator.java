@@ -17,6 +17,9 @@ public class CompanyAdministrator extends User{
     @OneToMany(mappedBy = "companyAdministrator", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Appointment> appointments;
 
+    //@Version
+    //private long version;
+
     public CompanyAdministrator(Company company) {
         this.company = company;
     }
@@ -47,4 +50,12 @@ public class CompanyAdministrator extends User{
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
     }
+    /*
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
+    }*/
 }

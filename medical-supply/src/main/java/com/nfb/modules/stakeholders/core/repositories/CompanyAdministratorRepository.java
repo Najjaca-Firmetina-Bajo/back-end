@@ -22,7 +22,8 @@ public interface CompanyAdministratorRepository extends JpaRepository<CompanyAdm
     public CompanyAdministrator findOneById(@Param("id") Long id);
 
     @Modifying
-    @Transactional
+    //@Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("UPDATE CompanyAdministrator ca SET ca.company = :company WHERE ca.id = :adminId")
+    //@QueryHints({@QueryHint(name = "jakarta.persistence.lock.timeout", value ="0")})
     int setCompanyForAdministrator(@Param("adminId") Long adminId, @Param("company") Company company);
 }
