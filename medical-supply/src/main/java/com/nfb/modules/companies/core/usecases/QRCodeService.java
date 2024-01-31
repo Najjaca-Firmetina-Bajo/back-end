@@ -132,7 +132,7 @@ public class QRCodeService {
                 appointment.setWinnerId(qrCode.getId());
                 appointmentRepository.save(appointment);
                 System.out.println("kraj metode");
-                //emailSender.sendQREmail(user,qrCode);
+                emailSender.sendQREmail(user,qrCode);
                 return qrCode;
 
             } else {

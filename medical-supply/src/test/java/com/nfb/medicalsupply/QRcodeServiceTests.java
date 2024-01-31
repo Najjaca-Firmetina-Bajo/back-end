@@ -168,6 +168,7 @@ public class QRcodeServiceTests {
         ap.setReservationNumber(222);
         ap.setQRCodes(new ArrayList<>());
         ap.setCompanyAdministrator(ca);
+        ap.setWinnerId(-1);
         appointmentRepository.save(ap);
 
     }
