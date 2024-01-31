@@ -32,6 +32,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     void updateDownloadedAt(@Param("downloadedAt") LocalDateTime downloadedAt, @Param("id") long id);
 
     @Transactional
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @QueryHints({@QueryHint(name = "jakarta.persistence.lock.timeout", value ="1000")})
     @Query("SELECT a FROM Appointment a WHERE a.companyAdministrator =:companyAdministrator")
     List<Appointment> findAppointmentsWithCompanyAdministrator(@Param("companyAdministrator") CompanyAdministrator companyAdministrator);
 

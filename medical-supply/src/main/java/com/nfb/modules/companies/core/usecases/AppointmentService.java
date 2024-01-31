@@ -48,17 +48,14 @@ public class AppointmentService {
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public long downloadEquipment(long appointmentId, long qrCodeId) {
 
-        Appointment appointment = appointmentRepository.findOneById(appointmentId);
+        Appointment appointment = appointmentRepository.findById(appointmentId);
         CompanyAdministrator ca = companyAdministratorRepository.findOneById(appointment.getCompanyAdministrator().getId());
-        System.out.println("PROSAO");
-        List<Appointment> appointmentsOfLoggedCA = appointmentRepository.findAppointmentsWithCompanyAdministrator(ca);
 
         boolean canDownload = true;
-        for(Appointment a: appointmentsOfLoggedCA) {
-
+        for(Appointment a: ca.getAppointments()) {
             LocalDateTime tresholdTime = LocalDateTime.now().minusSeconds(60);
             if(a.getDownloadedAt() != null) {
-                System.out.println("PROSAO" + a.getDownloadedAt());
+
                 if(a.getDownloadedAt().isAfter(tresholdTime)) {
                     canDownload = false;
                     break;

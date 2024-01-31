@@ -17,7 +17,7 @@ public interface CompanyAdministratorRepository extends JpaRepository<CompanyAdm
     List<CompanyAdministrator> findByCompany(Company company);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @QueryHints({@QueryHint(name = "jakarta.persistence.lock.timeout", value ="2500")})
+    @QueryHints({@QueryHint(name = "jakarta.persistence.lock.timeout", value ="3000")})
     @Query("SELECT a FROM CompanyAdministrator a WHERE a.id = :id")
     public CompanyAdministrator findOneById(@Param("id") Long id);
 
