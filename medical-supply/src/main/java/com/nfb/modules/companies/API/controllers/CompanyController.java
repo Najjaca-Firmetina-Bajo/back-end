@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/companies")
+@CrossOrigin
 public class CompanyController {
 
     @Autowired
@@ -24,7 +26,7 @@ public class CompanyController {
 
     @PostMapping("/register")
     public ResponseEntity<CompanyDto> registerCompany(@RequestBody CompanyDto companyDto) {
-        Company company = companyService.prepareCompanyModel(companyDto.getName(), companyDto.getAddress(), companyDto.getAverageRating(), companyDto.getAvailableEquipmentIds());
+        Company company = companyService.prepareCompanyModel(companyDto.getId(), companyDto.getName(), companyDto.getAddress(), companyDto.getAverageRating());
         company = companyService.register(company);
         return new ResponseEntity<>(new CompanyDto(company), HttpStatus.CREATED);
     }
@@ -42,6 +44,13 @@ public class CompanyController {
         return new ResponseEntity<>(companyDtos, HttpStatus.OK);
     }
 
+    @GetMapping("/find/{companyName}")
+    public ResponseEntity<CompanyDto> findByName(@PathVariable String companyName) {
+
+        Company company = companyService.findByName(companyName);
+        return new ResponseEntity<>(new CompanyDto(company), HttpStatus.OK);
+    }
+
     @GetMapping("/getAll")
     public ResponseEntity<List<CompanyDto>> getAll() {
 
@@ -53,5 +62,23 @@ public class CompanyController {
         }
 
         return new ResponseEntity<>(companyDtos, HttpStatus.OK);
+    }
+
+    @PutMapping ("/add-company-admin/{companyId}/{adminId}")
+    public ResponseEntity<CompanyDto> addAdministratorToCompany(@PathVariable long companyId, @PathVariable long adminId) {
+        CompanyDto dto = new CompanyDto (companyService.addAdministratorToCompany(companyId, adminId));
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping("/findById/{companyId}")
+    public ResponseEntity<CompanyDto> findById(@PathVariable Long companyId) {
+        Optional<Company> companyOptional = companyService.findById(companyId);
+
+        if (companyOptional.isPresent()) {
+            CompanyDto companyDto = new CompanyDto(companyOptional.get());
+            return new ResponseEntity<>(companyDto, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

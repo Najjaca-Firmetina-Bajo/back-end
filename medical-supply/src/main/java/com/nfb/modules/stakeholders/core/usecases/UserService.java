@@ -1,16 +1,19 @@
 package com.nfb.modules.stakeholders.core.usecases;
 
-import com.mailjet.client.errors.MailjetException;
-import com.mailjet.client.errors.MailjetSocketTimeoutException;
+import com.nfb.modules.companies.core.domain.company.Company;
+import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
+import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
 import com.nfb.modules.stakeholders.core.domain.user.User;
-import com.nfb.modules.stakeholders.core.domain.user.UserRole;
+import com.nfb.modules.stakeholders.core.domain.user.Role;
+import com.nfb.modules.stakeholders.core.repositories.CompanyAdministratorRepository;
+import com.nfb.modules.stakeholders.core.repositories.RegisteredUserRepository;
 import com.nfb.modules.stakeholders.core.repositories.UserRepository;
 import javassist.NotFoundException;
 import org.modelmapper.internal.bytebuddy.build.BuildLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.management.relation.Role;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -18,11 +21,16 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private EmailService emailService = new EmailService();
+    private final RegisteredUserRepository registeredUserRepository;
+    private final CompanyAdministratorRepository companyAdministratorRepository;
+    private final EmailSender emailSender;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository,RegisteredUserRepository registeredUserRepository,CompanyAdministratorRepository companyAdministratorRepository,EmailSender emailSender) {
         this.userRepository = userRepository;
+        this.registeredUserRepository = registeredUserRepository;
+        this.companyAdministratorRepository = companyAdministratorRepository;
+        this.emailSender = emailSender;
     }
 
 
@@ -34,16 +42,18 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public User register(User user) {
+    public RegisteredUser register(RegisteredUser registeredUser) {
 
-        var ret = userRepository.save(user);
-        try {
-            this.emailService.sendRegistrationEmail(ret);
-        } catch (MailjetSocketTimeoutException e) {
-            throw new RuntimeException(e);
-        } catch (MailjetException e) {
-            throw new RuntimeException(e);
-        }
+        var ret = registeredUserRepository.save(registeredUser);
+        emailSender.sendHtmlEmail(registeredUser,"User verification");
+
+        return ret;
+    }
+
+    public CompanyAdministrator register(CompanyAdministrator companyAdministrator) {
+
+        var ret = companyAdministratorRepository.save(companyAdministrator);
+        emailSender.sendHtmlEmail(companyAdministrator,"User verification");
 
 
         return ret;
@@ -55,7 +65,7 @@ public class UserService {
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            user.activateAccount();
+            user.setEnabled(true);
             return userRepository.save(user);
         } else
         {
@@ -63,8 +73,13 @@ public class UserService {
         }
     }
 
-
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
+
+    public User findByUsername(String email) {
+        return userRepository.findByUsername(email);
+    }
+
+    public void updatePassword(String password, long id) { userRepository.updatePassword(password, id); }
 }

@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b85d43e3-960f-45a6-82cf-64279029b517" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/MedicalSupplyApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/MedicalSupplyApplication.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,8 +47,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feat/company-entity",
-    "last_opened_file_path": "C:/Users/ivanm/Desktop/Docs/ISA/Projekat/back-end",
+    "git-widget-placeholder": "develop",
+    "last_opened_file_path": "C:/Users/ivanm/Desktop/Docs/ISA/Projekat/back-end/LocationSimulator",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -59,6 +57,9 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.nfb.modules.stakeholders.core.repositories" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\ivanm\Desktop\Docs\ISA\Projekat\back-end\medical-supply\src\main\resources" />
     </key>
@@ -71,7 +72,7 @@
       <method v="2" />
     </configuration>
     <configuration name="MedicalSupplyApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="medical-supply" />
+      <module name="demo" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.nfb.MedicalSupplyApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -98,6 +99,34 @@
       <workItem from="1700233204218" duration="1600000" />
       <workItem from="1700239134465" duration="4786000" />
       <workItem from="1700319205313" duration="1622000" />
+      <workItem from="1700654452739" duration="37000" />
+      <workItem from="1700655251348" duration="1749000" />
+      <workItem from="1700748167475" duration="923000" />
+      <workItem from="1702494543787" duration="3251000" />
+      <workItem from="1702587252314" duration="6892000" />
+      <workItem from="1702633881124" duration="1114000" />
+      <workItem from="1702635018597" duration="4555000" />
+      <workItem from="1702639631001" duration="3953000" />
+      <workItem from="1702646481919" duration="4013000" />
+      <workItem from="1702659353505" duration="2790000" />
+      <workItem from="1702725551888" duration="631000" />
+      <workItem from="1702735441776" duration="2602000" />
+      <workItem from="1702738249219" duration="12902000" />
+      <workItem from="1702751316929" duration="5750000" />
+      <workItem from="1702819644632" duration="13465000" />
+      <workItem from="1703074658705" duration="3686000" />
+      <workItem from="1703155452622" duration="8905000" />
+      <workItem from="1705771132479" duration="5296000" />
+      <workItem from="1705836914487" duration="2843000" />
+      <workItem from="1705932022602" duration="5889000" />
+      <workItem from="1706014514193" duration="1756000" />
+      <workItem from="1706017951467" duration="8852000" />
+      <workItem from="1706102035684" duration="1387000" />
+      <workItem from="1706117101668" duration="16392000" />
+      <workItem from="1706187203224" duration="5456000" />
+      <workItem from="1706293449595" duration="6152000" />
+      <workItem from="1706363080954" duration="10392000" />
+      <workItem from="1706448584538" duration="1802000" />
     </task>
     <servers />
   </component>
@@ -118,16 +147,39 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <breakpoint enabled="true" type="java-exception">
+        <breakpoint type="java-exception">
           <properties class="com.fasterxml.jackson.databind.exc.InvalidDefinitionException" package="com.fasterxml.jackson.databind.exc" />
           <option name="timeStamp" value="1" />
         </breakpoint>
+        <breakpoint type="java-exception">
+          <properties class="java.lang.TypeNotPresentException" package="java.lang" />
+          <option name="timeStamp" value="5" />
+        </breakpoint>
+        <breakpoint type="java-exception">
+          <properties class="java.lang.ClassNotFoundException" package="java.lang" />
+          <option name="timeStamp" value="11" />
+        </breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/core/usecases/QRCodeService.java</url>
+          <line>71</line>
+          <properties class="com.nfb.modules.companies.core.usecases.QRCodeService" method="addQRCodeFromDto">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/stakeholders/API/controllers/UserController.java</url>
-          <line>29</line>
-          <option name="timeStamp" value="4" />
+          <url>file://$PROJECT_DIR$/medical-supply/src/main/java/com/nfb/modules/companies/API/controllers/AppointmentController.java</url>
+          <line>147</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="com.nfb.modules.companies.core.domain.company.CompanyEquipment" memberName="equipment" />
+        <PinnedItemInfo parentTag="com.nfb.modules.companies.core.domain.company.CompanyEquipment" memberName="company" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>

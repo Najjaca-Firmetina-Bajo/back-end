@@ -1,9 +1,10 @@
 package com.nfb.modules.companies.API.dtos;
 
 import com.nfb.modules.companies.core.domain.company.Company;
-import com.nfb.modules.companies.core.domain.equipment.Equipment;
+import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,14 +18,21 @@ public class CompanyDto {
     @Schema(description = "Company rating")
     private double averageRating;
     @Schema(description = "Available equipment in company")
-    private List<Long> availableEquipmentIds;
+    private List<EquipmentQuantityDto> availableEquipment;
+    @Schema(description = "Administrators of company")
+    private List<Long> companyAdministraotrsIds;
+    @Schema(description = "Working calendar of company")
+    private Long workingCalendarId;
 
-    public CompanyDto(long id, String name, String address, double averageRating, List<Long> availableEquipmentIds) {
+
+    public CompanyDto(long id, String name, String address, double averageRating) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.averageRating = averageRating;
-        this.availableEquipmentIds = availableEquipmentIds;
+        this.availableEquipment = new ArrayList<>();
+        this.companyAdministraotrsIds = new ArrayList<>();
+        this.workingCalendarId = (long) -1;
     }
 
     public CompanyDto(Company company) {
@@ -32,18 +40,35 @@ public class CompanyDto {
         this.name = company.getName();
         this.address = company.getAddress();
         this.averageRating = company.getAverageRating();
-        this.availableEquipmentIds = company.getAvailableEquipment().stream()
-                .map(Equipment::getId)
+        this.availableEquipment = company.getCompanyEquipmentList().stream()
+                .map(ce -> new EquipmentQuantityDto(ce.getEquipmentId(), ce.getQuantity())) // Use EquipmentQuantityDto here
                 .collect(Collectors.toList());
+        this.companyAdministraotrsIds = company.getAdministrators().stream()
+                .map(CompanyAdministrator::getId)
+                .collect(Collectors.toList());
+        if(company.getWorkingCalendar() != null)
+            this.workingCalendarId = company.getWorkingCalendar().getId();
+        else
+            this.workingCalendarId = (long) -1;
     }
 
-    public List<Long> getAvailableEquipmentIds() {
-        return availableEquipmentIds;
+    public Long getWorkingCalendarId() {
+        return workingCalendarId;
     }
 
-    public void setAvailableEquipmentIds(List<Long> availableEquipmentIds) {
-        this.availableEquipmentIds = availableEquipmentIds;
+    public void setWorkingCalendarId(Long workingCalendarId) {
+        this.workingCalendarId = workingCalendarId;
     }
+
+    public List<Long> getCompanyAdministraotrsIds() {
+        return companyAdministraotrsIds;
+    }
+
+    public void setCompanyAdministraotrsIds(List<Long> companyAdministraotrsIds) {
+        this.companyAdministraotrsIds = companyAdministraotrsIds;
+    }
+
+
 
     public long getId() {
         return id;
@@ -75,5 +100,13 @@ public class CompanyDto {
 
     public double getAverageRating() {
         return averageRating;
+    }
+
+    public List<EquipmentQuantityDto> getAvailableEquipment() {
+        return availableEquipment;
+    }
+
+    public void setAvailableEquipment(List<EquipmentQuantityDto> availableEquipment) {
+        this.availableEquipment = availableEquipment;
     }
 }

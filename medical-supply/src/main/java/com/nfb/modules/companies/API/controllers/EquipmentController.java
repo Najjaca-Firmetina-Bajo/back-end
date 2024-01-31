@@ -6,16 +6,14 @@ import com.nfb.modules.companies.core.usecases.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/equipment")
+@CrossOrigin
 public class EquipmentController {
     @Autowired
     private EquipmentService equipmentService;
@@ -24,10 +22,19 @@ public class EquipmentController {
         this.equipmentService = equipmentService;
     }
 
-    @GetMapping("/filterByType/{type}")
-    public ResponseEntity<List<EquipmentDto>> filter(@PathVariable String type) {
+    @GetMapping("/filter/{params}")
+    public ResponseEntity<List<EquipmentDto>> filter(@PathVariable String params) {
 
-        List<Equipment> equipment = equipmentService.filterByType(type);
+        String[] parameters = params.split(",");
+        String name = parameters[0];
+        String type = parameters[1];
+        double minPrice = Double.parseDouble(parameters[2]);
+        double maxPrice = Double.parseDouble(parameters[3]);
+
+        if(minPrice == 0) minPrice = -1;
+        if(maxPrice == 0) maxPrice = -1;
+
+        List<Equipment> equipment = equipmentService.filter(name, type, minPrice, maxPrice);
 
         List<EquipmentDto> equipmentDtos = new ArrayList<>();
         for (Equipment e : equipment) {
@@ -37,10 +44,10 @@ public class EquipmentController {
         return new ResponseEntity<>(equipmentDtos, HttpStatus.OK);
     }
 
-    @GetMapping("/searchByName/{name}")
+    @GetMapping("/search/{name}")
     public ResponseEntity<List<EquipmentDto>> search(@PathVariable String name) {
 
-        List<Equipment> equipment = equipmentService.searchByName(name);
+        List<Equipment> equipment = equipmentService.search(name);
 
         List<EquipmentDto> equipmentDtos = new ArrayList<>();
         for (Equipment e : equipment) {
@@ -57,6 +64,28 @@ public class EquipmentController {
 
         List<EquipmentDto> equipmentDtos = new ArrayList<>();
         for (Equipment e : equipment) {
+            equipmentDtos.add(new EquipmentDto(e));
+        }
+
+        return new ResponseEntity<>(equipmentDtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EquipmentDto> getById(@PathVariable Long id) {
+        Equipment equipment = equipmentService.getById(id);
+        if (equipment != null) {
+            return new ResponseEntity<>(new EquipmentDto(equipment), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/getByIds")
+    public ResponseEntity<List<EquipmentDto>> getByIds(@RequestParam List<Long> ids) {
+        List<Equipment> equipmentList = equipmentService.getByIds(ids);
+
+        List<EquipmentDto> equipmentDtos = new ArrayList<>();
+        for (Equipment e : equipmentList) {
             equipmentDtos.add(new EquipmentDto(e));
         }
 

@@ -1,69 +1,36 @@
 package com.nfb.modules.stakeholders.API.controllers;
 
 import com.nfb.modules.stakeholders.API.dtos.UserDTO;
-import com.nfb.modules.stakeholders.core.domain.user.UserRole;
+import com.nfb.modules.stakeholders.core.domain.user.Role;
 import com.nfb.modules.stakeholders.core.usecases.UserService;
 import com.nfb.modules.stakeholders.core.domain.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping(value = "/api/users")
+@CrossOrigin
 public class UserController {
 
     @Autowired
     private UserService userService;
-    @PostMapping("/register")
-    public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO userDTO) {
-        User user = new User(
-                userDTO.getEmail(),
-                userDTO.getPassword(),
-                UserRole.RegisteredUser,
-                userDTO.getName(),
-                userDTO.getSurname(),
-                userDTO.getCity(),
-                userDTO.getCountry(),
-                userDTO.getPhoneNumber(),
-                userDTO.getOccupation(),
-                userDTO.getCompanyInfo()
-        );
 
-        user = userService.register(user);
-        return new ResponseEntity<>(new UserDTO(user), HttpStatus.CREATED);
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    @PostMapping("/registerCompanyAdmin")
-    public ResponseEntity<UserDTO> registerCompanyAdmin(@RequestBody UserDTO userDTO) {
-        User user = new User(
-                userDTO.getEmail(),
-                userDTO.getPassword(),
-                UserRole.CompanyAdministrator,
-                userDTO.getName(),
-                userDTO.getSurname(),
-                userDTO.getCity(),
-                userDTO.getCountry(),
-                userDTO.getPhoneNumber(),
-                userDTO.getOccupation(),
-                userDTO.getCompanyInfo()
-        );
 
-        user = userService.register(user);
-        return new ResponseEntity<>(new UserDTO(user), HttpStatus.CREATED);
-    }
-
-    @GetMapping
+    @GetMapping("/get-all")
     public ResponseEntity<List<UserDTO>> getUsers() {
 
         List<User> users = userService.getAll();
@@ -76,19 +43,12 @@ public class UserController {
         return new ResponseEntity<>(usersDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/activate/{id}")
-    public ResponseEntity<String> validateUser(@PathVariable long id) {
-
-        User validatedUser = userService.activateUser(id);
-
-        String htmlMessage = "<html><body><h1>User Activated!</h1></body></html>";
-
-        // Respond with HTML message
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(htmlMessage);
-
+    @GetMapping("/is-system-administrator/{username}")
+    public boolean isSystemAdministrator(@PathVariable String username) {
+        User user = userService.findByUsername(username);
+        for(Role r: user.getRoles()) {
+            if(r.getName().equals("SYSTEM_ADMINISTRATOR")) return true;
+        }
+        return false;
     }
-
-
-
 }
