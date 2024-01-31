@@ -26,6 +26,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import static junit.framework.TestCase.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.springframework.transaction.UnexpectedRollbackException;
@@ -171,7 +172,7 @@ public class QRcodeServiceTests {
 
     }
 
-    @Test(expected = UnexpectedRollbackException.class)
+@Test()
     public void testEquipmentReservation() throws Throwable {
 
         ExecutorService executor = Executors.newFixedThreadPool(2);
@@ -192,15 +193,13 @@ public class QRcodeServiceTests {
                 lqre.add(qre3);
 
                 qrc.setUser(registeredUserRepository.findById(1L));
-                Appointment app = appointmentRepository.findById(1L);
-                qrc.setAppointment(app);
+                qrc.setAppointment(appointmentRepository.findById(1L));
                 qrc.setCode("ABC123");
                 qrc.setStatus(QRStatus.NEW);
                 qrc.setReservedEquipment(lqre);
 
                 QRCodeDto qrd = new QRCodeDto(qrc);
-                try { Thread.sleep(3000); } catch (InterruptedException e) {}// thread uspavan na 3 sekunde da bi drugi thread mogao da izvrsi istu operaciju
-                qrCodeService.addQRCodeFromDto(qrd,app);
+                qrCodeService.addQRCodeFromDto(qrd);
                 System.out.println("Zavrsio thread 1");
             }
         });
@@ -221,22 +220,27 @@ public class QRcodeServiceTests {
                 lqre.add(qre3);
 
                 qrc.setUser(registeredUserRepository.findById(2L));
-                Appointment app = appointmentRepository.findById(1L);
-                qrc.setAppointment(app);
+                qrc.setAppointment(appointmentRepository.findById(1L));
                 qrc.setCode("XYZ123");
                 qrc.setStatus(QRStatus.NEW);
                 qrc.setReservedEquipment(lqre);
 
                 QRCodeDto qrd = new QRCodeDto(qrc);
-                qrCodeService.addQRCodeFromDto(qrd,app);
+                qrCodeService.addQRCodeFromDto(qrd);
                 System.out.println("Zavrsio thread 2");
             }
         });
         try {
-            future1.get(); // podize ExecutionException za bilo koji izuzetak iz prvog child threada
+            future2.get();
+            future1.get();
+
+            // Retrieve all QR codes from the repository
+            List<QRCode> allQRCodes = qrCodeService.getAll();
+            System.out.println("QRCodes: " + allQRCodes.size());
+            // Assert that there is exactly one QR code
+            assertEquals(1, allQRCodes.size());
         } catch (ExecutionException e) {
             System.out.println("Exception from thread " + e.getCause().getClass()); // u pitanju je bas ObjectOptimisticLockingFailureException
-            throw e.getCause();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

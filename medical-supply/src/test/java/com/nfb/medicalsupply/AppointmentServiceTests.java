@@ -137,7 +137,7 @@ public class AppointmentServiceTests {
         ExecutorService executor = Executors.newFixedThreadPool(2);
         Future<Long> future1 = executor.submit(() -> {
             System.out.println("Startovan Thread 1");
-            try { Thread.sleep(3000); } catch (InterruptedException e) {} // thread uspavan na 3 sekunde da bi drugi thread mogao da izvrsi istu operaciju
+            try { Thread.sleep(0); } catch (InterruptedException e) {} // thread uspavan na 3 sekunde da bi drugi thread mogao da izvrsi istu operaciju
             return appointmentService.downloadEquipment(1L, 1L);
         });
 

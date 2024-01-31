@@ -27,7 +27,7 @@ public class Appointment extends BaseEntity {
     @Column(nullable = false)
     private int reservationNumber;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private long winnerId;
     @OneToMany(mappedBy = "appointment", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<QRCode> QRCodes;

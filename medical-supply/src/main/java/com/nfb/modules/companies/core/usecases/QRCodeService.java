@@ -76,10 +76,10 @@ public class QRCodeService {
 
 
     @Transactional(readOnly = false , propagation = Propagation.REQUIRES_NEW)
-    public QRCode addQRCodeFromDto(QRCodeDto qrCodeDto,Appointment appointment) {
+    public QRCode addQRCodeFromDto(QRCodeDto qrCodeDto) {
         try {
             RegisteredUser user = registeredUserRepository.findById(qrCodeDto.getRegisteredUserId()).orElse(null);
-
+            Appointment appointment = appointmentRepository.findOneById(qrCodeDto.getAppointmentId());
 
 
             if (user != null && appointment != null) {

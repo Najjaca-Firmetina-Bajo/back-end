@@ -48,7 +48,7 @@ public class AppointmentService {
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public long downloadEquipment(long appointmentId, long qrCodeId) {
 
-        Appointment appointment = appointmentRepository.findById(appointmentId);
+        Appointment appointment = appointmentRepository.findOneById(appointmentId);
         CompanyAdministrator ca = appointment.getCompanyAdministrator();
         List<Appointment> appointmentsOfLoggedCA = appointmentRepository.findAppointmentsWithCompanyAdministrator(ca);
 

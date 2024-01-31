@@ -2,10 +2,10 @@ package com.nfb.modules.companies.core.repositories;
 
 import com.nfb.modules.companies.core.domain.appointment.Appointment;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
+import jakarta.persistence.LockModeType;
+import jakarta.persistence.QueryHint;
 import jakarta.transaction.Transactional;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +16,10 @@ import java.util.List;
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
     List<Appointment> findByWorkingDayId(long workingDayId);
     Appointment findById(long id);
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @QueryHints({@QueryHint(name = "jakarta.persistence.lock.timeout", value ="1000")})
+    @Query("SELECT a FROM Appointment a WHERE a.id = :id")
+    public Appointment findOneById(@Param("id") Long id);
 
     @Modifying
     @Query("UPDATE Appointment a SET a.isDownloaded = :isDownloaded WHERE a.id = :id")
