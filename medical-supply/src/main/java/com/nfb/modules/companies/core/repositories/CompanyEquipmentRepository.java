@@ -20,6 +20,8 @@ public interface CompanyEquipmentRepository extends JpaRepository<CompanyEquipme
     */
     void updateQuantity(@Param("equipmentId") long equipmentId, @Param("companyId") long companyId, @Param("quantity") int quantity);
 
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @QueryHints({@QueryHint(name = "jakarta.persistence.lock.timeout", value ="500")})
     @Query("SELECT ce FROM CompanyEquipment ce WHERE ce.company.id = :companyId AND ce.equipment.id = :equipmentId")
     CompanyEquipment findByCompanyIdAndEquipmentId(@Param("companyId") Long companyId, @Param("equipmentId") Long equipmentId);
 }

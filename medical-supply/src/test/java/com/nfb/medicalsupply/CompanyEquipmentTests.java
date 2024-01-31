@@ -67,13 +67,16 @@ public class CompanyEquipmentTests {
         ExecutorService executor = Executors.newFixedThreadPool(2);
         Future<Integer> future1 = executor.submit(() -> {
             System.out.println("Startovan Thread 1");
-            try { Thread.sleep(0); } catch (InterruptedException e) {} // thread uspavan na 3 sekunde da bi drugi thread mogao da izvrsi istu operaciju
-            return companyEquipmentService.pickUpEquipment(1L, 1L, 20);
+            var ret = companyEquipmentService.pickUpEquipment(1L, 1L, 20);
+            System.out.println("Zavrsen Thread 1");
+            return ret;
         });
 
         Future<Integer> future2 = executor.submit(() -> {
             System.out.println("Startovan Thread 2");
-            return companyEquipmentService.pickUpEquipment(1L, 1L, 5);
+            var ret =  companyEquipmentService.pickUpEquipment(1L, 1L, 5);
+            System.out.println("Zavrsen Thread 2");
+            return ret;
         });
 
         // Čekamo završetak izvršavanja oba thread-a
