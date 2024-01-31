@@ -68,7 +68,7 @@ public class CompanyAdministratorServiceTests {
 
     }
 
-    @Test(expected = PessimisticLockingFailureException.class)
+    @Test()
     public void testSetAvailableCAForNewCompany() throws Throwable {
 
         ExecutorService executor = Executors.newFixedThreadPool(2);

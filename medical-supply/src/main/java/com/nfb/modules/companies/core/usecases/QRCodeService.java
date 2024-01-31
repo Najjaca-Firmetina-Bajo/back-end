@@ -83,7 +83,9 @@ public class QRCodeService {
 
 
             if (user != null && appointment != null) {
-                Company company = appointment.getCompanyAdministrator().getCompany();
+                long companyid = appointment.getCompanyAdministrator().getCompany().getId();
+                Company company = companyRepository.findOneById(companyid);
+                List<CompanyEquipment> companyEquipmentList = company.getCompanyEquipmentList();
                 if(company == null) {
                     System.out.println("Company is null");
                     return null;
@@ -96,7 +98,6 @@ public class QRCodeService {
                     return null;
                 }
 
-                List<CompanyEquipment> companyEquipmentList = company.getCompanyEquipmentList();
                 QRCode qrCode = new QRCode(qrCodeDto.getCode(), qrCodeDto.getStatus(), user, appointment);
 
 

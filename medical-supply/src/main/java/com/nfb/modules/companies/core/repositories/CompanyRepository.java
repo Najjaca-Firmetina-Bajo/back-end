@@ -18,7 +18,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     Company findByName(String name);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @QueryHints({@QueryHint(name = "jakarta.persistence.lock.timeout", value ="0")})
+    @QueryHints({@QueryHint(name = "jakarta.persistence.lock.timeout", value ="1000")})
     @Query("SELECT c from Company c where c.id = :id")
     public Company findOneById(@Param("id")Long id);
 
