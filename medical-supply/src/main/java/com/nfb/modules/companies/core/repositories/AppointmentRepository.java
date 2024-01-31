@@ -31,6 +31,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Transactional
     void updateDownloadedAt(@Param("downloadedAt") LocalDateTime downloadedAt, @Param("id") long id);
 
+    @Transactional
     @Query("SELECT a FROM Appointment a WHERE a.companyAdministrator =:companyAdministrator")
     List<Appointment> findAppointmentsWithCompanyAdministrator(@Param("companyAdministrator") CompanyAdministrator companyAdministrator);
 

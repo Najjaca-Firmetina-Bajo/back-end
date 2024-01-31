@@ -137,13 +137,16 @@ public class AppointmentServiceTests {
         ExecutorService executor = Executors.newFixedThreadPool(2);
         Future<Long> future1 = executor.submit(() -> {
             System.out.println("Startovan Thread 1");
-            try { Thread.sleep(0); } catch (InterruptedException e) {} // thread uspavan na 3 sekunde da bi drugi thread mogao da izvrsi istu operaciju
-            return appointmentService.downloadEquipment(1L, 1L);
+            var ret = appointmentService.downloadEquipment(1L, 1L);
+            System.out.println("Zavrsen Thread 1");
+            return ret;
         });
 
         Future<Long> future2 = executor.submit(() -> {
             System.out.println("Startovan Thread 2");
-            return appointmentService.downloadEquipment(2L, 2L);
+            var ret = appointmentService.downloadEquipment(2L, 2L);
+            System.out.println("Zavrsen Thread 2");
+            return ret;
         });
 
         // Čekamo završetak izvršavanja oba thread-a

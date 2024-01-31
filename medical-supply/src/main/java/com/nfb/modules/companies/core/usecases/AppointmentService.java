@@ -49,13 +49,16 @@ public class AppointmentService {
     public long downloadEquipment(long appointmentId, long qrCodeId) {
 
         Appointment appointment = appointmentRepository.findOneById(appointmentId);
-        CompanyAdministrator ca = appointment.getCompanyAdministrator();
+        CompanyAdministrator ca = companyAdministratorRepository.findOneById(appointment.getCompanyAdministrator().getId());
+        System.out.println("PROSAO");
         List<Appointment> appointmentsOfLoggedCA = appointmentRepository.findAppointmentsWithCompanyAdministrator(ca);
 
         boolean canDownload = true;
         for(Appointment a: appointmentsOfLoggedCA) {
-            LocalDateTime tresholdTime = LocalDateTime.now().minusSeconds(20);
+
+            LocalDateTime tresholdTime = LocalDateTime.now().minusSeconds(60);
             if(a.getDownloadedAt() != null) {
+                System.out.println("PROSAO" + a.getDownloadedAt());
                 if(a.getDownloadedAt().isAfter(tresholdTime)) {
                     canDownload = false;
                     break;
