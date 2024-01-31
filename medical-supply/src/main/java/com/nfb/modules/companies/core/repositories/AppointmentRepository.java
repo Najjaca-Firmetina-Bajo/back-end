@@ -1,6 +1,7 @@
 package com.nfb.modules.companies.core.repositories;
 
 import com.nfb.modules.companies.core.domain.appointment.Appointment;
+import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -20,6 +21,14 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Query("UPDATE Appointment a SET a.isDownloaded = :isDownloaded WHERE a.id = :id")
     @Transactional
     void updateIsDownloaded(@Param("isDownloaded") boolean isDownloaded, @Param("id") long id);
+
+    @Modifying
+    @Query("UPDATE Appointment a SET a.downloadedAt = :downloadedAt WHERE a.id = :id")
+    @Transactional
+    void updateDownloadedAt(@Param("downloadedAt") LocalDateTime downloadedAt, @Param("id") long id);
+
+    @Query("SELECT a FROM Appointment a WHERE a.companyAdministrator =:companyAdministrator")
+    List<Appointment> findAppointmentsWithCompanyAdministrator(@Param("companyAdministrator") CompanyAdministrator companyAdministrator);
 
     @Query("SELECT a FROM Appointment a WHERE a.pickUpDate < :currentDate")
     List<Appointment> findExpiredAppointments(@Param("currentDate") LocalDateTime currentDate);

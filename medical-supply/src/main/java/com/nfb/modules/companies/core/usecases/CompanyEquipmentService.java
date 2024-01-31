@@ -16,7 +16,7 @@ public class CompanyEquipmentService {
         this.companyEquipmentRepository = companyEquipmentRepository;
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public int pickUpEquipment(long equipmentId, long companyId, int quantity) {
         CompanyEquipment ce = companyEquipmentRepository.findByCompanyIdAndEquipmentId(companyId, equipmentId);
         int newQuantity = ce.getQuantity() - quantity;

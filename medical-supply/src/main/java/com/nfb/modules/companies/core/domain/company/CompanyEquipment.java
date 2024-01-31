@@ -20,8 +20,8 @@ public class CompanyEquipment extends BaseEntity {
     @Column(nullable = false)
     private int quantity;
 
-    //@Version
-    //private Long version;
+    @Version
+    private Long version;
 
     public CompanyEquipment() {
     }
@@ -62,7 +62,6 @@ public class CompanyEquipment extends BaseEntity {
         this.quantity = quantity;
     }
 
-    /*
     public Long getVersion() {
         return version;
     }
@@ -70,6 +69,5 @@ public class CompanyEquipment extends BaseEntity {
     public void setVersion(Long version) {
         this.version = version;
     }
-    */
 }
 

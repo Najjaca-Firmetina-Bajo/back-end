@@ -39,6 +39,9 @@ public class Appointment extends BaseEntity {
     @JoinColumn(name = "working_day_id")
     private WorkingDay workingDay;
 
+    @Column
+    private LocalDateTime downloadedAt;
+
     @Version
     private Long version;
 
@@ -137,4 +140,11 @@ public class Appointment extends BaseEntity {
         this.version = version;
     }
 
+    public LocalDateTime getDownloadedAt() {
+        return downloadedAt;
+    }
+
+    public void setDownloadedAt(LocalDateTime downloadedAt) {
+        this.downloadedAt = downloadedAt;
+    }
 }

@@ -19,7 +19,7 @@ public class CompanyEquipmentController {
     }
 
     @PutMapping("/pick-up-equipment/{equipmentId}/{companyId}/{quantity}")
-    public int givePenalPoints(@PathVariable long equipmentId, @PathVariable long companyId, @PathVariable int quantity) {
+    public int pickUpEquipment(@PathVariable long equipmentId, @PathVariable long companyId, @PathVariable int quantity) {
         return companyEquipmentService.pickUpEquipment(equipmentId, companyId, quantity);
     }
 }

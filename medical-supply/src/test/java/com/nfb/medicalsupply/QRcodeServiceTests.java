@@ -1,6 +1,5 @@
 package com.nfb.medicalsupply;
 
-import com.nfb.modules.companies.API.dtos.EquipmentQuantityDto;
 import com.nfb.modules.companies.API.dtos.QRCodeDto;
 import com.nfb.modules.companies.core.domain.appointment.*;
 import com.nfb.modules.companies.core.domain.company.Company;
@@ -15,9 +14,6 @@ import com.nfb.modules.stakeholders.core.repositories.RegisteredUserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -25,18 +21,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
 
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.transaction.UnexpectedRollbackException;
 
 @RunWith(SpringRunner.class)
@@ -155,9 +146,6 @@ public class QRcodeServiceTests {
         companyEquipmentRepository.save(ce3);
         lce.add(ce3);
 
-        //c.setCompanyEquipmentList(lce);
-        //companyRepository.save(c);
-
         CompanyAdministrator ca = new CompanyAdministrator();
         ca.setCompany(c);
         ca.setUsername("2001dn2001@gmail.com");
@@ -181,14 +169,10 @@ public class QRcodeServiceTests {
         ap.setCompanyAdministrator(ca);
         appointmentRepository.save(ap);
 
-        //EquipmentQuantityDto eq1 = new EquipmentQuantityDto(e1.getId(), 10);
-        //EquipmentQuantityDto eq2 = new EquipmentQuantityDto(e2.getId(), 20);
-        //EquipmentQuantityDto eq3 = new EquipmentQuantityDto(e3.getId(), 30);
     }
 
-    //@Test(expected = UnexpectedRollbackException.class)
     @Test(expected = UnexpectedRollbackException.class)
-    public void testOptimisticLockingScenario() throws Throwable {
+    public void testEquipmentReservation() throws Throwable {
 
         ExecutorService executor = Executors.newFixedThreadPool(2);
         Future<?> future1 = executor.submit(new Runnable() {
@@ -216,7 +200,7 @@ public class QRcodeServiceTests {
 
                 QRCodeDto qrd = new QRCodeDto(qrc);
                 try { Thread.sleep(3000); } catch (InterruptedException e) {}// thread uspavan na 3 sekunde da bi drugi thread mogao da izvrsi istu operaciju
-                qrCodeService.addQRCodeFromDto(qrd,app);// bacice ObjectOptimisticLockingFailureException
+                qrCodeService.addQRCodeFromDto(qrd,app);
                 System.out.println("Zavrsio thread 1");
             }
         });
@@ -257,7 +241,6 @@ public class QRcodeServiceTests {
             e.printStackTrace();
         }
         executor.shutdown();
-
     }
 
 

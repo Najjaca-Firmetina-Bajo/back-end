@@ -27,9 +27,6 @@ public class Equipment extends BaseEntity {
     @OneToMany(mappedBy = "equipment", cascade = CascadeType.ALL)
     private List<QREquipment> qrEquipments;
 
-    //@Version
-    //private Long version;
-
     public Equipment() {
     }
 
@@ -89,14 +86,5 @@ public class Equipment extends BaseEntity {
     public void setQrEquipments(List<QREquipment> qrEquipments) {
         this.qrEquipments = qrEquipments;
     }
-    /*
-    public Long getVersion() {
-        return version;
-    }
 
-    public void setVersion(Long version) {
-        this.version = version;
-    }
-
-     */
 }
