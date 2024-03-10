@@ -81,4 +81,85 @@ public class CompanyController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/search/{nameOrPlace}")
+    public ResponseEntity<List<CompanyDto>> search(@PathVariable String nameOrPlace) {
+
+        List<Company> companies = companyService.search(nameOrPlace);
+
+        List<CompanyDto> companyDtos = new ArrayList<>();
+        for (Company c : companies) {
+            companyDtos.add(new CompanyDto(c));
+        }
+
+        return new ResponseEntity<>(companyDtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/filter/{params}")
+    public ResponseEntity<?> filterForRating(@PathVariable String params) {
+        try {
+            String[] parameters = params.split(",");
+
+            // Provera da li su uneti svi potrebni podaci za filtriranje
+            if (parameters.length < 2) {
+                return new ResponseEntity<>("Nedovoljno podataka za filtriranje.", HttpStatus.BAD_REQUEST);
+            }
+
+            String nameOrPlace = parameters[0];
+
+            // Provera da li se može parsirati ocena kao double
+            double grade;
+            try {
+                grade = Double.parseDouble(parameters[1]);
+            } catch (NumberFormatException e) {
+                return new ResponseEntity<>("Neuspešno parsiranje ocene.", HttpStatus.BAD_REQUEST);
+            }
+
+            List<Company> companies = companyService.filter(nameOrPlace, grade);
+
+            List<CompanyDto> companyDtos = new ArrayList<>();
+            for (Company c : companies) {
+                companyDtos.add(new CompanyDto(c));
+            }
+
+            return new ResponseEntity<>(companyDtos, HttpStatus.OK);
+        } catch (Exception e) {
+            // Uhvaćene neke nepredviđene greške
+            return new ResponseEntity<>("Došlo je do greške prilikom obrade zahteva.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/filter-eq/{params}")
+    public ResponseEntity<?> filterForEquipment(@PathVariable String params) {
+        try {
+            String[] parameters = params.split(",");
+
+            // Provera da li su uneti svi potrebni podaci za filtriranje
+            if (parameters.length < 2) {
+                return new ResponseEntity<>("Nedovoljno podataka za filtriranje.", HttpStatus.BAD_REQUEST);
+            }
+
+            String nameOrPlace = parameters[0];
+
+            // Provera da li se može parsirati ocena kao double
+            int equipmentCount;
+            try {
+                equipmentCount = Integer.parseInt(parameters[1]);
+            } catch (NumberFormatException e) {
+                return new ResponseEntity<>("Neuspešno parsiranje ocene.", HttpStatus.BAD_REQUEST);
+            }
+
+            List<Company> companies = companyService.filterByEquipmentCount(nameOrPlace, equipmentCount);
+
+            List<CompanyDto> companyDtos = new ArrayList<>();
+            for (Company c : companies) {
+                companyDtos.add(new CompanyDto(c));
+            }
+
+            return new ResponseEntity<>(companyDtos, HttpStatus.OK);
+        } catch (Exception e) {
+            // Uhvaćene neke nepredviđene greške
+            return new ResponseEntity<>("Došlo je do greške prilikom obrade zahteva.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

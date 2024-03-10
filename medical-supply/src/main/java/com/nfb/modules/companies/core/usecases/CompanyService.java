@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -58,4 +59,29 @@ public class CompanyService   {
     }
 
     public Company findByName(String name) { return companyRepository.findByName(name); }
+
+    public List<Company> search(String nameOrPlace){
+        return companyRepository.findByNameIgnoreCaseOrAddressContainingIgnoreCase(nameOrPlace, nameOrPlace);
+    }
+
+    public List<Company> filter(String nameOrPlace, double rating){
+        List<Company> filter = companyRepository.findCompaniesByAverageRating(rating);
+        return getCompanies(nameOrPlace, filter);
+    }
+
+    public List<Company> filterByEquipmentCount(String nameOrPlace,int equipmentCount) {
+        List<Company> filter = companyRepository.filterByEquipmentCount(equipmentCount);
+        return getCompanies(nameOrPlace, filter);
+    }
+
+    private List<Company> getCompanies(String nameOrPlace, List<Company> filter) {
+        List<Company> filterAndSearch = new ArrayList<>();
+
+        for(Company c: filter) {
+            if(c.getName().equals(nameOrPlace)) filterAndSearch.add(c);
+            else if(c.getAddress().toLowerCase().contains(nameOrPlace.toLowerCase())) filterAndSearch.add(c);
+        }
+
+        return filterAndSearch;
+    }
 }

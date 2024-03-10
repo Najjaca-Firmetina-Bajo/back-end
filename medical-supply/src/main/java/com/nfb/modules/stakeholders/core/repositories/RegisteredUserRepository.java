@@ -15,4 +15,7 @@ public interface RegisteredUserRepository extends JpaRepository<RegisteredUser, 
     @Query("UPDATE RegisteredUser ru SET ru.penalPoints = :penalPoints WHERE ru.id = :userId")
     @Transactional
     void updatePenalPoints(@Param("penalPoints") int penalPoints, @Param("userId") Long userId);
+
+    @Override
+    <S extends RegisteredUser> S save(S registeredUser);
 }

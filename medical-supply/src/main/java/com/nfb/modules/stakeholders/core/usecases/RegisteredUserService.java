@@ -24,10 +24,18 @@ public class RegisteredUserService {
 
     public List<RegisteredUser> getAll() { return registeredUserRepository.findAll(); }
 
+    public RegisteredUser getRegisteredUser(long id) {
+        return registeredUserRepository.findById(id);
+    }
+
     public int givePenalPoints(long userId) {
         RegisteredUser ru = registeredUserRepository.findById(userId);
         int penalPoints = ru.getPenalPoints() + 2;
         registeredUserRepository.updatePenalPoints(penalPoints, userId);
         return penalPoints;
+    }
+
+    public void updateRegisteredUser(RegisteredUser registeredUser){
+        registeredUserRepository.save(registeredUser);
     }
 }

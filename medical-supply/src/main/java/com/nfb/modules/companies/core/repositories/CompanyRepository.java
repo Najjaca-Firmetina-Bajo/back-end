@@ -17,6 +17,14 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
     Company findByName(String name);
 
+    List<Company> findByNameIgnoreCaseOrAddressContainingIgnoreCase(String name, String place);
+
+    @Query("SELECT c FROM Company c WHERE :minAverageRating IS NULL OR c.averageRating < :minAverageRating")
+    List<Company> findCompaniesByAverageRating(@Param("minAverageRating") double minAverageRating);
+
+    @Query("SELECT c FROM Company c, CompanyEquipment ce WHERE c.id = ce.company.id AND ce.quantity <= :equipmentCount")
+    List<Company> filterByEquipmentCount(@Param("equipmentCount") int equipmentCount);
+
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @QueryHints({@QueryHint(name = "jakarta.persistence.lock.timeout", value ="1000")})
     @Query("SELECT c from Company c where c.id = :id")
