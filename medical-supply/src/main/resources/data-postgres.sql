@@ -292,22 +292,22 @@ INSERT INTO public.working_days(
 VALUES ('2024-11-6T12:30:00', 10014, 1003);
 -----------------------------------------------------------------------
 INSERT INTO public.appointments (duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id,winner_id)
-VALUES (1, false, 111, 0, 1004, 1001, '2024-02-01T14:00:00', 1003,-1);
+VALUES (1, false, 111, 0, 1004, 1001, '2024-06-06T14:00:00', 1003,-1);
 
 INSERT INTO public.appointments (duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id,winner_id)
-VALUES (1, false, 151, 0, 1004, 1002, '2024-02-04T15:00:00', 1004,-1);
+VALUES (1, false, 151, 0, 1004, 1002, '2024-07-06T15:00:00', 1004,-1);
 
 INSERT INTO public.appointments (duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id,winner_id)
-VALUES (2, true, 222, 1, 1004, 1003, '2024-02-07T15:10:00', 1005,-1);
+VALUES (2, true, 222, 1, 1004, 1003, '2024-05-07T15:10:00', 1005,-1);
 
 INSERT INTO public.appointments (duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id,winner_id)
-VALUES (4, false, 223, 0, 1004, 1004, '2024-03-08T15:10:00', 1006,-1);
+VALUES (4, false, 223, 0, 1004, 1004, '2024-04-04T15:10:00', 1006,-1);
 
 INSERT INTO public.appointments (duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id,winner_id)
-VALUES (4, false, 223, 0, 1004, 1005, '2024-03-06T15:10:00', 1006,-1);
+VALUES (4, false, 223, 0, 1004, 1005, '2024-07-07T15:10:00', 1006,-1);
 
 INSERT INTO public.appointments (duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id,winner_id)
-VALUES (4, false, 223, 0, 1004, 1006, '2024-03-09T15:10:00', 1006,-1);
+VALUES (4, false, 223, 0, 1004, 1006, '2024-06-06T15:10:00', 1006,-1);
 
 -----------------------------------------------------------------------
 

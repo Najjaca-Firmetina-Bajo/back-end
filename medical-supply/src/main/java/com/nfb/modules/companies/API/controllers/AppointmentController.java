@@ -173,7 +173,7 @@ public class AppointmentController {
     @PostMapping("/reserve")
     public ResponseEntity<QRCodeDto> addQRCode(@RequestBody QRCodeDto qrCodeDto) {
         if(qrCodeDto.getReservedEquipment().isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        Appointment appointment = appointmentService.getById(qrCodeDto.getId());
+        Appointment appointment = appointmentService.getById(qrCodeDto.getAppointmentId());
         QRCode addedQRCode = qrCodeService.addQRCodeFromDto(qrCodeDto);
 
 

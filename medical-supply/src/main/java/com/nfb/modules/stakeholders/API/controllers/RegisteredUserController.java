@@ -53,7 +53,7 @@ public class RegisteredUserController {
         List<Role> roles = roleService.findByName("REGISTERED_USER");
         RegisteredUser userForUpdating = registeredUserService.getRegisteredUser(registeredUserDTO.getId());
         userForUpdating.setName(registeredUserDTO.getName());
-        userForUpdating.setPassword(passwordEncoder.encode(registeredUserDTO.getPassword()));
+        //userForUpdating.setPassword(passwordEncoder.encode(registeredUserDTO.getPassword()));
         userForUpdating.setSurname(registeredUserDTO.getSurname());
         userForUpdating.setCity(registeredUserDTO.getCity());
         userForUpdating.setCountry(registeredUserDTO.getCountry());
