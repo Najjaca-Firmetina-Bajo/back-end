@@ -55,4 +55,10 @@ public class CompanyAdministratorController {
         return companyAdministratorService.setCompanyForAdministrator(adminId, companyId);
     }
 
+    @PutMapping ("{companyId}/update-info")
+    public ResponseEntity<CompanyAdministratorDto> update() {
+
+        return null;
+    }
+
 }

@@ -81,4 +81,10 @@ public class CompanyController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @PutMapping("{id}/update")
+    public ResponseEntity<CompanyDto> update(){
+
+        return null;
+    }
 }

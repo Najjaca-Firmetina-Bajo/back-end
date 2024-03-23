@@ -1,5 +1,6 @@
 package com.nfb.modules.companies.core.usecases;
 
+import com.nfb.modules.companies.API.dtos.CompanyUpdateDto;
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.companies.core.repositories.CompanyRepository;
@@ -58,4 +59,15 @@ public class CompanyService   {
     }
 
     public Company findByName(String name) { return companyRepository.findByName(name); }
+
+    public Company update(long id, CompanyUpdateDto companyDto){
+        var company = companyRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Company not found."));
+
+        company.setName(companyDto.getName());
+        company.setAddress(companyDto.getAddress());
+        company.setAverageRating(companyDto.getAvgRating());
+        company.setAdministrators(companyDto.getAdministrators());
+
+        return companyRepository.save(company);
+    }
 }
