@@ -26,6 +26,10 @@ public class QRCode extends BaseEntity {
     @JoinColumn(name = "appointment_id")
     private Appointment appointment;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "extraordinary_appointment_id")
+    private ExtraordinaryAppointment extraordinaryAppointment;
+
     @OneToMany(mappedBy = "qrCode", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QREquipment> reservedEquipment;
 
@@ -35,11 +39,12 @@ public class QRCode extends BaseEntity {
     public QRCode() {
     }
 
-    public QRCode(String code, QRStatus status, RegisteredUser user, Appointment appointment) {
+    public QRCode(String code, QRStatus status, RegisteredUser user, Appointment appointment, ExtraordinaryAppointment extraordinaryAppointment) {
         this.code = code;
         this.status = status;
         this.registeredUser = user;
         this.appointment = appointment;
+        this.extraordinaryAppointment =extraordinaryAppointment;
     }
 
 
@@ -73,6 +78,14 @@ public class QRCode extends BaseEntity {
 
     public void setAppointment(Appointment appointment) {
         this.appointment = appointment;
+    }
+
+    public ExtraordinaryAppointment getExtraordinaryAppointment() {
+        return extraordinaryAppointment;
+    }
+
+    public void setExtraordinaryAppointment(ExtraordinaryAppointment appointment) {
+        this.extraordinaryAppointment = appointment;
     }
 
     public RegisteredUser getRegisteredUser() {

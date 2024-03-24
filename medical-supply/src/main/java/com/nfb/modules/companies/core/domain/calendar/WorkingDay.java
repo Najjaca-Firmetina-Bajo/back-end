@@ -14,6 +14,8 @@ public class WorkingDay extends BaseEntity {
 
     @Column(nullable = false)
     private Date date;
+    @Column(nullable = false)
+    private Date endDate;
     @OneToMany(mappedBy = "workingDay", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Appointment> appointments;
     @ManyToOne(fetch = FetchType.EAGER)
@@ -29,6 +31,14 @@ public class WorkingDay extends BaseEntity {
 
     private void setDate(Date date) {
         this.date = date;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    private void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public List<Appointment> getAppointments() {

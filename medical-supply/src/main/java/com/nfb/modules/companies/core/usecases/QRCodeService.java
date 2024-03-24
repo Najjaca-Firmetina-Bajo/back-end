@@ -98,7 +98,7 @@ public class QRCodeService {
                     return null;
                 }
 
-                QRCode qrCode = new QRCode(qrCodeDto.getCode(), qrCodeDto.getStatus(), user, appointment);
+                QRCode qrCode = new QRCode(qrCodeDto.getCode(), qrCodeDto.getStatus(), user, appointment, null);
 
 
                 List<EquipmentQuantityDto> qrEquipmentList = qrCodeDto.getReservedEquipment();
