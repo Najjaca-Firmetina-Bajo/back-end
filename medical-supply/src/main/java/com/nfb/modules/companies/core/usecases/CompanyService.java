@@ -90,7 +90,11 @@ public class CompanyService   {
     }
 
     public boolean checkIfCompanyIsWorking(long companyId, Date date){
-        if(workingDayRepository.checkIfCompanyIsWorking(companyId,date).isEmpty()) return false;
+        if(workingDayRepository.checkIfCompanyIsWorking(companyId,date) == null) return false;
         return true;
+    }
+
+    public List<CompanyAdministrator> getCompanyAdministrators(long companyId){
+        return companyRepository.getCompanyAdministrators(companyId);
     }
 }

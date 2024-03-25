@@ -17,5 +17,5 @@ public interface WorkingDayRepository extends JpaRepository<WorkingDay, Long> {
              "JOIN WorkingCalendar wc ON wd.workingCalendar.id = wc.id\n" +
              "JOIN Company c ON wc.company.id = c.id\n" +
              "WHERE DATE(wd.date) = :date AND c.id = :companyId")
-     List<WorkingDay> checkIfCompanyIsWorking(long companyId, Date date);
+     WorkingDay checkIfCompanyIsWorking(long companyId, Date date);
 }

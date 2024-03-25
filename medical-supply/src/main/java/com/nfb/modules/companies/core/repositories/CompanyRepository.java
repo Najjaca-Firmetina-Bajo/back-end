@@ -34,4 +34,8 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     @Transactional
     @Query("UPDATE Company c SET c.administrators = :administrators WHERE c.id = :companyId")
     void addAdministratorToCompany(@Param("companyId") long companyId, @Param("administrators") List<CompanyAdministrator> administrators);
+
+    @Query("SELECT c.administrators from Company c where c.id = :id")
+    List<CompanyAdministrator> getCompanyAdministrators(long id);
+
 }

@@ -46,6 +46,17 @@ public class ExtraordinaryAppointment extends BaseEntity {
     public ExtraordinaryAppointment() {
     }
 
+    public ExtraordinaryAppointment(LocalDateTime pickUpDate, int duration, AppointmentType type, boolean isDownloaded, int reservationNumber, WorkingDay workingDay, long winnerId) {
+        this.pickUpDate = pickUpDate;
+        this.duration = duration;
+        this.type = type;
+        this.isDownloaded = isDownloaded;
+        this.reservationNumber = reservationNumber;
+        this.workingDay = workingDay;
+        this.winnerId = winnerId;
+    }
+
+    //duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id,winner_id
 
     public long getWinnerId() {
         return winnerId;

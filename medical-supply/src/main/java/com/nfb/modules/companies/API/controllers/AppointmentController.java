@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -203,4 +204,14 @@ public class AppointmentController {
         }
     }
 
+    @GetMapping("/createAndGetExtraordinaryAppointments")
+    public ResponseEntity<List<Appointment>> getAppointments(@RequestParam Date date, @RequestParam long companyId) {
+        List<Appointment> appointments = appointmentService.createIfCompanyIsWorking(date, companyId);
+
+        if (appointments == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Company not working on that day
+        } else {
+            return ResponseEntity.ok(appointments); // Return the list of appointments
+        }
+    }
 }
