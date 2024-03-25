@@ -3,6 +3,7 @@ package com.nfb.modules.companies.core.usecases;
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.companies.core.repositories.CompanyRepository;
+import com.nfb.modules.companies.core.repositories.WorkingDayRepository;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import com.nfb.modules.stakeholders.core.usecases.CompanyAdministratorService;
 import jakarta.persistence.EntityNotFoundException;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,12 +22,14 @@ public class CompanyService   {
     private final CompanyRepository companyRepository;
     private final EquipmentService equipmentService;
     private final CompanyAdministratorService companyAdministratorService;
+    private final WorkingDayRepository workingDayRepository;
 
     @Autowired
-    public CompanyService(CompanyRepository companyRepository, EquipmentService equipmentService, CompanyAdministratorService companyAdministratorService) {
+    public CompanyService(CompanyRepository companyRepository, EquipmentService equipmentService, CompanyAdministratorService companyAdministratorService, WorkingDayRepository workingDayRepository) {
         this.companyRepository = companyRepository;
         this.equipmentService = equipmentService;
         this.companyAdministratorService = companyAdministratorService;
+        this.workingDayRepository = workingDayRepository;
     }
 
     public Company register(Company company) { return companyRepository.save(company); }
@@ -83,5 +87,10 @@ public class CompanyService   {
         }
 
         return filterAndSearch;
+    }
+
+    public boolean checkIfCompanyIsWorking(long companyId, Date date){
+        if(workingDayRepository.checkIfCompanyIsWorking(companyId,date).isEmpty()) return false;
+        return true;
     }
 }
