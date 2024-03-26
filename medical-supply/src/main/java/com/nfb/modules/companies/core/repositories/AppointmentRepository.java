@@ -1,7 +1,6 @@
 package com.nfb.modules.companies.core.repositories;
 
 import com.nfb.modules.companies.core.domain.appointment.Appointment;
-import com.nfb.modules.companies.core.domain.appointment.ExtraordinaryAppointment;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.QueryHint;
@@ -48,9 +47,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Query("SELECT a FROM Appointment a WHERE a.isDownloaded = true")
     List<Appointment> findDownloadedAppointments();
 
-    @Query("select a from Appointment a where a.companyAdministrator = :administratorId and a.pickUpDate = :date")
+    @Query("select a from Appointment a where a.companyAdministrator.id = :administratorId and DATE(a.pickUpDate) = :date")
     Appointment checkIfAdministratorHasAppointment(long administratorId, Date date);
 
-    @Query("SELECT e from Appointment e where e.isDownloaded = false and e.type = 'Extraordinary' and e.companyAdministrator in (:companyAdministrators) and DATE(e.pickUpDate) = :date")
+    @Query("SELECT e from Appointment e where e.isDownloaded = false and e.type = 1 and e.companyAdministrator.id in (:companyAdministrators) and DATE(e.pickUpDate) = :date")
     List<Appointment> getCompaniesNotDowloadedAppointments(List<Long> companyAdministrators, Date date);
 }

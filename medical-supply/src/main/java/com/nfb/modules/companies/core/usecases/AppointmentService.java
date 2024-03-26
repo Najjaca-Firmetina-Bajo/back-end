@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -111,6 +112,7 @@ public class AppointmentService {
 
     public List<Appointment> createIfCompanyIsWorking(Date date, long companyId) {
         try {
+
             if (!companyService.checkIfCompanyIsWorking(companyId, date)) {
                 return null;
             }
@@ -126,20 +128,19 @@ public class AppointmentService {
 
             List<Appointment> extraordinaryAppointments = appointmentRepository.getCompaniesNotDowloadedAppointments(administratorsIds, date);
 
-            if (extraordinaryAppointments.isEmpty()) {
+            //if (extraordinaryAppointments.isEmpty()) {
                 LocalDateTime currentDateTime = LocalDateTime.ofInstant(companiesWorkingDay.getDate().toInstant(), ZoneId.systemDefault());
                 LocalDateTime endDateTime = LocalDateTime.ofInstant(companiesWorkingDay.getEndDate().toInstant(), ZoneId.systemDefault());
 
                 while (!currentDateTime.isAfter(endDateTime)) {
-                    currentDateTime = currentDateTime.plusHours(1);
-
                     Date currentDate = Date.from(currentDateTime.atZone(ZoneId.systemDefault()).toInstant());
 
                     for (long administratorId : administratorsIds) {
                         Random random = new Random();
                         try {
                             if (!checkIfAdministratorHasAppointment(administratorId, currentDate)) {
-                                Appointment newExtraordinaryAppointment = new Appointment(currentDateTime, 30, AppointmentType.Extraordinary, false, random.nextInt(1000) + 1, companiesWorkingDay, -1);
+                                CompanyAdministrator administrator = companyAdministratorRepository.getById(administratorId);
+                                Appointment newExtraordinaryAppointment = new Appointment(currentDateTime, 30, AppointmentType.Extraordinary, false, random.nextInt(1000) + 1, companiesWorkingDay, -1, administrator);
                                 extraordinaryAppointments.add(newExtraordinaryAppointment);
                             }
                         } catch (Exception e) {
@@ -147,8 +148,9 @@ public class AppointmentService {
                             e.printStackTrace();
                         }
                     }
+                    currentDateTime = currentDateTime.plusHours(1);
                 }
-            }
+            //}
 
             for (Appointment a : extraordinaryAppointments) {
                 try {

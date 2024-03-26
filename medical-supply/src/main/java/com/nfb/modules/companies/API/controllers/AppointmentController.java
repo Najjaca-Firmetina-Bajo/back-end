@@ -204,14 +204,18 @@ public class AppointmentController {
         }
     }
 
-    @GetMapping("/createAndGetExtraordinaryAppointments")
-    public ResponseEntity<List<Appointment>> getAppointments(@RequestParam Date date, @RequestParam long companyId) {
+    @GetMapping("/extraordinary-appointments")
+    public ResponseEntity<List<AppointmentDto>> getExtraordinaryAppointments(@RequestParam Date date, @RequestParam long companyId) {
         List<Appointment> appointments = appointmentService.createIfCompanyIsWorking(date, companyId);
-
+        List<AppointmentDto> dtos = new ArrayList<>();
         if (appointments == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Company not working on that day
         } else {
-            return ResponseEntity.ok(appointments); // Return the list of appointments
+            for (Appointment a :
+                    appointments) {
+                dtos.add(new AppointmentDto(a));
+            }
+            return new ResponseEntity<>(dtos, HttpStatus.OK); // Return the list of appointments
         }
     }
 }
