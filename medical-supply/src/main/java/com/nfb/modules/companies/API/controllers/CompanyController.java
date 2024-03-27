@@ -162,4 +162,20 @@ public class CompanyController {
             return new ResponseEntity<>("Došlo je do greške prilikom obrade zahteva.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/sort/{ascOrDesc}/{type}")
+    public ResponseEntity<List<CompanyDto>> sort(@PathVariable String ascOrDesc, @PathVariable String type) {
+        List<Company> sortedCompanies = companyService.sortCompanies(ascOrDesc,type);
+
+        if (!sortedCompanies.isEmpty()) {
+            List<CompanyDto> companyDtos = new ArrayList<>();
+            for (Company c : sortedCompanies) {
+                companyDtos.add(new CompanyDto(c));
+            }
+
+            return new ResponseEntity<>(companyDtos, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

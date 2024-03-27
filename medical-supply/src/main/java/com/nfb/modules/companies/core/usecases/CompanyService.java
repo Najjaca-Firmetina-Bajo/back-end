@@ -97,4 +97,20 @@ public class CompanyService   {
     public List<CompanyAdministrator> getCompanyAdministrators(long companyId){
         return companyRepository.getCompanyAdministrators(companyId);
     }
+
+    public List<Company> sortCompanies(String ascOrDesc, String type){
+        if(type.equals("name")){
+            if(ascOrDesc.equals("asc")) return companyRepository.sortCompaniesByNameAsc();
+            return companyRepository.sortCompaniesByNameDesc();
+        }
+        else if(type.equals("address")){
+            if(ascOrDesc.equals("asc")) return companyRepository.sortCompaniesByAddressAsc();
+            return companyRepository.sortCompaniesByAddressDesc();
+        }
+        else if(type.equals("rating")){
+            if(ascOrDesc.equals("asc")) return companyRepository.sortCompaniesByRatingAsc();
+            return companyRepository.sortCompaniesByRatingDesc();
+        }
+        return null;
+    }
 }
