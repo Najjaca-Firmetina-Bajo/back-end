@@ -50,6 +50,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Query("select a from Appointment a where a.companyAdministrator.id = :administratorId and DATE(a.pickUpDate) = :date")
     Appointment checkIfAdministratorHasAppointment(long administratorId, Date date);
 
-    @Query("SELECT e from Appointment e where e.isDownloaded = false and e.type = 1 and e.companyAdministrator.id in (:companyAdministrators) and DATE(e.pickUpDate) = :date")
+    @Query("SELECT e from Appointment e where e.isDownloaded = false and e.companyAdministrator.id in (:companyAdministrators) and DATE(e.pickUpDate) = :date and e.winnerId = -1")
     List<Appointment> getCompaniesNotDowloadedAppointments(List<Long> companyAdministrators, Date date);
 }
