@@ -53,5 +53,17 @@ public class QRCodeController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    @GetMapping("/get-all-processed-by-user/{id}")
+    public ResponseEntity<List<QRCodeDto>> getAllProcessedByUser(@PathVariable Long id) {
+        List<QRCode> qrCodes = qrCodeService.getProcessedByUserId(id);
 
+        List<QRCodeDto> dtos = new ArrayList<>();
+        for (QRCode q : qrCodes) {
+            if(q.getAppointment().getPickUpDate().isAfter(LocalDateTime.now())) {
+                dtos.add(new QRCodeDto(q));
+            }
+        }
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
 }

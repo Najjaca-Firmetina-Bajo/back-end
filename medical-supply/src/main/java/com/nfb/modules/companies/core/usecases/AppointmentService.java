@@ -2,6 +2,7 @@ package com.nfb.modules.companies.core.usecases;
 
 import com.nfb.modules.companies.core.domain.appointment.*;
 import com.nfb.modules.companies.core.domain.calendar.WorkingDay;
+import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.repositories.AppointmentRepository;
 import com.nfb.modules.companies.core.repositories.WorkingDayRepository;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
@@ -102,12 +103,28 @@ public class AppointmentService {
     public List<Appointment> getBy(long workingDayId) { return appointmentRepository.findByWorkingDayId(workingDayId); }
 
     public Appointment getById(long id) {
-        return appointmentRepository.getById(id);
+        return appointmentRepository.findById(id);
     }
 
     public boolean checkIfAdministratorHasAppointment(long administratorId, Date date){
         if(appointmentRepository.checkIfAdministratorHasAppointment(administratorId,date) == null) return false;
         return true;
+    }
+
+    public List<Appointment> getUsersDownloadedAppointments(long winnerId){
+        return appointmentRepository.getUsersDownloadedAppointments(winnerId);
+    }
+
+    public List<Appointment> sortAppointments(String ascOrDesc, String type){
+        if(type.equals("date")){
+            if(ascOrDesc.equals("asc")) return appointmentRepository.sortAppointmentsByDateAsc();
+            return appointmentRepository.sortAppointmentsByDateDesc();
+        }
+        else if(type.equals("duration")){
+            if(ascOrDesc.equals("asc")) return appointmentRepository.sortAppointmentsByDurationAsc();
+            return appointmentRepository.sortAppointmentsByDurationDesc();
+        }
+        return null;
     }
 
     public List<Appointment> createIfCompanyIsWorking(Date date, long companyId) {
@@ -169,4 +186,7 @@ public class AppointmentService {
         }
     }
 
+    public void save(Appointment appointment) {
+        appointmentRepository.saveAndFlush(appointment);
+    }
 }

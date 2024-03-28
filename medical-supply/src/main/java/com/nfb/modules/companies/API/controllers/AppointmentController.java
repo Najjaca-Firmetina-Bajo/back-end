@@ -1,11 +1,9 @@
 package com.nfb.modules.companies.API.controllers;
 
 import com.nfb.modules.companies.API.dtos.AppointmentDto;
+import com.nfb.modules.companies.API.dtos.EquipmentQuantityDto;
 import com.nfb.modules.companies.API.dtos.QRCodeDto;
-import com.nfb.modules.companies.core.domain.appointment.Appointment;
-import com.nfb.modules.companies.core.domain.appointment.AppointmentType;
-import com.nfb.modules.companies.core.domain.appointment.QRCode;
-import com.nfb.modules.companies.core.domain.appointment.QRStatus;
+import com.nfb.modules.companies.core.domain.appointment.*;
 import com.nfb.modules.companies.core.domain.calendar.WorkingDay;
 import com.nfb.modules.companies.core.usecases.AppointmentService;
 import com.nfb.modules.companies.core.usecases.QRCodeGenerator;
@@ -207,7 +205,40 @@ public class AppointmentController {
     @GetMapping("/extraordinary-appointments")
     public ResponseEntity<List<AppointmentDto>> getExtraordinaryAppointments(@RequestParam Date date, @RequestParam long companyId) {
         List<Appointment> appointments = appointmentService.createIfCompanyIsWorking(date, companyId);
+        return getListResponseEntity(appointments);
+    }
+
+    @GetMapping("/get-users-downloaded-appointments/{userId}")
+    public ResponseEntity<List<AppointmentDto>> getUsersDownloadedAppointments(@PathVariable long userId){
+        List<QRCode> qrCodes = qrCodeService.getProcessedByUserId(userId);
+
         List<AppointmentDto> dtos = new ArrayList<>();
+
+        for (QRCode q :
+                qrCodes) {
+            AppointmentDto a = new AppointmentDto(q.getAppointment());
+            List<QREquipment> equipments = q.getReservedEquipment();
+            for (QREquipment e :
+                    equipments) {
+                List<EquipmentQuantityDto> eqdtoList = new ArrayList<>();
+                eqdtoList.add(new EquipmentQuantityDto(e.getEquipmentId(), e.getQuantity()));
+                a.setReservedEquipment(eqdtoList);
+            }
+            dtos.add(a);
+        }
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/sort/{ascOrDesc}/{type}")
+    public ResponseEntity<List<AppointmentDto>> sort(@PathVariable String ascOrDesc, @PathVariable String type){
+        List<Appointment> appointments = appointmentService.sortAppointments(ascOrDesc,type);
+        return getListResponseEntity(appointments);
+    }
+
+    private ResponseEntity<List<AppointmentDto>> getListResponseEntity(List<Appointment> appointments) {
+        List<AppointmentDto> dtos = new ArrayList<>();
+
         if (appointments == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Company not working on that day
         } else {
@@ -218,4 +249,5 @@ public class AppointmentController {
             return new ResponseEntity<>(dtos, HttpStatus.OK); // Return the list of appointments
         }
     }
+
 }

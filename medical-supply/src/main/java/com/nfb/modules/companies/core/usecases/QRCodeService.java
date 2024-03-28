@@ -212,4 +212,8 @@ public class QRCodeService {
 
         return null;
     }
+
+    public List<QRCode> getProcessedByUserId(Long id) {
+       return qrCodeRepository.getProcessedByUserId(id);
+    }
 }

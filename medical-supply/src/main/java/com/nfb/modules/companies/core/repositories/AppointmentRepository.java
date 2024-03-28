@@ -52,4 +52,19 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     @Query("SELECT e from Appointment e where e.isDownloaded = false and e.companyAdministrator.id in (:companyAdministrators) and DATE(e.pickUpDate) = :date and e.winnerId = -1")
     List<Appointment> getCompaniesNotDowloadedAppointments(List<Long> companyAdministrators, Date date);
+
+    @Query("SELECT a from Appointment a where a.winnerId = :winnerId and a.isDownloaded = true")
+    List<Appointment> getUsersDownloadedAppointments(long winnerId);
+
+    @Query("select a from Appointment a order by a.pickUpDate desc")
+    List<Appointment> sortAppointmentsByDateDesc();
+
+    @Query("select a from Appointment a order by a.pickUpDate asc")
+    List<Appointment> sortAppointmentsByDateAsc();
+
+    @Query("select a from Appointment a order by a.duration desc")
+    List<Appointment> sortAppointmentsByDurationDesc();
+
+    @Query("select a from Appointment a order by a.duration asc")
+    List<Appointment> sortAppointmentsByDurationAsc();
 }
