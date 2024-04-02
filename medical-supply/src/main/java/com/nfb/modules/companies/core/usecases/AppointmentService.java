@@ -115,14 +115,14 @@ public class AppointmentService {
         return appointmentRepository.getUsersDownloadedAppointments(winnerId);
     }
 
-    public List<Appointment> sortAppointments(String ascOrDesc, String type){
+    public List<Appointment> sortAppointments(String ascOrDesc, String type, long winnerId){
         if(type.equals("date")){
-            if(ascOrDesc.equals("asc")) return appointmentRepository.sortAppointmentsByDateAsc();
-            return appointmentRepository.sortAppointmentsByDateDesc();
+            if(ascOrDesc.equals("asc")) return appointmentRepository.sortAppointmentsByDateAsc(winnerId);
+            return appointmentRepository.sortAppointmentsByDateDesc(winnerId);
         }
         else if(type.equals("duration")){
-            if(ascOrDesc.equals("asc")) return appointmentRepository.sortAppointmentsByDurationAsc();
-            return appointmentRepository.sortAppointmentsByDurationDesc();
+            if(ascOrDesc.equals("asc")) return appointmentRepository.sortAppointmentsByDurationAsc(winnerId);
+            return appointmentRepository.sortAppointmentsByDurationDesc(winnerId);
         }
         return null;
     }

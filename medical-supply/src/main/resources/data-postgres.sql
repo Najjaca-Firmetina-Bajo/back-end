@@ -311,9 +311,12 @@ INSERT INTO public.appointments (duration, is_downloaded, reservation_number, ty
 VALUES (4, false, 223, 0, 1004, 1006, '2024-06-06T15:10:00', 1006,-1);
 
 -----------------------------------------------------------------------
-/*
+
 INSERT INTO public.qrcodes (appointment_id, id, registered_user_id, code, status)
-VALUES (1001, 1001, 1001, 'ABC123', 'NEW');
+VALUES (1001, 1001, 1001, 'ABC123', 'PROCESSED');
+
+INSERT INTO public.qrcodes (appointment_id, id, registered_user_id, code, status)
+VALUES (1003, 1005, 1001, 'ABD111', 'PROCESSED');
 
 INSERT INTO public.qrcodes (appointment_id, id, registered_user_id, code, status)
 VALUES (1002, 1002, 1003, 'XYZ456', 'PROCESSED');
@@ -331,6 +334,9 @@ INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)
 VALUES (1001,1001, 1001,1);
 
 INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)
+VALUES (1006,1002, 1005,3);
+
+INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)
 VALUES (1002,1002, 1001,2);
 
 INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)
@@ -343,4 +349,3 @@ INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)
 VALUES (1005,1003, 1004,6);
 
 -------------------------------------------------------------------------------
-*/

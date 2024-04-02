@@ -56,15 +56,15 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Query("SELECT a from Appointment a where a.winnerId = :winnerId and a.isDownloaded = true")
     List<Appointment> getUsersDownloadedAppointments(long winnerId);
 
-    @Query("select a from Appointment a order by a.pickUpDate desc")
-    List<Appointment> sortAppointmentsByDateDesc();
+    @Query("select a from Appointment a where a.winnerId = :winnerId and a.isDownloaded = true order by a.pickUpDate desc")
+    List<Appointment> sortAppointmentsByDateDesc(long winnerId);
 
-    @Query("select a from Appointment a order by a.pickUpDate asc")
-    List<Appointment> sortAppointmentsByDateAsc();
+    @Query("select a from Appointment a where a.winnerId = :winnerId and a.isDownloaded = true order by a.pickUpDate asc")
+    List<Appointment> sortAppointmentsByDateAsc(long winnerId);
 
-    @Query("select a from Appointment a order by a.duration desc")
-    List<Appointment> sortAppointmentsByDurationDesc();
+    @Query("select a from Appointment a where a.winnerId = :winnerId and a.isDownloaded = true order by a.duration desc")
+    List<Appointment> sortAppointmentsByDurationDesc(long winnerId);
 
-    @Query("select a from Appointment a order by a.duration asc")
-    List<Appointment> sortAppointmentsByDurationAsc();
+    @Query("select a from Appointment a where a.winnerId = :winnerId and a.isDownloaded = true order by a.duration asc")
+    List<Appointment> sortAppointmentsByDurationAsc(long winnerId);
 }

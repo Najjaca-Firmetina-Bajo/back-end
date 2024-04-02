@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -230,11 +231,44 @@ public class AppointmentController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @GetMapping("/sort/{ascOrDesc}/{type}")
-    public ResponseEntity<List<AppointmentDto>> sort(@PathVariable String ascOrDesc, @PathVariable String type){
-        List<Appointment> appointments = appointmentService.sortAppointments(ascOrDesc,type);
-        return getListResponseEntity(appointments);
+    @GetMapping("/sort/{ascOrDesc}/{type}/{userId}")
+    public ResponseEntity<List<AppointmentDto>> sort(@PathVariable String ascOrDesc, @PathVariable String type, @PathVariable long userId){
+        List<QRCode> qrCodes = qrCodeService.getProcessedByUserId(userId);
+        List<AppointmentDto> dtos = new ArrayList<>();
+
+        for (QRCode q : qrCodes) {
+            AppointmentDto a = new AppointmentDto(q.getAppointment());
+            List<QREquipment> equipments = q.getReservedEquipment();
+            List<EquipmentQuantityDto> eqdtoList = new ArrayList<>();
+            for (QREquipment e : equipments) {
+                eqdtoList.add(new EquipmentQuantityDto(e.getEquipmentId(), e.getQuantity()));
+            }
+            a.setReservedEquipment(eqdtoList);
+            dtos.add(a);
+        }
+
+        // Definisanje Comparator-a
+        Comparator<AppointmentDto> comparator = null;
+        if (ascOrDesc.equalsIgnoreCase("asc")) {
+            if (type.equalsIgnoreCase("date")) {
+                comparator = Comparator.comparing(AppointmentDto::getPickUpDate);
+            } else {
+                comparator = Comparator.comparing(AppointmentDto::getDuration);
+            }
+        } else {
+            if (type.equalsIgnoreCase("date")) {
+                comparator = Comparator.comparing(AppointmentDto::getPickUpDate).reversed();
+            } else {
+                comparator = Comparator.comparing(AppointmentDto::getDuration).reversed();
+            }
+        }
+
+        // Sortiranje liste dtos
+        dtos.sort(comparator);
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
+
 
     private ResponseEntity<List<AppointmentDto>> getListResponseEntity(List<Appointment> appointments) {
         List<AppointmentDto> dtos = new ArrayList<>();
