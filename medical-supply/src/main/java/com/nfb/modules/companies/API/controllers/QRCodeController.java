@@ -66,4 +66,18 @@ public class QRCodeController {
 
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
+
+    @GetMapping("/filter-codes-by-user/{status}/{id}")
+    public ResponseEntity<List<QRCodeDto>> filterUsersCodes(@PathVariable String status, @PathVariable long id) {
+        List<QRCode> qrCodes = qrCodeService.filterUsersQRCodes(status,id);
+
+        List<QRCodeDto> dtos = new ArrayList<>();
+        for (QRCode q : qrCodes) {
+            if(q.getAppointment().getPickUpDate().isAfter(LocalDateTime.now())) {
+                dtos.add(new QRCodeDto(q));
+            }
+        }
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
 }

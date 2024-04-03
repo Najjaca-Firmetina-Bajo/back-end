@@ -234,18 +234,7 @@ public class AppointmentController {
     @GetMapping("/sort/{ascOrDesc}/{type}/{userId}")
     public ResponseEntity<List<AppointmentDto>> sort(@PathVariable String ascOrDesc, @PathVariable String type, @PathVariable long userId){
         List<QRCode> qrCodes = qrCodeService.getProcessedByUserId(userId);
-        List<AppointmentDto> dtos = new ArrayList<>();
-
-        for (QRCode q : qrCodes) {
-            AppointmentDto a = new AppointmentDto(q.getAppointment());
-            List<QREquipment> equipments = q.getReservedEquipment();
-            List<EquipmentQuantityDto> eqdtoList = new ArrayList<>();
-            for (QREquipment e : equipments) {
-                eqdtoList.add(new EquipmentQuantityDto(e.getEquipmentId(), e.getQuantity()));
-            }
-            a.setReservedEquipment(eqdtoList);
-            dtos.add(a);
-        }
+        List<AppointmentDto> dtos = getAppointmentDtos(qrCodes);
 
         // Definisanje Comparator-a
         Comparator<AppointmentDto> comparator = null;
@@ -284,4 +273,31 @@ public class AppointmentController {
         }
     }
 
+    @GetMapping("/get-users-new-appointments/{userId}")
+    public ResponseEntity<List<AppointmentDto>> getUsersNewAppointments(@PathVariable long userId){
+        List<QRCode> qrCodes = qrCodeService.getNewByUserId(userId);
+
+        List<AppointmentDto> dtos = getAppointmentDtos(qrCodes);
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    private static List<AppointmentDto> getAppointmentDtos(List<QRCode> qrCodes) {
+        List<AppointmentDto> dtos = new ArrayList<>();
+
+        for (QRCode q :
+                qrCodes) {
+            AppointmentDto a = new AppointmentDto(q.getAppointment());
+            List<QREquipment> equipments = q.getReservedEquipment();
+            for (QREquipment e :
+                    equipments) {
+                List<EquipmentQuantityDto> eqdtoList = new ArrayList<>();
+                eqdtoList.add(new EquipmentQuantityDto(e.getEquipmentId(), e.getQuantity()));
+                a.setReservedEquipment(eqdtoList);
+                a.setQrCodeId(q.getId());
+            }
+            dtos.add(a);
+        }
+        return dtos;
+    }
 }
