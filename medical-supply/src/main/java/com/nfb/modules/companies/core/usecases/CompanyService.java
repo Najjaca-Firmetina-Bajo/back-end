@@ -1,8 +1,11 @@
 package com.nfb.modules.companies.core.usecases;
 
+import com.nfb.modules.companies.core.domain.appointment.Appointment;
+import com.nfb.modules.companies.core.domain.appointment.QRCode;
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.companies.core.repositories.CompanyRepository;
+import com.nfb.modules.companies.core.repositories.QRCodeRepository;
 import com.nfb.modules.companies.core.repositories.WorkingDayRepository;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import com.nfb.modules.stakeholders.core.usecases.CompanyAdministratorService;
@@ -23,13 +26,15 @@ public class CompanyService   {
     private final EquipmentService equipmentService;
     private final CompanyAdministratorService companyAdministratorService;
     private final WorkingDayRepository workingDayRepository;
+    private final QRCodeRepository qrCodeRepository;
 
     @Autowired
-    public CompanyService(CompanyRepository companyRepository, EquipmentService equipmentService, CompanyAdministratorService companyAdministratorService, WorkingDayRepository workingDayRepository) {
+    public CompanyService(CompanyRepository companyRepository, EquipmentService equipmentService, CompanyAdministratorService companyAdministratorService, WorkingDayRepository workingDayRepository, QRCodeRepository qrCodeRepository) {
         this.companyRepository = companyRepository;
         this.equipmentService = equipmentService;
         this.companyAdministratorService = companyAdministratorService;
         this.workingDayRepository = workingDayRepository;
+        this.qrCodeRepository = qrCodeRepository;
     }
 
     public Company register(Company company) { return companyRepository.save(company); }
@@ -112,5 +117,26 @@ public class CompanyService   {
             return companyRepository.sortCompaniesByRatingDesc();
         }
         return null;
+    }
+
+    public Boolean CheckIfUserCanRateComp(long userId, long companyId) {
+        List<QRCode> usersQRCodes = qrCodeRepository.findByRegisteredUser_Id(userId);
+        List<CompanyAdministrator> companyAdministrators = companyRepository.getCompanyAdministrators(companyId);
+        List<Appointment> appointments = new ArrayList<>();
+
+        for (QRCode q :
+                usersQRCodes) {
+            appointments.add(q.getAppointment());
+        }
+
+        for (Appointment a :
+                appointments) {
+            for (CompanyAdministrator ca :
+                    companyAdministrators) {
+                if(a.getCompanyAdministrator() == ca) return true;
+            }
+        }
+
+        return false;
     }
 }

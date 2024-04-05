@@ -178,4 +178,9 @@ public class CompanyController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/check-if-user-can-rate/{userId}/{companyId}")
+    public ResponseEntity<Boolean> CheckIfUserCanRateComp(@PathVariable long userId, @PathVariable long companyId){
+        return new ResponseEntity<>(companyService.CheckIfUserCanRateComp(userId,companyId),HttpStatus.OK);
+    }
 }
