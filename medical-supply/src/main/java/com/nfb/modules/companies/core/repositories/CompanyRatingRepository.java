@@ -12,4 +12,6 @@ public interface CompanyRatingRepository extends JpaRepository<CompanyRating,Lon
 
     @Query("select c from CompanyRating c where c.company.id = :companyId")
     public List<CompanyRating> findCompaniesRatings(Long companyId);
+    @Query("select c from CompanyRating c where c.company.id = :companyId and c.user.id = :userId")
+    public CompanyRating findUsersRatingForCompany(Long companyId, Long userId);
 }

@@ -40,4 +40,22 @@ public class CompanyRatingController {
 
         return new ResponseEntity<>(ratingDto, HttpStatus.OK);
     }
+
+    @PutMapping()
+    public ResponseEntity<CompanyRatingDto> updateRating(@RequestBody CompanyRatingDto ratingDto){
+        CompanyRating cr = companyRatingService.findUsersRatingForCompany(ratingDto.getCompanyId(),ratingDto.getUserId());
+        cr.setRating(ratingDto.getRating());
+        cr.setRatingReasons(ratingDto.getRatingReasons());
+        cr.setRatingDescription(ratingDto.getRatingDescription());
+        companyRatingService.save(cr);
+
+        return new ResponseEntity<>(ratingDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/get-users-rating-for-comp/{companyId}/{userId}")
+    public ResponseEntity<CompanyRatingDto> findUsersRatingForCompany(@PathVariable long companyId, @PathVariable long userId){
+        CompanyRating cr = companyRatingService.findUsersRatingForCompany(companyId,userId);
+        CompanyRatingDto companyRatingDto = new CompanyRatingDto(cr.getRating(),cr.getRatingReasons(),cr.getRatingDescription(),cr.getCompany().getId(),cr.getUser().getId());
+        return new ResponseEntity<>(companyRatingDto,HttpStatus.OK);
+    }
 }

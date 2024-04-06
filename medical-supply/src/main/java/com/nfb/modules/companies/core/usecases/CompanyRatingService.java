@@ -42,4 +42,8 @@ public class CompanyRatingService {
         }
         return avg = avg / count;
     }
+
+    public CompanyRating findUsersRatingForCompany(long companyId, long userId){
+        return companyRatingRepository.findUsersRatingForCompany(companyId,userId);
+    }
 }
