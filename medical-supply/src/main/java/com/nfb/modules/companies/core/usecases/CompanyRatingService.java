@@ -21,7 +21,7 @@ public class CompanyRatingService {
     }
 
     public CompanyRating save(CompanyRating rating){
-        Company company = companyRepository.findOneById(rating.getCompany().getId());
+        Company company = companyRepository.getById(rating.getCompany().getId());
 
         companyRatingRepository.save(rating);
 

@@ -139,4 +139,8 @@ public class CompanyService   {
 
         return false;
     }
+
+    public Company getById(Long id) {
+        return companyRepository.getById(id);
+    }
 }
