@@ -75,8 +75,8 @@ public class RegisteredUserController {
         return ResponseEntity.ok(registeredUserDTO.getPenal());
     }
 
-    @PutMapping("/remove-penal-points/{id}")
-    public ResponseEntity<Integer> removeUsersPenalPoints(@PathVariable long id){
+    @PutMapping("/remove-penal-points")
+    public ResponseEntity<Integer> removeUsersPenalPoints(@RequestBody long id){
         RegisteredUser registeredUser = registeredUserService.removeUsersPenalPoints(id);
         return ResponseEntity.ok(registeredUser.getPenalPoints());
     }
