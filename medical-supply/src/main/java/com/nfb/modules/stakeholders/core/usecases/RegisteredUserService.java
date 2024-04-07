@@ -5,6 +5,8 @@ import com.nfb.modules.stakeholders.core.repositories.RegisteredUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -37,5 +39,15 @@ public class RegisteredUserService {
 
     public void updateRegisteredUser(RegisteredUser registeredUser){
         registeredUserRepository.save(registeredUser);
+    }
+
+    public RegisteredUser removeUsersPenalPoints(long id) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        if (calendar.get(Calendar.DAY_OF_MONTH) == 1) {
+            registeredUserRepository.removeUsersPenalPoints(id);
+            return registeredUserRepository.findById(id);
+        }
+        return registeredUserRepository.findById(id);
     }
 }

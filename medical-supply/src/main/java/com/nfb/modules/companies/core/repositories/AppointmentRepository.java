@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -46,5 +47,24 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Query("SELECT a FROM Appointment a WHERE a.isDownloaded = true")
     List<Appointment> findDownloadedAppointments();
 
+    @Query("select a from Appointment a where a.companyAdministrator.id = :administratorId and DATE(a.pickUpDate) = :date")
+    Appointment checkIfAdministratorHasAppointment(long administratorId, Date date);
 
+    @Query("SELECT e from Appointment e where e.isDownloaded = false and e.companyAdministrator.id in (:companyAdministrators) and DATE(e.pickUpDate) = :date and e.winnerId = -1")
+    List<Appointment> getCompaniesNotDowloadedAppointments(List<Long> companyAdministrators, Date date);
+
+    @Query("SELECT a from Appointment a where a.winnerId = :winnerId and a.isDownloaded = true")
+    List<Appointment> getUsersDownloadedAppointments(long winnerId);
+
+    @Query("select a from Appointment a where a.winnerId = :winnerId and a.isDownloaded = true order by a.pickUpDate desc")
+    List<Appointment> sortAppointmentsByDateDesc(long winnerId);
+
+    @Query("select a from Appointment a where a.winnerId = :winnerId and a.isDownloaded = true order by a.pickUpDate asc")
+    List<Appointment> sortAppointmentsByDateAsc(long winnerId);
+
+    @Query("select a from Appointment a where a.winnerId = :winnerId and a.isDownloaded = true order by a.duration desc")
+    List<Appointment> sortAppointmentsByDurationDesc(long winnerId);
+
+    @Query("select a from Appointment a where a.winnerId = :winnerId and a.isDownloaded = true order by a.duration asc")
+    List<Appointment> sortAppointmentsByDurationAsc(long winnerId);
 }

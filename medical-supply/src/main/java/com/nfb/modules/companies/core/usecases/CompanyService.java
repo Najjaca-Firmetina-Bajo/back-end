@@ -1,8 +1,12 @@
 package com.nfb.modules.companies.core.usecases;
 
+import com.nfb.modules.companies.core.domain.appointment.Appointment;
+import com.nfb.modules.companies.core.domain.appointment.QRCode;
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.companies.core.repositories.CompanyRepository;
+import com.nfb.modules.companies.core.repositories.QRCodeRepository;
+import com.nfb.modules.companies.core.repositories.WorkingDayRepository;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import com.nfb.modules.stakeholders.core.usecases.CompanyAdministratorService;
 import jakarta.persistence.EntityNotFoundException;
@@ -11,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,12 +25,16 @@ public class CompanyService   {
     private final CompanyRepository companyRepository;
     private final EquipmentService equipmentService;
     private final CompanyAdministratorService companyAdministratorService;
+    private final WorkingDayRepository workingDayRepository;
+    private final QRCodeRepository qrCodeRepository;
 
     @Autowired
-    public CompanyService(CompanyRepository companyRepository, EquipmentService equipmentService, CompanyAdministratorService companyAdministratorService) {
+    public CompanyService(CompanyRepository companyRepository, EquipmentService equipmentService, CompanyAdministratorService companyAdministratorService, WorkingDayRepository workingDayRepository, QRCodeRepository qrCodeRepository) {
         this.companyRepository = companyRepository;
         this.equipmentService = equipmentService;
         this.companyAdministratorService = companyAdministratorService;
+        this.workingDayRepository = workingDayRepository;
+        this.qrCodeRepository = qrCodeRepository;
     }
 
     public Company register(Company company) { return companyRepository.save(company); }
@@ -83,5 +92,55 @@ public class CompanyService   {
         }
 
         return filterAndSearch;
+    }
+
+    public boolean checkIfCompanyIsWorking(long companyId, Date date){
+        if(workingDayRepository.checkIfCompanyIsWorking(companyId,date) == null) return false;
+        return true;
+    }
+
+    public List<CompanyAdministrator> getCompanyAdministrators(long companyId){
+        return companyRepository.getCompanyAdministrators(companyId);
+    }
+
+    public List<Company> sortCompanies(String ascOrDesc, String type){
+        if(type.equals("name")){
+            if(ascOrDesc.equals("asc")) return companyRepository.sortCompaniesByNameAsc();
+            return companyRepository.sortCompaniesByNameDesc();
+        }
+        else if(type.equals("address")){
+            if(ascOrDesc.equals("asc")) return companyRepository.sortCompaniesByAddressAsc();
+            return companyRepository.sortCompaniesByAddressDesc();
+        }
+        else if(type.equals("rating")){
+            if(ascOrDesc.equals("asc")) return companyRepository.sortCompaniesByRatingAsc();
+            return companyRepository.sortCompaniesByRatingDesc();
+        }
+        return null;
+    }
+
+    public Boolean CheckIfUserCanRateComp(long userId, long companyId) {
+        List<QRCode> usersQRCodes = qrCodeRepository.findByRegisteredUser_Id(userId);
+        List<CompanyAdministrator> companyAdministrators = companyRepository.getCompanyAdministrators(companyId);
+        List<Appointment> appointments = new ArrayList<>();
+
+        for (QRCode q :
+                usersQRCodes) {
+            appointments.add(q.getAppointment());
+        }
+
+        for (Appointment a :
+                appointments) {
+            for (CompanyAdministrator ca :
+                    companyAdministrators) {
+                if(a.getCompanyAdministrator() == ca) return true;
+            }
+        }
+
+        return false;
+    }
+
+    public Company getById(Long id) {
+        return companyRepository.getById(id);
     }
 }

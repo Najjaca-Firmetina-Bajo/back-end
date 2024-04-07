@@ -28,6 +28,8 @@ public class AppointmentDto {
     private Long companyAdministratorId;
     @Schema(description = "Working day of appointment")
     private Long workingDayId;
+    @Schema(description = "QR code of appointment")
+    private Long qrCodeId;
 
 
     public AppointmentDto(long id, LocalDateTime pickUpDate, int duration, AppointmentType type, boolean isDownloaded, int reservationNumber) {
@@ -72,6 +74,14 @@ public class AppointmentDto {
 
     public void setWorkingDayId(Long workingDayId) {
         this.workingDayId = workingDayId;
+    }
+
+    public Long getQRCodeId() {
+        return qrCodeId;
+    }
+
+    public void setQrCodeId(Long qrCodeId) {
+        this.qrCodeId = qrCodeId;
     }
 
     public long getId() {

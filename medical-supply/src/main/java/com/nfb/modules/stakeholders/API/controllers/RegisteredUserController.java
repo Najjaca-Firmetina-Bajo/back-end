@@ -68,4 +68,16 @@ public class RegisteredUserController {
     public int givePenalPoints(@PathVariable long userId) {
         return registeredUserService.givePenalPoints(userId);
     }
+
+    @GetMapping("/get-users-penal-points/{id}")
+    public ResponseEntity<Integer> getPenalPoints(@PathVariable long id){
+        RegisteredUserDTO registeredUserDTO = new RegisteredUserDTO(registeredUserService.getRegisteredUser(id));
+        return ResponseEntity.ok(registeredUserDTO.getPenal());
+    }
+
+    @PutMapping("/remove-penal-points")
+    public ResponseEntity<Integer> removeUsersPenalPoints(@RequestBody long id){
+        RegisteredUser registeredUser = registeredUserService.removeUsersPenalPoints(id);
+        return ResponseEntity.ok(registeredUser.getPenalPoints());
+    }
 }

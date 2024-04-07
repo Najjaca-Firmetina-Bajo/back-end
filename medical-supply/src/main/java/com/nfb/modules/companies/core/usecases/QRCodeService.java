@@ -212,4 +212,25 @@ public class QRCodeService {
 
         return null;
     }
+
+    public List<QRCode> getProcessedByUserId(Long id) {
+       return qrCodeRepository.getProcessedByUserId(id);
+    }
+
+    public List<QRCode> getNewByUserId(Long id) {
+        return qrCodeRepository.getNewByUserId(id);
+    }
+
+    public List<QRCode> filterUsersQRCodes(String status,long userId){
+        if(status.equals("new")){
+            return qrCodeRepository.getNewByUserId(userId);
+        }
+        else if(status.equals("processed")){
+            return qrCodeRepository.getProcessedByUserId(userId);
+        }
+        else if(status.equals("canceled")){
+            return qrCodeRepository.getCanceledByUserId(userId);
+        }
+        else return qrCodeRepository.getDeclinedByUserId(userId);
+    }
 }

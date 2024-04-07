@@ -236,60 +236,61 @@ INSERT INTO public.working_calendars(
 VALUES (1005, 1005);
 -------------------------------------------------------
 INSERT INTO public.working_days(
-    date, id, working_calendar_id)
-VALUES ('2024-01-21T12:30:00', 1001, 1001);
+    date, end_date, id, working_calendar_id)
+VALUES ('2024-01-21T12:30:00', '2024-01-22T04:30:00', 1001, 1001);
 
 INSERT INTO public.working_days(
-    date, id, working_calendar_id)
-VALUES ('2024-03-19T12:30:00', 1002, 1005);
+    date, end_date, id, working_calendar_id)
+VALUES ('2024-03-19T12:30:00', '2024-03-20T04:30:00', 1002, 1005);
 
 INSERT INTO public.working_days(
-    date, id, working_calendar_id)
-VALUES ('2024-02-1T12:30:00', 1003, 1003);
+    date, end_date, id, working_calendar_id)
+VALUES ('2024-02-1T12:30:00', '2024-02-02T04:30:00', 1003, 1003);
 
 INSERT INTO public.working_days(
-    date, id, working_calendar_id)
-VALUES ('2024-02-4T12:30:00', 1004, 1003);
+    date, end_date, id, working_calendar_id)
+VALUES ('2024-02-4T12:30:00', '2024-02-05T04:30:00', 1004, 1003);
 
 INSERT INTO public.working_days(
-    date, id, working_calendar_id)
-VALUES ('2024-02-7T12:30:00', 1005, 1003);
+    date, end_date, id, working_calendar_id)
+VALUES ('2024-02-7T12:30:00', '2024-02-08T04:30:00', 1005, 1003);
 
 INSERT INTO public.working_days(
-    date, id, working_calendar_id)
-VALUES ('2024-03-8T12:30:00', 1006, 1003);
+    date, end_date, id, working_calendar_id)
+VALUES ('2024-03-8T12:30:00', '2024-03-09T04:30:00', 1006, 1003);
 
 INSERT INTO public.working_days(
-    date, id, working_calendar_id)
-VALUES ('2024-04-10T12:30:00', 1007, 1003);
+    date, end_date, id, working_calendar_id)
+VALUES ('2024-04-10T12:30:00', '2024-04-11T04:30:00', 1007, 1003);
 
 INSERT INTO public.working_days(
-    date, id, working_calendar_id)
-VALUES ('2024-06-17T12:30:00', 1008, 1003);
+    date, end_date, id, working_calendar_id)
+VALUES ('2024-06-17T12:30:00', '2024-06-18T04:30:00', 1008, 1003);
 
 INSERT INTO public.working_days(
-    date, id, working_calendar_id)
-VALUES ('2024-07-7T12:30:00', 1009, 1003);
+    date, end_date, id, working_calendar_id)
+VALUES ('2024-07-7T12:30:00', '2024-07-08T04:30:00', 1009, 1003);
 
 INSERT INTO public.working_days(
-    date, id, working_calendar_id)
-VALUES ('2024-09-9T12:30:00', 10010, 1003);
+    date, end_date, id, working_calendar_id)
+VALUES ('2024-09-9T12:30:00', '2024-09-10T04:30:00', 10010, 1003);
 
 INSERT INTO public.working_days(
-    date, id, working_calendar_id)
-VALUES ('2024-10-7T12:30:00', 10011, 1003);
+    date, end_date, id, working_calendar_id)
+VALUES ('2024-10-7T12:30:00', '2024-10-08T04:30:00', 10011, 1003);
 
 INSERT INTO public.working_days(
-    date, id, working_calendar_id)
-VALUES ('2024-07-6T12:30:00', 10012, 1003);
+    date, end_date, id, working_calendar_id)
+VALUES ('2024-07-6T12:30:00', '2024-07-07T04:30:00', 10012, 1003);
 
 INSERT INTO public.working_days(
-    date, id, working_calendar_id)
-VALUES ('2024-12-7T12:30:00', 10013, 1003);
+    date, end_date, id, working_calendar_id)
+VALUES ('2024-12-7T12:30:00', '2024-12-08T04:30:00', 10013, 1003);
 
 INSERT INTO public.working_days(
-    date, id, working_calendar_id)
-VALUES ('2024-11-6T12:30:00', 10014, 1003);
+    date, end_date, id, working_calendar_id)
+VALUES ('2024-11-6T12:30:00', '2024-11-07T04:30:00', 10014, 1003);
+
 -----------------------------------------------------------------------
 INSERT INTO public.appointments (duration, is_downloaded, reservation_number, type, company_administrator_id, id, pick_up_date, working_day_id,winner_id)
 VALUES (1, false, 111, 0, 1004, 1001, '2024-06-06T14:00:00', 1003,-1);
@@ -312,7 +313,10 @@ VALUES (4, false, 223, 0, 1004, 1006, '2024-06-06T15:10:00', 1006,-1);
 -----------------------------------------------------------------------
 
 INSERT INTO public.qrcodes (appointment_id, id, registered_user_id, code, status)
-VALUES (1001, 1001, 1001, 'ABC123', 'NEW');
+VALUES (1001, 1001, 1001, 'ABC123', 'PROCESSED');
+
+INSERT INTO public.qrcodes (appointment_id, id, registered_user_id, code, status)
+VALUES (1003, 1005, 1001, 'ABD111', 'PROCESSED');
 
 INSERT INTO public.qrcodes (appointment_id, id, registered_user_id, code, status)
 VALUES (1002, 1002, 1003, 'XYZ456', 'PROCESSED');
@@ -330,6 +334,9 @@ INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)
 VALUES (1001,1001, 1001,1);
 
 INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)
+VALUES (1006,1002, 1005,3);
+
+INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)
 VALUES (1002,1002, 1001,2);
 
 INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)
@@ -341,6 +348,4 @@ VALUES (1004,1003, 1002,4);
 INSERT INTO public.qrcode_equipment (id,equipment_id, qrcode_id,quantity)
 VALUES (1005,1003, 1004,6);
 
-
-
-
+-------------------------------------------------------------------------------

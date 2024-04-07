@@ -49,6 +49,16 @@ public class Appointment extends BaseEntity {
     public Appointment() {
     }
 
+    public Appointment(LocalDateTime pickUpDate, int duration, AppointmentType type, boolean isDownloaded, int reservationNumber, WorkingDay workingDay, long winnerId, CompanyAdministrator administrator) {
+        this.pickUpDate = pickUpDate;
+        this.duration = duration;
+        this.type = type;
+        this.isDownloaded = isDownloaded;
+        this.reservationNumber = reservationNumber;
+        this.workingDay = workingDay;
+        this.winnerId = winnerId;
+        this.companyAdministrator = administrator;
+    }
 
     public long getWinnerId() {
         return winnerId;
