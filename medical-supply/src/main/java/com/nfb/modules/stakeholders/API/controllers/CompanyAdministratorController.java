@@ -1,4 +1,5 @@
 package com.nfb.modules.stakeholders.API.controllers;
+import com.nfb.modules.companies.API.dtos.CompanyDto;
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.usecases.CompanyService;
 import com.nfb.modules.stakeholders.API.dtos.CompanyAdministratorDto;
@@ -53,6 +54,11 @@ public class CompanyAdministratorController {
     public int setCompanyForAdministrator(@PathVariable long adminId, @PathVariable long companyId) {
         //Company company = companyService.findById(companyId).orElse(null);
         return companyAdministratorService.setCompanyForAdministrator(adminId, companyId);
+    }
+
+    @PutMapping ("/update-company")
+    public ResponseEntity<Company> update(@RequestBody CompanyDto company) {
+        return ResponseEntity.ok(companyService.update(company));
     }
 
 }
