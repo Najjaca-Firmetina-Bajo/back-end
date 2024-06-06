@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "CompanyAdministrator")
-public class CompanyAdministrator extends User{
+public class CompanyAdministrator extends User {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id")
     private Company company;

@@ -67,4 +67,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     @Query("select a from Appointment a where a.winnerId = :winnerId and a.isDownloaded = true order by a.duration asc")
     List<Appointment> sortAppointmentsByDurationAsc(long winnerId);
+
+    List<Appointment> findAllByCompanyAdministratorId(Long companyAdministratorId);
 }

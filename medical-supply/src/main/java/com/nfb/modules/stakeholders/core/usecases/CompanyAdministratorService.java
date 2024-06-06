@@ -48,4 +48,5 @@ public class CompanyAdministratorService {
     }
 
     public Optional<CompanyAdministrator> findById(long id) { return companyAdministratorRepository.findById(id); }
+
 }

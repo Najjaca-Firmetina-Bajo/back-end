@@ -38,6 +38,10 @@ INSERT INTO public.users(
     enabled, id, city, company_info, country, username, name, occupation, password, phone_number, surname)
 VALUES (true, 1006, 'Ns', 'ci2', 'SRB', 'ivan.mikic169@gmail.com', 'Ivan', 'oc2', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', '064789632', 'Mikic');
 
+INSERT INTO public.users(
+    enabled, id, city, company_info, country, username, name, occupation, password, phone_number, surname)
+VALUES (true, 1007, 'Ns', 'ci2', 'SRB', 'milan@gmail.com', 'Milan', 'oc4', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', '064789632', 'Mikic');
+
 -----------------------------------------------------------------------------------------------------------------
 
 INSERT INTO public.companies(
@@ -69,9 +73,17 @@ INSERT INTO public.user_role(
     role_id, user_id)
 VALUES (2, 1005);
 
+INSERT INTO public.user_role(
+    role_id, user_id)
+VALUES (1, 1007);
+
 INSERT INTO public.company_administrator(
     company_id, id)
 VALUES (1003, 1004);
+
+INSERT INTO public.company_administrator(
+    company_id, id)
+VALUES (1003, 1007);
 
 INSERT INTO public.system_administrator(
     password_changed, id)
