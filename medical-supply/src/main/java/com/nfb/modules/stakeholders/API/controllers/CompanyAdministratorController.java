@@ -56,9 +56,9 @@ public class CompanyAdministratorController {
         return companyAdministratorService.setCompanyForAdministrator(adminId, companyId);
     }
 
-    @GetMapping("/get-company/{companyId}/{adminId}")
-    public ResponseEntity<CompanyInfoDto> getCompany(@PathVariable long companyId, @PathVariable long adminId) {
-        CompanyInfoDto companyInfoDto = companyAppointmentService.getById(companyId, adminId);
+    @GetMapping("/get-company/{adminId}")
+    public ResponseEntity<CompanyInfoDto> getCompany(@PathVariable long adminId) {
+        CompanyInfoDto companyInfoDto = companyAppointmentService.getById(adminId);
 
         return ResponseEntity.ok(companyInfoDto);
     }

@@ -55,4 +55,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
     @Query("select c from Company c order by c.address desc")
     List<Company> sortCompaniesByAddressAsc();
+
+    @Query("SELECT c FROM Company c JOIN CompanyAdministrator ca ON c.id = ca.company.id WHERE ca.id = :adminId")
+    Company findByAdminId(@Param("adminId") Long adminId);
 }

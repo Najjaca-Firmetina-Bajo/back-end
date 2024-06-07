@@ -30,8 +30,8 @@ public class CompanyAppointmentService {
     }
 
     @Transactional
-    public CompanyInfoDto getById(Long id, Long adminId) {
-        Company company = companyRepository.findOneById(id);
+    public CompanyInfoDto getById(Long adminId) {
+        Company company = companyRepository.findByAdminId(adminId);
         List<Appointment> appointments = appointmentRepository.findAllByCompanyAdministratorId(adminId);
         List<CompanyAdministrator> admins = company.getAdministrators();
 
