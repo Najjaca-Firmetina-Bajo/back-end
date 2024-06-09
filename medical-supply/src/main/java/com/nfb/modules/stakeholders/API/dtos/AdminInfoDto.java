@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminInfoDto {
+    @Schema(description = "Admin ID")
+    private Long id;
     @Schema(description = "Email")
     private String email;
     @Schema(description = "User Role")

@@ -1,5 +1,6 @@
 package com.nfb.modules.companies.core.usecases;
 
+import com.nfb.modules.companies.API.dtos.CreateAppointmentDto;
 import com.nfb.modules.companies.core.domain.appointment.*;
 import com.nfb.modules.companies.core.domain.calendar.WorkingDay;
 import com.nfb.modules.companies.core.domain.company.Company;
@@ -189,4 +190,5 @@ public class AppointmentService {
     public void save(Appointment appointment) {
         appointmentRepository.saveAndFlush(appointment);
     }
+
 }

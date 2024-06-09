@@ -58,4 +58,9 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
     @Query("SELECT c FROM Company c JOIN CompanyAdministrator ca ON c.id = ca.company.id WHERE ca.id = :adminId")
     Company findByAdminId(@Param("adminId") Long adminId);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Company c SET c.name = :name, c.address = :address, c.description = :description, c.averageRating = :averageRating WHERE c.id = :id")
+    void updateInfo(@Param("id") long id, @Param("name") String name, @Param("address") String address, @Param("description") String description, @Param("averageRating") double averageRating);
 }

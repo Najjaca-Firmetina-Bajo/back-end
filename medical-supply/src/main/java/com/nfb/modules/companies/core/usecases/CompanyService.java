@@ -1,6 +1,7 @@
 package com.nfb.modules.companies.core.usecases;
 
 import com.nfb.modules.companies.API.dtos.CompanyDto;
+import com.nfb.modules.companies.API.dtos.EditCompanyDto;
 import com.nfb.modules.companies.core.domain.appointment.Appointment;
 import com.nfb.modules.companies.core.domain.appointment.QRCode;
 import com.nfb.modules.companies.core.domain.company.Company;
@@ -143,8 +144,7 @@ public class CompanyService   {
         return companyRepository.getById(id);
     }
 
-    public Company update(CompanyDto companyDto) {
-        Company newCompany = new Company(companyDto.getName(), companyDto.getAddress(), companyDto.getAverageRating(), new ArrayList<>());
-        return companyRepository.save(newCompany);
+    public void updateInfo(EditCompanyDto companyDto) {
+        companyRepository.updateInfo(companyDto.getId(), companyDto.getName(), companyDto.getAddress(), companyDto.getDescription(), companyDto.getAverageRating());
     }
 }

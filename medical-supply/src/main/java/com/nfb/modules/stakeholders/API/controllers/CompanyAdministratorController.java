@@ -1,6 +1,5 @@
 package com.nfb.modules.stakeholders.API.controllers;
-import com.nfb.modules.companies.API.dtos.CompanyDto;
-import com.nfb.modules.companies.API.dtos.CompanyInfoDto;
+import com.nfb.modules.companies.API.dtos.*;
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.usecases.CompanyAppointmentService;
 import com.nfb.modules.companies.core.usecases.CompanyService;
@@ -63,9 +62,22 @@ public class CompanyAdministratorController {
         return ResponseEntity.ok(companyInfoDto);
     }
 
-    @PutMapping("/update-company")
-    public ResponseEntity<Company> update(@RequestBody CompanyDto company) {
-        return ResponseEntity.ok(companyService.update(company));
+    @PutMapping("/update-company-info")
+    public ResponseEntity<Void> updateInfo(@RequestBody EditCompanyDto companyDto) {
+        companyService.updateInfo(companyDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("get-working-calendar/{companyId}")
+    public ResponseEntity<WorkingCalendarInfoDto> getWorkingCalendar(@PathVariable long companyId) {
+        WorkingCalendarInfoDto workingCalendarInfoDto = companyAppointmentService.getWorkingCalendar(companyId);
+        return ResponseEntity.ok(workingCalendarInfoDto);
+    }
+
+    @PostMapping("create-appointment")
+    public ResponseEntity<Void> createAppointment(@RequestBody CreateAppointmentDto createAppointmentDto) {
+        companyAppointmentService.create(createAppointmentDto);
+        return ResponseEntity.ok().build();
     }
 
 }

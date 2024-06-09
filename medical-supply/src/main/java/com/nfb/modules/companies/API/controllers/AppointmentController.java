@@ -1,6 +1,7 @@
 package com.nfb.modules.companies.API.controllers;
 
 import com.nfb.modules.companies.API.dtos.AppointmentDto;
+import com.nfb.modules.companies.API.dtos.CreateAppointmentDto;
 import com.nfb.modules.companies.API.dtos.EquipmentQuantityDto;
 import com.nfb.modules.companies.API.dtos.QRCodeDto;
 import com.nfb.modules.companies.core.domain.appointment.*;
@@ -258,6 +259,11 @@ public class AppointmentController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    @PostMapping("/")
+    public ResponseEntity<Void> create(@RequestBody CreateAppointmentDto appointmentDto) {
+        return null;
+    }
+
 
     private ResponseEntity<List<AppointmentDto>> getListResponseEntity(List<Appointment> appointments) {
         List<AppointmentDto> dtos = new ArrayList<>();
@@ -300,4 +306,5 @@ public class AppointmentController {
         }
         return dtos;
     }
+
 }
