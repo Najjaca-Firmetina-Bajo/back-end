@@ -1,5 +1,6 @@
 package com.nfb.modules.companies.API.controllers;
 
+import com.nfb.modules.companies.API.dtos.CreateEquipmentDto;
 import com.nfb.modules.companies.API.dtos.EquipmentDto;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.companies.core.usecases.EquipmentService;
@@ -90,6 +91,12 @@ public class EquipmentController {
         }
 
         return new ResponseEntity<>(equipmentDtos, HttpStatus.OK);
+    }
+
+    @PostMapping("")
+    public ResponseEntity<Void> create(@RequestBody CreateEquipmentDto createEquipmentDto) {
+        equipmentService.create(createEquipmentDto);
+        return ResponseEntity.ok().build();
     }
 
 }

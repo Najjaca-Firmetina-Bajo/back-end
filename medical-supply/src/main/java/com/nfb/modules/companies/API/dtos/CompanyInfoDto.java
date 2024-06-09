@@ -26,4 +26,6 @@ public class CompanyInfoDto {
     private List<AppointmentInfoDto> availableAppointments;
     @Schema(description = "Administrators of company")
     private List<AdminInfoDto> admins;
+    @Schema(description = "Company equipments")
+    private List<EquipmentInfoDto> equipments;
 }

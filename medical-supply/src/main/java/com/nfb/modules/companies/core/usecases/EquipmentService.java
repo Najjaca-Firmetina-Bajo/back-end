@@ -1,20 +1,32 @@
 package com.nfb.modules.companies.core.usecases;
 
+import com.nfb.modules.companies.API.dtos.CreateEquipmentDto;
+import com.nfb.modules.companies.core.domain.company.Company;
+import com.nfb.modules.companies.core.domain.company.CompanyEquipment;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
+import com.nfb.modules.companies.core.repositories.CompanyEquipmentRepository;
+import com.nfb.modules.companies.core.repositories.CompanyRepository;
 import com.nfb.modules.companies.core.repositories.EquipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
 public class EquipmentService {
     private final EquipmentRepository equipmentRepository;
+    private final CompanyEquipmentRepository companyEquipmentRepository;
+    private final CompanyRepository companyRepository;
     @Autowired
-    public EquipmentService(EquipmentRepository equipmentRepository) {
+    public EquipmentService(EquipmentRepository equipmentRepository,
+                            CompanyEquipmentRepository companyEquipmentRepository,
+                            CompanyRepository companyRepository) {
         this.equipmentRepository = equipmentRepository;
+        this.companyEquipmentRepository = companyEquipmentRepository;
+        this.companyRepository = companyRepository;
     }
 
     public Equipment add(Equipment equipment) {
@@ -42,5 +54,18 @@ public class EquipmentService {
 
     public List<Equipment> getByIds(List<Long> ids) {
         return equipmentRepository.findAllById(ids);
+    }
+
+    public void create(CreateEquipmentDto createEquipmentDto) {
+        Equipment equipment = new Equipment(createEquipmentDto.getName(), createEquipmentDto.getType(), createEquipmentDto.getDescription(), createEquipmentDto.getPrice());
+        equipmentRepository.save(equipment);
+
+        Company company = companyRepository.findById(createEquipmentDto.getCompanyId())
+                .orElseThrow(() -> new NoSuchElementException("Company not found"));
+
+        CompanyEquipment companyEquipment = new CompanyEquipment(company, equipment, createEquipmentDto.getQuantity());
+
+        companyEquipmentRepository.save(companyEquipment);
+
     }
 }

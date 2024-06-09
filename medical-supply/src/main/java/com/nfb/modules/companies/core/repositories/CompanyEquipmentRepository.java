@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface CompanyEquipmentRepository extends JpaRepository<CompanyEquipment, Long> {
 
@@ -20,4 +22,5 @@ public interface CompanyEquipmentRepository extends JpaRepository<CompanyEquipme
     @QueryHints({@QueryHint(name = "jakarta.persistence.lock.timeout", value ="500")})
     @Query("SELECT ce FROM CompanyEquipment ce WHERE ce.company.id = :companyId AND ce.equipment.id = :equipmentId")
     CompanyEquipment findByCompanyIdAndEquipmentId(@Param("companyId") Long companyId, @Param("equipmentId") Long equipmentId);
+
 }

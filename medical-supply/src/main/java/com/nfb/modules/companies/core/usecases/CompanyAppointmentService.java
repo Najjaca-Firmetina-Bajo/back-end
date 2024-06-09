@@ -6,10 +6,9 @@ import com.nfb.modules.companies.core.domain.appointment.AppointmentType;
 import com.nfb.modules.companies.core.domain.calendar.WorkingCalendar;
 import com.nfb.modules.companies.core.domain.calendar.WorkingDay;
 import com.nfb.modules.companies.core.domain.company.Company;
-import com.nfb.modules.companies.core.repositories.AppointmentRepository;
-import com.nfb.modules.companies.core.repositories.CompanyRepository;
-import com.nfb.modules.companies.core.repositories.WorkingCalendarRepository;
-import com.nfb.modules.companies.core.repositories.WorkingDayRepository;
+import com.nfb.modules.companies.core.domain.company.CompanyEquipment;
+import com.nfb.modules.companies.core.domain.equipment.Equipment;
+import com.nfb.modules.companies.core.repositories.*;
 import com.nfb.modules.stakeholders.API.dtos.AdminInfoDto;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import com.nfb.modules.stakeholders.core.repositories.CompanyAdministratorRepository;
@@ -48,6 +47,7 @@ public class CompanyAppointmentService {
         Company company = companyRepository.findByAdminId(adminId);
         List<Appointment> appointments = appointmentRepository.findAllByCompanyAdministratorId(adminId);
         List<CompanyAdministrator> admins = company.getAdministrators();
+        List<CompanyEquipment> equipments = company.getCompanyEquipmentList();
 
         CompanyInfoDto companyInfoDto = new CompanyInfoDto();
         companyInfoDto.setId(company.getId());
@@ -83,6 +83,19 @@ public class CompanyAppointmentService {
             return dto;
         }).collect(Collectors.toList());
         companyInfoDto.setAdmins(adminDtos);
+
+        List<EquipmentInfoDto> equipmentDtos = equipments.stream().map(equipment -> {
+            EquipmentInfoDto dto = new EquipmentInfoDto();
+            dto.setId(equipment.getEquipment().getId());
+            dto.setName(equipment.getEquipment().getName());
+            dto.setType(equipment.getEquipment().getType());
+            dto.setDescription(equipment.getEquipment().getDescription());
+            dto.setPrice(equipment.getEquipment().getPrice());
+            dto.setQuantity(equipment.getQuantity());
+            return dto;
+        }).collect(Collectors.toList());
+        companyInfoDto.setEquipments(equipmentDtos);
+
 
         return companyInfoDto;
     }
