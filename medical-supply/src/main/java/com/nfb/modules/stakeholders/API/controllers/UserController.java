@@ -1,5 +1,6 @@
 package com.nfb.modules.stakeholders.API.controllers;
 
+import com.nfb.modules.stakeholders.API.dtos.ResetPasswordDto;
 import com.nfb.modules.stakeholders.API.dtos.UserDTO;
 import com.nfb.modules.stakeholders.core.domain.user.Role;
 import com.nfb.modules.stakeholders.core.usecases.UserService;
@@ -50,5 +51,22 @@ public class UserController {
             if(r.getName().equals("SYSTEM_ADMINISTRATOR")) return true;
         }
         return false;
+    }
+
+    @PutMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordDto resetPasswordDto) {
+        String encodedPassword = passwordEncoder.encode(resetPasswordDto.getNewPassword());
+        String encodedOldPassword = passwordEncoder.encode(resetPasswordDto.getOldPassword());
+        boolean isOldPasswordValid = userService.checkOldPassword(encodedOldPassword, resetPasswordDto.getId());
+
+        if (!isOldPasswordValid) {
+            // Ako stara lozinka nije validna, vratite odgovarajući odgovor sa statusom greške
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Old password is invalid.");
+        }
+
+        userService.updatePassword(encodedPassword, resetPasswordDto.getId());
+
+        // Ako je lozinka uspešno resetovana, vratite odgovarajući odgovor sa statusom OK
+        return ResponseEntity.ok().build();
     }
 }

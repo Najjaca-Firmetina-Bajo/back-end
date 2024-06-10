@@ -1,7 +1,13 @@
 package com.nfb.modules.stakeholders.API.dtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ResetPasswordDto {
     @Schema(description = "User ID")
     private long id;

@@ -2,6 +2,7 @@ package com.nfb.modules.stakeholders.core.usecases;
 
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.stakeholders.API.dtos.AdminInfoDto;
+import com.nfb.modules.stakeholders.API.dtos.ResetPasswordDto;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
 import com.nfb.modules.stakeholders.core.domain.user.User;
@@ -84,6 +85,21 @@ public class UserService {
     }
 
     public void updatePassword(String password, long id) { userRepository.updatePassword(password, id); }
+
+    public boolean checkOldPassword(String oldPassword, long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if(!user.getPassword().equals(oldPassword)){
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+        return true;
+    }
 
     public AdminInfoDto getAdminById(long id) {
         Optional<User> userOptional = userRepository.findById(id);
