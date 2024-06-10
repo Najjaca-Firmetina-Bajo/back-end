@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EquipmentService {
@@ -79,5 +80,29 @@ public class EquipmentService {
     public void update(EditEquipmentDto editEquipmentDto) {
         equipmentRepository.update(editEquipmentDto.getId(), editEquipmentDto.getPrice(), editEquipmentDto.getDescription(), editEquipmentDto.getName(), editEquipmentDto.getType());
         companyEquipmentRepository.updateQuantity(editEquipmentDto.getId(), editEquipmentDto.getCompanyId(), editEquipmentDto.getQuantity());
+    }
+
+    public List<EquipmentInfoDto> searchByName(String name) {
+        List<Equipment> equipments = equipmentRepository.findByNameContainingIgnoreCase(name);
+
+        return equipments.stream().map(equipment -> {
+            EquipmentInfoDto dto = new EquipmentInfoDto();
+            dto.setId(equipment.getId());
+            dto.setName(equipment.getName());
+            dto.setType(equipment.getType());
+            dto.setDescription(equipment.getDescription());
+            dto.setPrice(equipment.getPrice());
+            Optional<CompanyEquipment> companyEquipmentOptional = equipment.getCompanyEquipmentList()
+                    .stream()
+                    .filter(companyEquipment -> companyEquipment.getEquipment().getId() == equipment.getId())
+                    .findFirst();
+            if (companyEquipmentOptional.isPresent()) {
+                CompanyEquipment companyEquipment = companyEquipmentOptional.get();
+                dto.setQuantity(companyEquipment.getQuantity());
+            } else {
+                dto.setQuantity(0);
+            }
+            return dto;
+        }).collect(Collectors.toList());
     }
 }

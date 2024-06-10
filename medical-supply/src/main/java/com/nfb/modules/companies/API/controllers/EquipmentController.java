@@ -113,4 +113,11 @@ public class EquipmentController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/search-by-name/{name}")
+    public ResponseEntity<List<EquipmentInfoDto>> searchByName(@PathVariable String name) {
+        List<EquipmentInfoDto> equipmentInfoDtos = equipmentService.searchByName(name);
+
+        return ResponseEntity.ok(equipmentInfoDtos);
+    }
+
 }

@@ -32,5 +32,4 @@ public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
     @Transactional
     @Query("UPDATE Equipment e SET e.price = :price, e.description = :description, e.name = :name, e.type = :type WHERE e.id = :id")
     void update(@Param("id") Long id, @Param("price") double price, @Param("description") String description, @Param("name") String name, @Param("type") String type);
-
 }
