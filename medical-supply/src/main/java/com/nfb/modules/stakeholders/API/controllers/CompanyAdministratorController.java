@@ -3,6 +3,7 @@ import com.nfb.modules.companies.API.dtos.*;
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.usecases.CompanyAppointmentService;
 import com.nfb.modules.companies.core.usecases.CompanyService;
+import com.nfb.modules.stakeholders.API.dtos.AdminInfoDto;
 import com.nfb.modules.stakeholders.API.dtos.CompanyAdministratorDto;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import com.nfb.modules.stakeholders.core.usecases.CompanyAdministratorService;
@@ -79,5 +80,13 @@ public class CompanyAdministratorController {
         companyAppointmentService.create(createAppointmentDto);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/update-profile-info")
+    public ResponseEntity<Void> updateProfile(@RequestBody AdminInfoDto adminInfoDto) {
+        companyAdministratorService.update(adminInfoDto);
+        return ResponseEntity.ok().build();
+    }
+
+
 
 }
