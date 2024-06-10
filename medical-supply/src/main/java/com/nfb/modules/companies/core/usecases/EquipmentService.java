@@ -1,6 +1,8 @@
 package com.nfb.modules.companies.core.usecases;
 
 import com.nfb.modules.companies.API.dtos.CreateEquipmentDto;
+import com.nfb.modules.companies.API.dtos.EditEquipmentDto;
+import com.nfb.modules.companies.API.dtos.EquipmentInfoDto;
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.domain.company.CompanyEquipment;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
@@ -67,5 +69,15 @@ public class EquipmentService {
 
         companyEquipmentRepository.save(companyEquipment);
 
+    }
+
+    public void delete(Long id) {
+        companyEquipmentRepository.deleteByEquipmentId(id);
+        equipmentRepository.deleteById(id);
+    }
+
+    public void update(EditEquipmentDto editEquipmentDto) {
+        equipmentRepository.update(editEquipmentDto.getId(), editEquipmentDto.getPrice(), editEquipmentDto.getDescription(), editEquipmentDto.getName(), editEquipmentDto.getType());
+        companyEquipmentRepository.updateQuantity(editEquipmentDto.getId(), editEquipmentDto.getCompanyId(), editEquipmentDto.getQuantity());
     }
 }

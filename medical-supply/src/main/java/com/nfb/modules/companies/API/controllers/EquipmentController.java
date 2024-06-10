@@ -1,7 +1,9 @@
 package com.nfb.modules.companies.API.controllers;
 
 import com.nfb.modules.companies.API.dtos.CreateEquipmentDto;
+import com.nfb.modules.companies.API.dtos.EditEquipmentDto;
 import com.nfb.modules.companies.API.dtos.EquipmentDto;
+import com.nfb.modules.companies.API.dtos.EquipmentInfoDto;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.companies.core.usecases.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +98,18 @@ public class EquipmentController {
     @PostMapping("")
     public ResponseEntity<Void> create(@RequestBody CreateEquipmentDto createEquipmentDto) {
         equipmentService.create(createEquipmentDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        equipmentService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("")
+    public ResponseEntity<Void> update(@RequestBody EditEquipmentDto editEquipmentDto) {
+        equipmentService.update(editEquipmentDto);
         return ResponseEntity.ok().build();
     }
 

@@ -23,4 +23,8 @@ public interface CompanyEquipmentRepository extends JpaRepository<CompanyEquipme
     @Query("SELECT ce FROM CompanyEquipment ce WHERE ce.company.id = :companyId AND ce.equipment.id = :equipmentId")
     CompanyEquipment findByCompanyIdAndEquipmentId(@Param("companyId") Long companyId, @Param("equipmentId") Long equipmentId);
 
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM CompanyEquipment ce WHERE ce.equipment.id = :equipmentId")
+    void deleteByEquipmentId(@Param("equipmentId") Long equipmentId);
 }
