@@ -61,4 +61,6 @@ public class CompanyAdministratorService {
         return new AdminCompanyLoggingDto(companyAdministrator.getId(),
                                                         companyAdministrator.getUsername(), companyAdministrator.isPasswordChanged());
     }
+
+    public void updatePasswordChanged(Long adminId) { companyAdministratorRepository.updatePasswordChanged(adminId); }
 }

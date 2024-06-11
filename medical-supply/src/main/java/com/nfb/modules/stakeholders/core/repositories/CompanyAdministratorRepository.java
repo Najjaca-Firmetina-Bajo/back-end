@@ -29,4 +29,9 @@ public interface CompanyAdministratorRepository extends JpaRepository<CompanyAdm
 
     @Query("SELECT ca FROM CompanyAdministrator ca WHERE ca.username = :email")
     CompanyAdministrator findByEmail(@Param("email") String email);
+
+    @Modifying
+    @Query("UPDATE CompanyAdministrator ca SET ca.passwordChanged = true WHERE ca.id = :adminId")
+    @Transactional
+    void updatePasswordChanged(@Param("adminId") Long adminId);
 }

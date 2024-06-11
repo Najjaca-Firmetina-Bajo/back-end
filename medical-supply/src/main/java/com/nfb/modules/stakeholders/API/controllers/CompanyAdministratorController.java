@@ -9,8 +9,10 @@ import com.nfb.modules.stakeholders.API.dtos.CompanyAdministratorDto;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import com.nfb.modules.stakeholders.core.usecases.CompanyAdministratorService;
 import com.nfb.modules.stakeholders.core.usecases.RoleService;
+import com.nfb.modules.stakeholders.core.usecases.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -31,12 +33,18 @@ public class CompanyAdministratorController {
     @Autowired
     private CompanyService companyService; //zbog razbijanja ciklicne zavisnosti CompanyAdministratorService - CompanyService
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserService userService;
     public CompanyAdministratorController(CompanyAdministratorService companyAdministratorService, CompanyService companyService, RoleService roleService,
-                                          CompanyAppointmentService companyAppointmentService) {
+                                          CompanyAppointmentService companyAppointmentService,
+                                          UserService userService) {
         this.companyAdministratorService = companyAdministratorService;
         this.companyService = companyService;
         this.roleService = roleService;
         this.companyAppointmentService = companyAppointmentService;
+        this.userService = userService;
     }
 
     @GetMapping ("/get-all")
@@ -91,6 +99,14 @@ public class CompanyAdministratorController {
     @GetMapping("/get-logging-info/{email}")
     public ResponseEntity<AdminCompanyLoggingDto> getLoggingInfo(@PathVariable String email) {
         return ResponseEntity.ok(companyAdministratorService.getLoggingInfo(email));
+    }
+
+    @PutMapping("/update-password/{adminId}/{newPassword}")
+    public long updatePassword(@PathVariable long adminId, @PathVariable String newPassword) {
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        userService.updatePassword(encodedPassword, adminId);
+        companyAdministratorService.updatePasswordChanged(adminId);
+        return adminId;
     }
 
 }
