@@ -3,6 +3,7 @@ import com.nfb.modules.companies.API.dtos.*;
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.usecases.CompanyAppointmentService;
 import com.nfb.modules.companies.core.usecases.CompanyService;
+import com.nfb.modules.stakeholders.API.dtos.AdminCompanyLoggingDto;
 import com.nfb.modules.stakeholders.API.dtos.AdminInfoDto;
 import com.nfb.modules.stakeholders.API.dtos.CompanyAdministratorDto;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
@@ -87,6 +88,9 @@ public class CompanyAdministratorController {
         return ResponseEntity.ok().build();
     }
 
-
+    @GetMapping("/get-logging-info/{email}")
+    public ResponseEntity<AdminCompanyLoggingDto> getLoggingInfo(@PathVariable String email) {
+        return ResponseEntity.ok(companyAdministratorService.getLoggingInfo(email));
+    }
 
 }

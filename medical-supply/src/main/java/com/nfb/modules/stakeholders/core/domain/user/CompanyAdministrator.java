@@ -17,6 +17,9 @@ public class CompanyAdministrator extends User {
     @OneToMany(mappedBy = "companyAdministrator", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Appointment> appointments;
 
+    @Column(name = "password_changed")
+    private boolean passwordChanged;
+
     //@Version
     //private long version;
 
@@ -25,10 +28,11 @@ public class CompanyAdministrator extends User {
     }
 
     public CompanyAdministrator(String email, String password,Role role, String name, String surname, String city,
-                                String country, String phoneNumber, String occupation, String companyInfo, Company company) {
+                                String country, String phoneNumber, String occupation, String companyInfo, Company company, boolean passwordChanged) {
         super(email,password,role,name,surname,city,country,phoneNumber,occupation,companyInfo,false);
         this.company = company;
         this.appointments = new ArrayList<>();
+        this.passwordChanged = passwordChanged;
     }
 
     public CompanyAdministrator() {
@@ -49,6 +53,14 @@ public class CompanyAdministrator extends User {
 
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
+    }
+
+    public boolean isPasswordChanged() {
+        return passwordChanged;
+    }
+
+    public void setPasswordChanged(boolean passwordChanged) {
+        this.passwordChanged = passwordChanged;
     }
     /*
     public long getVersion() {

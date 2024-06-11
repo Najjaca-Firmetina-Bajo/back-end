@@ -60,13 +60,20 @@ public class UserController {
         boolean isOldPasswordValid = userService.checkOldPassword(encodedOldPassword, resetPasswordDto.getId());
 
         if (!isOldPasswordValid) {
-            // Ako stara lozinka nije validna, vratite odgovarajući odgovor sa statusom greške
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Old password is invalid.");
         }
 
         userService.updatePassword(encodedPassword, resetPasswordDto.getId());
 
-        // Ako je lozinka uspešno resetovana, vratite odgovarajući odgovor sa statusom OK
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/is-company-administrator/{username}")
+    public boolean isCompanyAdministrator(@PathVariable String username) {
+        User user = userService.findByUsername(username);
+        for(Role r: user.getRoles()) {
+            if(r.getName().equals("COMPANY_ADMINISTRATOR")) return true;
+        }
+        return false;
     }
 }

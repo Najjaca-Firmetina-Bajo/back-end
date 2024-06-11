@@ -77,13 +77,11 @@ INSERT INTO public.user_role(
     role_id, user_id)
 VALUES (1, 1007);
 
-INSERT INTO public.company_administrator(
-    company_id, id)
-VALUES (1003, 1004);
+INSERT INTO public.company_administrator(company_id, id, password_changed)
+VALUES (1003, 1004, false);
 
-INSERT INTO public.company_administrator(
-    company_id, id)
-VALUES (1003, 1007);
+INSERT INTO public.company_administrator(company_id, id, password_changed)
+VALUES (1003, 1007, false);
 
 INSERT INTO public.system_administrator(
     password_changed, id)
