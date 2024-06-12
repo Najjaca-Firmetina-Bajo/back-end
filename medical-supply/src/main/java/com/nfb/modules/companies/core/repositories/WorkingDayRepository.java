@@ -5,8 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface WorkingDayRepository extends JpaRepository<WorkingDay, Long> {
@@ -18,4 +20,7 @@ public interface WorkingDayRepository extends JpaRepository<WorkingDay, Long> {
              "JOIN Company c ON wc.company.id = c.id\n" +
              "WHERE DATE(wd.date) = :date AND c.id = :companyId")
      WorkingDay checkIfCompanyIsWorking(long companyId, Date date);
+
+
+     Optional<WorkingDay> findWorkingDayById(Long id);
 }

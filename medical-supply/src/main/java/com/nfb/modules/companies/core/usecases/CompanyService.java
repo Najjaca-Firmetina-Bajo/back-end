@@ -1,9 +1,10 @@
 package com.nfb.modules.companies.core.usecases;
 
+import com.nfb.modules.companies.API.dtos.CompanyDto;
+import com.nfb.modules.companies.API.dtos.EditCompanyDto;
 import com.nfb.modules.companies.core.domain.appointment.Appointment;
 import com.nfb.modules.companies.core.domain.appointment.QRCode;
 import com.nfb.modules.companies.core.domain.company.Company;
-import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.companies.core.repositories.CompanyRepository;
 import com.nfb.modules.companies.core.repositories.QRCodeRepository;
 import com.nfb.modules.companies.core.repositories.WorkingDayRepository;
@@ -18,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CompanyService   {
@@ -142,5 +142,9 @@ public class CompanyService   {
 
     public Company getById(Long id) {
         return companyRepository.getById(id);
+    }
+
+    public void updateInfo(EditCompanyDto companyDto) {
+        companyRepository.updateInfo(companyDto.getId(), companyDto.getName(), companyDto.getAddress(), companyDto.getDescription(), companyDto.getAverageRating());
     }
 }

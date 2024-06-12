@@ -3,6 +3,8 @@ package com.nfb.modules.stakeholders.core.usecases;
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.repositories.CompanyRepository;
 import com.nfb.modules.companies.core.usecases.CompanyService;
+import com.nfb.modules.stakeholders.API.dtos.AdminCompanyLoggingDto;
+import com.nfb.modules.stakeholders.API.dtos.AdminInfoDto;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import com.nfb.modules.stakeholders.core.domain.user.SystemAdministrator;
 import com.nfb.modules.stakeholders.core.repositories.CompanyAdministratorRepository;
@@ -48,4 +50,17 @@ public class CompanyAdministratorService {
     }
 
     public Optional<CompanyAdministrator> findById(long id) { return companyAdministratorRepository.findById(id); }
+
+    public void update(AdminInfoDto adminInfoDto) {
+        userService.update(adminInfoDto);
+    }
+
+    public AdminCompanyLoggingDto getLoggingInfo(String email) {
+        CompanyAdministrator companyAdministrator = companyAdministratorRepository.findByEmail(email);
+
+        return new AdminCompanyLoggingDto(companyAdministrator.getId(),
+                                                        companyAdministrator.getUsername(), companyAdministrator.isPasswordChanged());
+    }
+
+    public void updatePasswordChanged(Long adminId) { companyAdministratorRepository.updatePasswordChanged(adminId); }
 }

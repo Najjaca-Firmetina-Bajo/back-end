@@ -1,5 +1,6 @@
 package com.nfb.modules.stakeholders.API.controllers;
 
+import com.nfb.modules.stakeholders.API.dtos.ResetPasswordDto;
 import com.nfb.modules.stakeholders.API.dtos.UserDTO;
 import com.nfb.modules.stakeholders.core.domain.user.Role;
 import com.nfb.modules.stakeholders.core.usecases.UserService;
@@ -48,6 +49,30 @@ public class UserController {
         User user = userService.findByUsername(username);
         for(Role r: user.getRoles()) {
             if(r.getName().equals("SYSTEM_ADMINISTRATOR")) return true;
+        }
+        return false;
+    }
+
+    @PutMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordDto resetPasswordDto) {
+        String encodedPassword = passwordEncoder.encode(resetPasswordDto.getNewPassword());
+        String encodedOldPassword = passwordEncoder.encode(resetPasswordDto.getOldPassword());
+        boolean isOldPasswordValid = userService.checkOldPassword(encodedOldPassword, resetPasswordDto.getId());
+
+        if (!isOldPasswordValid) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Old password is invalid.");
+        }
+
+        userService.updatePassword(encodedPassword, resetPasswordDto.getId());
+
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/is-company-administrator/{username}")
+    public boolean isCompanyAdministrator(@PathVariable String username) {
+        User user = userService.findByUsername(username);
+        for(Role r: user.getRoles()) {
+            if(r.getName().equals("COMPANY_ADMINISTRATOR")) return true;
         }
         return false;
     }

@@ -22,4 +22,5 @@ public interface QRCodeRepository extends JpaRepository<QRCode, Long> {
     List<QRCode> getCanceledByUserId(Long userId);
     @Query("select q from QRCode q where q.registeredUser.id = :userId and q.status = 'DECLINED' ")
     List<QRCode> getDeclinedByUserId(Long userId);
+    boolean existsByAppointmentId(Long appointmentId);
 }

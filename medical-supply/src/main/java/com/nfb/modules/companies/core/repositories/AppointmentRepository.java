@@ -67,4 +67,16 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     @Query("select a from Appointment a where a.winnerId = :winnerId and a.isDownloaded = true order by a.duration asc")
     List<Appointment> sortAppointmentsByDurationAsc(long winnerId);
+
+    List<Appointment> findAllByCompanyAdministratorId(Long companyAdministratorId);
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Appointment a WHERE a.id = :id")
+    void deleteAppointmentById(@Param("id") Long id);
+
+    @Query("SELECT a FROM Appointment a " +
+            "WHERE a.companyAdministrator.id = :companyAdministratorId " +
+            "AND a.pickUpDate > CURRENT_TIMESTAMP " +
+            "AND a.id NOT IN (SELECT q.appointment.id FROM QRCode q)")
+    List<Appointment> findFutureAppointmentsWithoutQRCodes(@Param("companyAdministratorId") Long companyAdministratorId);
 }
