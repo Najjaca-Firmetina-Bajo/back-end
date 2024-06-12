@@ -30,4 +30,9 @@ public interface QRCodeRepository extends JpaRepository<QRCode, Long> {
     @Modifying
     @Query("update QRCode q set q.status = 'PROCESSED' where q.id = :qrCodeId")
     int updateStatusToProcessed(Long qrCodeId);
+
+    @Transactional
+    @Modifying
+    @Query("update QRCode q set q.status = 'EXPIRED' where q.id = :qrCodeId")
+    int updateStatusToExpired(Long qrCodeId);
 }

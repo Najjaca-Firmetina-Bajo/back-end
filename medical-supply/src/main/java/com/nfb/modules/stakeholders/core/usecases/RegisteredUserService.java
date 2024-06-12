@@ -1,13 +1,11 @@
 package com.nfb.modules.stakeholders.core.usecases;
 
-import com.nfb.modules.companies.API.dtos.AppointmentInfoDto;
 import com.nfb.modules.stakeholders.API.dtos.RegisteredUserInfoDto;
 import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
 import com.nfb.modules.stakeholders.core.repositories.RegisteredUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
