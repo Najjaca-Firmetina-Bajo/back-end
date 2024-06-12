@@ -41,8 +41,6 @@ public class AppointmentController {
     @Autowired
     private RegisteredUserService registeredUserService;
 
-
-
     public AppointmentController(AppointmentService appointmentService,WorkingDayService workingDayService, QRCodeService qrCodeService, RegisteredUserService registeredUserService) {
         this.appointmentService = appointmentService;
         this.workingDayService = workingDayService;
@@ -267,6 +265,17 @@ public class AppointmentController {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.badRequest().body("Appointment cannot be deleted because of existing reservations."); // Vraćamo 400 Bad Request ako brisanje nije uspelo
+        }
+    }
+
+    @PutMapping("/pick-up-reservation/{appointmentId}/{qrEquipmentId}")
+    public ResponseEntity<Boolean> pickUpReservation(@PathVariable Long appointmentId, @PathVariable Long qrEquipmentId) {
+        boolean isPickedUp = appointmentService.pickUpEquipmentWithoutQRCode(appointmentId, qrEquipmentId);
+
+        if(isPickedUp){
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.badRequest().body(false);
         }
     }
 
