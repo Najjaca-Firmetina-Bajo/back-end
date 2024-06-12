@@ -1,6 +1,7 @@
 package com.nfb.modules.stakeholders.API.controllers;
 
 import com.nfb.modules.stakeholders.API.dtos.RegisteredUserDTO;
+import com.nfb.modules.stakeholders.API.dtos.RegisteredUserInfoDto;
 import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
 import com.nfb.modules.stakeholders.core.domain.user.Role;
 import com.nfb.modules.stakeholders.core.usecases.RegisteredUserService;
@@ -79,5 +80,11 @@ public class RegisteredUserController {
     public ResponseEntity<Integer> removeUsersPenalPoints(@RequestBody long id){
         RegisteredUser registeredUser = registeredUserService.removeUsersPenalPoints(id);
         return ResponseEntity.ok(registeredUser.getPenalPoints());
+    }
+
+    @GetMapping("get-all-with-reservation-by-company/{companyId}")
+    public ResponseEntity<List<RegisteredUserInfoDto>> getAllWithReservationByCompany(@PathVariable long companyId) {
+        List<RegisteredUserInfoDto> registeredUserInfoDtos = registeredUserService.getAllWithReservationByCompanyId(companyId);
+        return ResponseEntity.ok(registeredUserInfoDtos);
     }
 }
