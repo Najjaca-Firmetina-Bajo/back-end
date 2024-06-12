@@ -45,4 +45,11 @@ public class QREquipmentController {
 
         return ResponseEntity.ok(reservations);
     }
+
+    @GetMapping("/get-all-new-by-admin-id/{id}")
+    public ResponseEntity<List<ReservationInfoDto>> getAllNewByAdminId(@PathVariable Long id) {
+        List<ReservationInfoDto> reservations = qrEquipmentService.getAllNewReservations(id);
+
+        return ResponseEntity.ok(reservations);
+    }
 }
