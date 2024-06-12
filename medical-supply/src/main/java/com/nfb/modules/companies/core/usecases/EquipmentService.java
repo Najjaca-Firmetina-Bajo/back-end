@@ -9,6 +9,7 @@ import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.companies.core.repositories.CompanyEquipmentRepository;
 import com.nfb.modules.companies.core.repositories.CompanyRepository;
 import com.nfb.modules.companies.core.repositories.EquipmentRepository;
+import com.nfb.modules.companies.core.repositories.QREqipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,13 +24,16 @@ public class EquipmentService {
     private final EquipmentRepository equipmentRepository;
     private final CompanyEquipmentRepository companyEquipmentRepository;
     private final CompanyRepository companyRepository;
+    private final QREqipmentRepository qrEqipmentRepository;
     @Autowired
     public EquipmentService(EquipmentRepository equipmentRepository,
                             CompanyEquipmentRepository companyEquipmentRepository,
-                            CompanyRepository companyRepository) {
+                            CompanyRepository companyRepository,
+                            QREqipmentRepository qrEqipmentRepository) {
         this.equipmentRepository = equipmentRepository;
         this.companyEquipmentRepository = companyEquipmentRepository;
         this.companyRepository = companyRepository;
+        this.qrEqipmentRepository = qrEqipmentRepository;
     }
 
     public Equipment add(Equipment equipment) {
@@ -72,9 +76,18 @@ public class EquipmentService {
 
     }
 
-    public void delete(Long id) {
-        companyEquipmentRepository.deleteByEquipmentId(id);
-        equipmentRepository.deleteById(id);
+    public boolean delete(Long id) {
+        if (qrEqipmentRepository.existsByEquipment_Id(id)) {
+            return false;
+        }
+
+        try {
+            companyEquipmentRepository.deleteByEquipmentId(id);
+            equipmentRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void update(EditEquipmentDto editEquipmentDto) {

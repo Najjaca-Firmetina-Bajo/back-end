@@ -45,7 +45,7 @@ public class CompanyAppointmentService {
     @Transactional
     public CompanyInfoDto getById(Long adminId) {
         Company company = companyRepository.findByAdminId(adminId);
-        List<Appointment> appointments = appointmentRepository.findAllByCompanyAdministratorId(adminId);
+        List<Appointment> appointments = appointmentRepository.findFutureAppointmentsWithoutQRCodes(adminId);
         List<CompanyAdministrator> admins = company.getAdministrators();
         List<CompanyEquipment> equipments = company.getCompanyEquipmentList();
 
@@ -129,7 +129,7 @@ public class CompanyAppointmentService {
         WorkingDay workingDay = workingDayRepository.findWorkingDayById(appointmentDto.getWorkingDayId())
                 .orElseThrow(() -> new NoSuchElementException("No WorkingDay found for the provided date"));
 
-        Appointment appointment = new Appointment(appointmentDto.getPickUpDate(), appointmentDto.getDuration(), AppointmentType.Extraordinary, false,-1, workingDay, -1, companyAdministrator);
+        Appointment appointment = new Appointment(appointmentDto.getPickUpDate(), appointmentDto.getDuration(), AppointmentType.Predefined, false,-1, workingDay, -1, companyAdministrator);
 
         appointmentRepository.save(appointment);
     }

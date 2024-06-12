@@ -46,23 +46,23 @@ VALUES (true, 1007, 'Ns', 'ci2', 'SRB', 'milan@gmail.com', 'Milan', 'oc4', 'ef79
 
 INSERT INTO public.companies(
     average_rating, id, address, name, description)
-VALUES (3.6, 1001, 'Balzakova-12-Novi Sad-Srbija', 'Apoteka Zdravlje', 'Duga tradicija');
+VALUES (3.6, 1001, 'Balzakova-12-Novi Sad-Srbija-19.8370215718-45.2426030118', 'Apoteka Zdravlje', 'Duga tradicija');
 
 INSERT INTO public.companies(
     average_rating, id, address, name, description)
-VALUES (4.0, 1002, 'Glavna-23-Novi Sad-Srbija', 'Medicinska Laboratorija 2', 'Duga tradicija');
+VALUES (4.0, 1002, 'Bulevar Cara Lazara-23-Novi Sad-Srbija-19.8370215718-45.2426030118', 'Medicinska Laboratorija 2', 'Duga tradicija');
 
 INSERT INTO public.companies(
     average_rating, id, address, name, description)
-VALUES (4.3, 1003, 'Bulevar Oslobodjenja-7-Niš-Srbija', 'Bolnica Vita', 'Duga tradicija');
+VALUES (4.3, 1003, 'Bulevar Oslobodjenja-7-Niš-Srbija-21.919518-43.319208', 'Bolnica Vita', 'Duga tradicija');
 
 INSERT INTO public.companies(
     average_rating, id, address, name, description)
-VALUES (4.6, 1004, 'Zdravlja-45-Kragujevac-Srbija', 'Zdravstveni Centar Srbija', 'Duga tradicija');
+VALUES (4.6, 1004, 'Zdravlja-45-Kragujevac-Srbija-20.918259-44.010211', 'Zdravstveni Centar Srbija', 'Duga tradicija');
 
 INSERT INTO public.companies(
     average_rating, id, address, name, description)
-VALUES (4.9, 1005, 'Svetog Save-10-Novi Pazar-Srbija', 'Apoteka Srce', 'Duga tradicija');
+VALUES (4.9, 1005, 'Svetog Save-10-Novi Pazar-Srbija-20.5181-43.1407', 'Apoteka Srce', 'Duga tradicija');
 
 ---------------------------------------------
 INSERT INTO public.user_role(

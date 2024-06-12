@@ -191,4 +191,17 @@ public class AppointmentService {
         appointmentRepository.saveAndFlush(appointment);
     }
 
+    public boolean delete(Long id) {
+        if (qrCodeService.existsByAppointmentId(id)) {
+            return false;
+        }
+
+        try {
+            appointmentRepository.deleteAppointmentById(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }

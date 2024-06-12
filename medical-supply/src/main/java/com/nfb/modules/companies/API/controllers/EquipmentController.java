@@ -102,9 +102,14 @@ public class EquipmentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        equipmentService.delete(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        boolean isDeleted = equipmentService.delete(id);
+
+        if (isDeleted) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().body("Appointment cannot be deleted because of existing reservations."); // Vraćamo 400 Bad Request ako brisanje nije uspelo
+        }
     }
 
     @PutMapping("")

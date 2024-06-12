@@ -233,4 +233,8 @@ public class QRCodeService {
         }
         else return qrCodeRepository.getDeclinedByUserId(userId);
     }
+
+    public boolean existsByAppointmentId(Long id) {
+        return qrCodeRepository.existsByAppointmentId(id);
+    }
 }

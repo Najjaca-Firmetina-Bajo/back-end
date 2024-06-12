@@ -259,9 +259,15 @@ public class AppointmentController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @PostMapping("/")
-    public ResponseEntity<Void> create(@RequestBody CreateAppointmentDto appointmentDto) {
-        return null;
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        boolean isDeleted = appointmentService.delete(id);
+
+        if (isDeleted) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().body("Appointment cannot be deleted because of existing reservations."); // Vraćamo 400 Bad Request ako brisanje nije uspelo
+        }
     }
 
 
@@ -306,5 +312,7 @@ public class AppointmentController {
         }
         return dtos;
     }
+
+
 
 }
