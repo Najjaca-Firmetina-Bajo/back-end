@@ -34,4 +34,8 @@ public interface CompanyAdministratorRepository extends JpaRepository<CompanyAdm
     @Query("UPDATE CompanyAdministrator ca SET ca.passwordChanged = true WHERE ca.id = :adminId")
     @Transactional
     void updatePasswordChanged(@Param("adminId") Long adminId);
+
+    @Query("SELECT ca FROM CompanyAdministrator ca WHERE ca.company.id = :companyId")
+    List<CompanyAdministrator> findAllByCompanyId(@Param("companyId") Long companyId);
+
 }
