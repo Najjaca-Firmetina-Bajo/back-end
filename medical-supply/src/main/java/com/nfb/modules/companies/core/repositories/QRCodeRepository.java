@@ -36,4 +36,24 @@ public interface QRCodeRepository extends JpaRepository<QRCode, Long> {
     @Modifying
     @Query("update QRCode q set q.status = 'EXPIRED' where q.id = :qrCodeId")
     int updateStatusToExpired(Long qrCodeId);
+
+    @Query("SELECT YEAR(a.pickUpDate) AS year, COALESCE(COUNT(q), 0) AS count " +
+            "FROM Appointment a " +
+            "LEFT JOIN QRCode q ON q.appointment.id = a.id " +
+            "WHERE a.id IN :appointmentIds " +
+            "GROUP BY YEAR(a.pickUpDate)")
+    List<Object[]> countQRCodesByYear(@Param("appointmentIds") List<Long> appointmentIds);
+
+    @Query("SELECT CEIL(MONTH(q.appointment.pickUpDate)/3) AS quarter, COUNT(q) AS count " +
+            "FROM QRCode q " +
+            "WHERE q.appointment.id IN :appointmentIds AND YEAR(q.appointment.pickUpDate) = :year " +
+            "GROUP BY CEIL(MONTH(q.appointment.pickUpDate)/3)")
+    List<Object[]> countQRCodesByQuarter(@Param("appointmentIds") List<Long> appointmentIds, @Param("year") int year);
+
+    @Query("SELECT MONTH(q.appointment.pickUpDate) AS month, COUNT(q) AS count " +
+            "FROM QRCode q " +
+            "WHERE q.appointment.id IN :appointmentIds AND YEAR(q.appointment.pickUpDate) = :year " +
+            "GROUP BY MONTH(q.appointment.pickUpDate)")
+    List<Object[]> countQRCodesByMonth(@Param("appointmentIds") List<Long> appointmentIds, @Param("year") int year);
+
 }

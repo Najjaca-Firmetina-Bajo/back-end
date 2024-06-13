@@ -35,4 +35,22 @@ public class AnalyticsController {
         Map<Integer, Long> appointmentsByMonth = analyticsService.getAppointmentCountByMonth(companyId, year);
         return ResponseEntity.ok(appointmentsByMonth);
     }
+
+    @GetMapping("/get-reservation-count-by-year/{companyId}")
+    public ResponseEntity<Map<Integer, Long>> findReservationsByYear(@PathVariable long companyId) {
+        Map<Integer, Long> appointmentsByYear = analyticsService.getQRCodeCountByYear(companyId);
+        return ResponseEntity.ok(appointmentsByYear);
+    }
+
+    @GetMapping("/get-reservation-count-by-quarter/{companyId}/{year}")
+    public ResponseEntity<Map<Integer, Long>> findReservationsByQuarter(@PathVariable long companyId, @PathVariable int year) {
+        Map<Integer, Long> appointmentsByYear = analyticsService.getQRCodeCountByQuarter(companyId, year);
+        return ResponseEntity.ok(appointmentsByYear);
+    }
+
+    @GetMapping("/get-reservation-count-by-month/{companyId}/{year}")
+    public ResponseEntity<Map<Integer, Long>> findReservationsByMonth(@PathVariable long companyId, @PathVariable int year) {
+        Map<Integer, Long> appointmentsByMonth = analyticsService.getQRCodeCountByMonth(companyId, year);
+        return ResponseEntity.ok(appointmentsByMonth);
+    }
 }
