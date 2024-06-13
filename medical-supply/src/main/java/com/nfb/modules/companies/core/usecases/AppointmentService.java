@@ -5,23 +5,24 @@ import com.nfb.modules.companies.core.domain.appointment.*;
 import com.nfb.modules.companies.core.domain.calendar.WorkingDay;
 import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.repositories.AppointmentRepository;
+import com.nfb.modules.companies.core.repositories.CompanyEquipmentRepository;
+import com.nfb.modules.companies.core.repositories.QREqipmentRepository;
 import com.nfb.modules.companies.core.repositories.WorkingDayRepository;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
 import com.nfb.modules.stakeholders.core.repositories.CompanyAdministratorRepository;
 import com.nfb.modules.stakeholders.core.usecases.EmailSender;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,15 +34,22 @@ public class AppointmentService {
     private final EmailSender emailSender;
     private final CompanyService companyService;
     private final WorkingDayRepository workingDayRepository;
+    private final QREqipmentRepository qrEqipmentRepository;
+    private final CompanyEquipmentService companyEquipmentService;
 
     @Autowired
-    public AppointmentService(AppointmentRepository appointmentRepository, CompanyAdministratorRepository companyAdministratorRepository, QRCodeService qrCodeService, EmailSender emailSender, CompanyService companyService, WorkingDayRepository workingDayRepository) {
+    public AppointmentService(AppointmentRepository appointmentRepository, CompanyAdministratorRepository companyAdministratorRepository,
+                              QRCodeService qrCodeService, EmailSender emailSender, CompanyService companyService,
+                              WorkingDayRepository workingDayRepository, QREqipmentRepository qrEqipmentRepository,
+                              CompanyEquipmentService companyEquipmentService) {
         this.appointmentRepository = appointmentRepository;
         this.companyAdministratorRepository = companyAdministratorRepository;
         this.qrCodeService = qrCodeService;
         this.emailSender = emailSender;
         this.companyService = companyService;
         this.workingDayRepository = workingDayRepository;
+        this.qrEqipmentRepository = qrEqipmentRepository;
+        this.companyEquipmentService = companyEquipmentService;
     }
 
 
@@ -202,6 +210,54 @@ public class AppointmentService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public boolean pickUpEquipmentWithoutQRCode(long appointmentId, long qrEquipmentCodeId) {
+        Appointment appointment = appointmentRepository.findById(appointmentId);
+        if (appointment == null) {
+            throw new EntityNotFoundException("Appointment not found with ID: " + appointmentId);
+        }
+
+        CompanyAdministrator ca = companyAdministratorRepository.findOneById(appointment.getCompanyAdministrator().getId());
+        if (ca == null) {
+            throw new EntityNotFoundException("Company Administrator not found with ID: " + appointment.getCompanyAdministrator().getId());
+        }
+
+        Optional<QREquipment> optionalQREquipment = qrEqipmentRepository.findById(qrEquipmentCodeId);
+        QREquipment qrEquipment = optionalQREquipment.orElse(null);
+
+        if(qrEquipment == null) {
+            return false;
+        }
+
+        Optional<QRCode> qrCodeOptional = appointment.getQRCodes().stream()
+                .filter(qrCode -> qrCode.getId() == qrEquipment.getQrCodeID())
+                .findFirst();
+
+        if (!qrCodeOptional.isPresent()) {
+            throw new EntityNotFoundException("QR Code not found with ID: " + qrEquipment.getQrCodeID());
+        }
+
+        QRCode qrCode = qrCodeOptional.get();
+
+        if(qrCode.getStatus() != QRStatus.NEW || appointment.getPickUpDate().isBefore(LocalDateTime.now()) ||
+                !appointment.getPickUpDate().toLocalDate().equals(LocalDate.now())) {
+            return false;
+        }
+
+        appointmentRepository.updateIsDownloaded(true, appointmentId);
+        appointmentRepository.updateDownloadedAt(LocalDateTime.now(), appointmentId);
+
+
+        QRCode qr = qrCodeService.findById(qrEquipment.getQrCodeID());
+        RegisteredUser ru = qr.getRegisteredUser();
+        qrCodeService.setProcessedStatus(qr.getId());
+
+        companyEquipmentService.pickUpEquipment(qrEquipment.getEquipmentId(), ca.getCompany().getId(), qrEquipment.getQuantity());
+
+        emailSender.sendReservationExecutionEmail(ru, qr);
+        return true;
     }
 
 }

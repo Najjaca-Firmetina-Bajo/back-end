@@ -31,7 +31,6 @@ import java.util.Optional;
 public class QRCodeService {
 
     private final QRCodeRepository qrCodeRepository;
-    private final QREqipmentRepository qrEqipmentRepository;
     private final RegisteredUserRepository registeredUserRepository;
     private final AppointmentRepository appointmentRepository;
     private final EquipmentRepository equipmentRepository;
@@ -44,14 +43,12 @@ public class QRCodeService {
                          RegisteredUserRepository registeredUserRepository,
                          AppointmentRepository appointmentRepository,
                          EquipmentRepository equipmentRepository,
-                         QREqipmentRepository qrEqipmentRepository,
                          CompanyRepository companyRepository,
                          EmailSender emailSender) {
         this.qrCodeRepository = qrCodeRepository;
         this.registeredUserRepository = registeredUserRepository;
         this.appointmentRepository = appointmentRepository;
         this.equipmentRepository = equipmentRepository;
-        this.qrEqipmentRepository = qrEqipmentRepository;
         this.companyRepository = companyRepository;
         this.emailSender = emailSender;
     }
@@ -236,5 +233,9 @@ public class QRCodeService {
 
     public boolean existsByAppointmentId(Long id) {
         return qrCodeRepository.existsByAppointmentId(id);
+    }
+
+    public int setProcessedStatus(Long id) {
+        return qrCodeRepository.updateStatusToProcessed(id);
     }
 }
