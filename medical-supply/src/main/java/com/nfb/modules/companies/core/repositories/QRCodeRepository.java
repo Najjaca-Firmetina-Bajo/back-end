@@ -56,4 +56,10 @@ public interface QRCodeRepository extends JpaRepository<QRCode, Long> {
             "GROUP BY MONTH(q.appointment.pickUpDate)")
     List<Object[]> countQRCodesByMonth(@Param("appointmentIds") List<Long> appointmentIds, @Param("year") int year);
 
+    @Query("SELECT q FROM QRCode q WHERE q.appointment.id IN :appointmentIds")
+    List<QRCode> findQRCodesByAppointmentIds(@Param("appointmentIds") List<Long> appointmentIds);
+
+    @Query("SELECT q FROM QRCode q WHERE q.appointment.id IN :appointmentIds AND q.status = 'PROCESSED'")
+    List<QRCode> findProcessedQRCodesByAppointmentIds(@Param("appointmentIds") List<Long> appointmentIds);
+
 }

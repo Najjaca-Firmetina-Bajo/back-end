@@ -1,6 +1,10 @@
 package com.nfb.modules.companies.core.usecases;
 
 import com.nfb.modules.companies.core.domain.appointment.Appointment;
+import com.nfb.modules.companies.core.domain.appointment.QRCode;
+import com.nfb.modules.companies.core.domain.appointment.QREquipment;
+import com.nfb.modules.companies.core.domain.company.CompanyEquipment;
+import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.companies.core.repositories.AppointmentRepository;
 import com.nfb.modules.companies.core.repositories.QRCodeRepository;
 import com.nfb.modules.companies.core.repositories.QREqipmentRepository;
@@ -10,12 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.LinkedHashMap;
 
 @Service
 public class AnalyticsService {
@@ -25,13 +27,16 @@ public class AnalyticsService {
     private AppointmentRepository appointmentRepository;
     @Autowired
     private QRCodeRepository qrCodeRepository;
+    @Autowired QREqipmentRepository qrEqipmentRepository;
 
     public AnalyticsService(CompanyAdministratorRepository companyAdministratorRepository,
                             AppointmentRepository appointmentRepository,
-                            QRCodeRepository qrCodeRepository) {
+                            QRCodeRepository qrCodeRepository,
+                            QREqipmentRepository qrEqipmentRepository) {
         this.companyAdministratorRepository = companyAdministratorRepository;
         this.appointmentRepository = appointmentRepository;
         this.qrCodeRepository = qrCodeRepository;
+        this.qrEqipmentRepository = qrEqipmentRepository;
     }
 
     public Map<Integer, Long> getAppointmentCountByYear(Long companyId) {
@@ -164,6 +169,30 @@ public class AnalyticsService {
         }
 
         return qrCodeCountByMonth;
+    }
+
+    public double countIncomeForPeriod(long companyId, LocalDateTime startDate, LocalDateTime endDate) {
+        List<Long> adminIds = getAdminIdsByCompanyId(companyId);
+
+        List<Appointment> appointments = appointmentRepository.findAppointmentsByAdminIdsAndDateRange(adminIds, startDate, endDate);
+
+        double profit = 0;
+
+        List<Long> appointmentIds = appointments.stream()
+                .map(Appointment::getId)
+                .collect(Collectors.toList());
+
+        List<QRCode> qrCodes = qrCodeRepository.findProcessedQRCodesByAppointmentIds(appointmentIds);
+
+        List<Long> qrCodeIds = qrCodes.stream().map(QRCode::getId).collect(Collectors.toList());
+
+        List<QREquipment> qrEquipments = qrEqipmentRepository.findQREquipmentByQRCodeIds(qrCodeIds);
+
+        for (QREquipment qrEquipment : qrEquipments) {
+            profit += qrEquipment.getEquipment().getPrice() * qrEquipment.getQuantity();
+        }
+
+        return profit;
     }
 
 }

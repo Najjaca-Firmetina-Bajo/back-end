@@ -91,4 +91,11 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     @Query("SELECT MONTH(a.pickUpDate) AS month, COUNT(a) AS count FROM Appointment a WHERE a.companyAdministrator.id IN :adminIds AND YEAR(a.pickUpDate) = :year GROUP BY MONTH(a.pickUpDate)")
     List<Object[]> countAppointmentsByMonth(@Param("adminIds") List<Long> adminIds, @Param("year") int year);
+
+    @Query("SELECT a FROM Appointment a " +
+            "WHERE a.companyAdministrator.id IN :adminIds " +
+            "AND a.pickUpDate BETWEEN :startDate AND :endDate")
+    List<Appointment> findAppointmentsByAdminIdsAndDateRange(@Param("adminIds") List<Long> adminIds,
+                                                             @Param("startDate") LocalDateTime startDate,
+                                                             @Param("endDate") LocalDateTime endDate);
 }
