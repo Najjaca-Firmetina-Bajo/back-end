@@ -15,6 +15,8 @@ import com.nfb.modules.stakeholders.core.repositories.CompanyAdministratorReposi
 import com.nfb.modules.stakeholders.core.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -123,7 +125,7 @@ public class CompanyAppointmentService {
         return workingCalendarDto;
     }
 
-    @Transactional
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
     public void create(CreateAppointmentDto appointmentDto) {
         CompanyAdministrator companyAdministrator = companyAdministratorRepository.findOneById(appointmentDto.getAdminId());
         WorkingDay workingDay = workingDayRepository.findWorkingDayById(appointmentDto.getWorkingDayId())

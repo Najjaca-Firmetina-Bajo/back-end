@@ -11,7 +11,9 @@ import com.nfb.modules.companies.core.repositories.WorkingDayRepository;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import com.nfb.modules.stakeholders.core.usecases.CompanyAdministratorService;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -144,6 +146,7 @@ public class CompanyService   {
         return companyRepository.getById(id);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
     public void updateInfo(EditCompanyDto companyDto) {
         companyRepository.updateInfo(companyDto.getId(), companyDto.getName(), companyDto.getAddress(), companyDto.getDescription(), companyDto.getAverageRating());
     }
