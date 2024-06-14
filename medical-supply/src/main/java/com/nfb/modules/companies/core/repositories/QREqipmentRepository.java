@@ -21,4 +21,7 @@ public interface QREqipmentRepository extends JpaRepository<QREquipment, Long> {
             "AND qc.status = 'NEW' " +
             "AND a.pickUpDate >= CURRENT_DATE")
     List<QREquipment> findAllByCompanyAdministratorIdAndStatusNowAndFuturePickupDate(@Param("companyAdministratorId") Long companyAdministratorId);
+
+    @Query("SELECT qe FROM QREquipment qe JOIN qe.qrCode qc WHERE qc.id IN :qrCodeIds")
+    List<QREquipment> findQREquipmentByQRCodeIds(@Param("qrCodeIds") List<Long> qrCodeIds);
 }

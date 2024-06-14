@@ -79,4 +79,23 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
             "AND a.pickUpDate > CURRENT_TIMESTAMP " +
             "AND a.id NOT IN (SELECT q.appointment.id FROM QRCode q)")
     List<Appointment> findFutureAppointmentsWithoutQRCodes(@Param("companyAdministratorId") Long companyAdministratorId);
+
+    @Query("SELECT a FROM Appointment a WHERE a.companyAdministrator.id IN :adminIds")
+    List<Appointment> findAllByCompanyAdministratorIds(@Param("adminIds") List<Long> adminIds);
+
+    @Query("SELECT YEAR(a.pickUpDate) AS year, COUNT(a) AS count FROM Appointment a WHERE a.companyAdministrator.id IN :adminIds GROUP BY YEAR(a.pickUpDate)")
+    List<Object[]> countAppointmentsByYear(@Param("adminIds") List<Long> adminIds);
+
+    @Query("SELECT CEIL(MONTH(a.pickUpDate)/3) AS quarter, COUNT(a) AS count FROM Appointment a WHERE a.companyAdministrator.id IN :adminIds AND YEAR(a.pickUpDate) = :year GROUP BY CEIL(MONTH(a.pickUpDate)/3)")
+    List<Object[]> countAppointmentsByQuarter(@Param("adminIds") List<Long> adminIds, @Param("year") int year);
+
+    @Query("SELECT MONTH(a.pickUpDate) AS month, COUNT(a) AS count FROM Appointment a WHERE a.companyAdministrator.id IN :adminIds AND YEAR(a.pickUpDate) = :year GROUP BY MONTH(a.pickUpDate)")
+    List<Object[]> countAppointmentsByMonth(@Param("adminIds") List<Long> adminIds, @Param("year") int year);
+
+    @Query("SELECT a FROM Appointment a " +
+            "WHERE a.companyAdministrator.id IN :adminIds " +
+            "AND a.pickUpDate BETWEEN :startDate AND :endDate")
+    List<Appointment> findAppointmentsByAdminIdsAndDateRange(@Param("adminIds") List<Long> adminIds,
+                                                             @Param("startDate") LocalDateTime startDate,
+                                                             @Param("endDate") LocalDateTime endDate);
 }

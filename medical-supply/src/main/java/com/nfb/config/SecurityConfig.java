@@ -41,6 +41,7 @@ public class SecurityConfig {
             "/api/equipment/getByIds",
             "/api/companies/findById/{id}",
             "/api/simulator/**",
+            "/api/analytics/**",
             "/socket/**"
     };
     @Bean
