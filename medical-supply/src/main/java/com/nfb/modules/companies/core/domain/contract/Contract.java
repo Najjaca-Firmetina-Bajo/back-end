@@ -19,7 +19,7 @@ public class Contract extends BaseEntity {
     @Column(name = "user_id", nullable = false)
     private long userId;
     @Column(name = "company_id", nullable = false)
-    private long companyID;
+    private long companyId;
 
     @Column(name = "equipment_id", nullable = false)
     private long equipmentId;
