@@ -6,6 +6,9 @@ import com.nfb.modules.companies.core.repositories.CompanyRatingRepository;
 import com.nfb.modules.companies.core.repositories.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +23,7 @@ public class CompanyRatingService {
         this.companyRepository = companyRepository;
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
     public CompanyRating save(CompanyRating rating){
         Company company = companyRepository.getById(rating.getCompany().getId());
 
