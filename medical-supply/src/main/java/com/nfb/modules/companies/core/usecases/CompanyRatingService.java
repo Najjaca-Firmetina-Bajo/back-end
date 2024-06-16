@@ -23,7 +23,7 @@ public class CompanyRatingService {
         this.companyRepository = companyRepository;
     }
 
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
+    //@Transactional(readOnly = false, propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
     public CompanyRating save(CompanyRating rating){
         Company company = companyRepository.getById(rating.getCompany().getId());
 
