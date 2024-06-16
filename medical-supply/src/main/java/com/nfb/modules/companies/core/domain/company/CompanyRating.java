@@ -25,6 +25,9 @@ public class CompanyRating {
     @JoinColumn(name = "registered_user_id")
     private RegisteredUser user;
 
+    @Version
+    private Long version;
+
     public CompanyRating(long rating, List<String> ratingReasons, String ratingDescription, Company company, RegisteredUser user) {
         this.rating = rating;
         this.ratingReasons = ratingReasons;
@@ -83,5 +86,13 @@ public class CompanyRating {
 
     public void setUser(RegisteredUser user) {
         this.user = user;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

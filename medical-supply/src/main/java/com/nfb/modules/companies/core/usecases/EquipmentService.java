@@ -12,6 +12,9 @@ import com.nfb.modules.companies.core.repositories.EquipmentRepository;
 import com.nfb.modules.companies.core.repositories.QREqipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +93,7 @@ public class EquipmentService {
         }
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
     public void update(EditEquipmentDto editEquipmentDto) {
         equipmentRepository.update(editEquipmentDto.getId(), editEquipmentDto.getPrice(), editEquipmentDto.getDescription(), editEquipmentDto.getName(), editEquipmentDto.getType());
         companyEquipmentRepository.updateQuantity(editEquipmentDto.getId(), editEquipmentDto.getCompanyId(), editEquipmentDto.getQuantity());

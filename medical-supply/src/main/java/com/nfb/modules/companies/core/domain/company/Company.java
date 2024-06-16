@@ -33,6 +33,8 @@ public class Company extends BaseEntity {
     private List<CompanyAdministrator> administrators;
     @OneToOne(mappedBy = "company", cascade = CascadeType.ALL)
     private WorkingCalendar workingCalendar;
+    @Version
+    private Long version;
 
     public Company(String name, String address, double averageRating, List<CompanyAdministrator> administrators) {
         this.name = name;
