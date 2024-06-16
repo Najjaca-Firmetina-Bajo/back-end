@@ -1,16 +1,16 @@
 package com.nfb.modules.stakeholders.API.controllers;
+import com.nfb.modules.companies.API.dtos.*;
 import com.nfb.modules.companies.core.domain.company.Company;
+import com.nfb.modules.companies.core.usecases.CompanyAppointmentService;
 import com.nfb.modules.companies.core.usecases.CompanyService;
+import com.nfb.modules.stakeholders.API.dtos.AdminCompanyLoggingDto;
+import com.nfb.modules.stakeholders.API.dtos.AdminInfoDto;
 import com.nfb.modules.stakeholders.API.dtos.CompanyAdministratorDto;
-import com.nfb.modules.stakeholders.API.dtos.SystemAdministratorDto;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
-import com.nfb.modules.stakeholders.core.domain.user.Role;
-import com.nfb.modules.stakeholders.core.domain.user.SystemAdministrator;
 import com.nfb.modules.stakeholders.core.usecases.CompanyAdministratorService;
 import com.nfb.modules.stakeholders.core.usecases.RoleService;
-import com.nfb.modules.stakeholders.core.usecases.SystemAdministratorService;
+import com.nfb.modules.stakeholders.core.usecases.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -26,15 +26,25 @@ public class CompanyAdministratorController {
     @Autowired
     private CompanyAdministratorService companyAdministratorService;
     @Autowired
+    CompanyAppointmentService companyAppointmentService;
+    @Autowired
     private RoleService roleService;
 
     @Autowired
     private CompanyService companyService; //zbog razbijanja ciklicne zavisnosti CompanyAdministratorService - CompanyService
 
-    public CompanyAdministratorController(CompanyAdministratorService companyAdministratorService, CompanyService companyService, RoleService roleService) {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserService userService;
+    public CompanyAdministratorController(CompanyAdministratorService companyAdministratorService, CompanyService companyService, RoleService roleService,
+                                          CompanyAppointmentService companyAppointmentService,
+                                          UserService userService) {
         this.companyAdministratorService = companyAdministratorService;
         this.companyService = companyService;
         this.roleService = roleService;
+        this.companyAppointmentService = companyAppointmentService;
+        this.userService = userService;
     }
 
     @GetMapping ("/get-all")
@@ -53,6 +63,50 @@ public class CompanyAdministratorController {
     public int setCompanyForAdministrator(@PathVariable long adminId, @PathVariable long companyId) {
         //Company company = companyService.findById(companyId).orElse(null);
         return companyAdministratorService.setCompanyForAdministrator(adminId, companyId);
+    }
+
+    @GetMapping("/get-company/{adminId}")
+    public ResponseEntity<CompanyInfoDto> getCompany(@PathVariable long adminId) {
+        CompanyInfoDto companyInfoDto = companyAppointmentService.getById(adminId);
+
+        return ResponseEntity.ok(companyInfoDto);
+    }
+
+    @PutMapping("/update-company-info")
+    public ResponseEntity<Void> updateInfo(@RequestBody EditCompanyDto companyDto) {
+        companyService.updateInfo(companyDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("get-working-calendar/{companyId}")
+    public ResponseEntity<WorkingCalendarInfoDto> getWorkingCalendar(@PathVariable long companyId) {
+        WorkingCalendarInfoDto workingCalendarInfoDto = companyAppointmentService.getWorkingCalendar(companyId);
+        return ResponseEntity.ok(workingCalendarInfoDto);
+    }
+
+    @PostMapping("create-appointment")
+    public ResponseEntity<Void> createAppointment(@RequestBody CreateAppointmentDto createAppointmentDto) {
+        companyAppointmentService.create(createAppointmentDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/update-profile-info")
+    public ResponseEntity<Void> updateProfile(@RequestBody AdminInfoDto adminInfoDto) {
+        companyAdministratorService.update(adminInfoDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-logging-info/{email}")
+    public ResponseEntity<AdminCompanyLoggingDto> getLoggingInfo(@PathVariable String email) {
+        return ResponseEntity.ok(companyAdministratorService.getLoggingInfo(email));
+    }
+
+    @PutMapping("/update-password/{adminId}/{newPassword}")
+    public long updatePassword(@PathVariable long adminId, @PathVariable String newPassword) {
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        userService.updatePassword(encodedPassword, adminId);
+        companyAdministratorService.updatePasswordChanged(adminId);
+        return adminId;
     }
 
 }

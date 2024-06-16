@@ -1,6 +1,7 @@
 package com.nfb.modules.stakeholders.API.controllers;
 
 import com.nfb.modules.companies.API.dtos.CompanyDto;
+import com.nfb.modules.stakeholders.API.dtos.AdminInfoDto;
 import com.nfb.modules.stakeholders.API.dtos.CompanyAdministratorDto;
 import com.nfb.modules.stakeholders.API.dtos.SystemAdministratorDto;
 import com.nfb.modules.stakeholders.API.dtos.UserDTO;
@@ -55,6 +56,12 @@ public class SystemAdministratorController {
         }
 
         return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("get-admin-info/{id}")
+    public ResponseEntity<AdminInfoDto> getAdminInfo(@PathVariable long id) {
+        AdminInfoDto adminInfoDto = userService.getAdminById(id);
+        return ResponseEntity.ok(adminInfoDto);
     }
 
 }

@@ -131,7 +131,8 @@ public class AuthenticationController {
                 companyAdministratorDto.getPhoneNumber(),
                 companyAdministratorDto.getOccupation(),
                 companyAdministratorDto.getCompanyInfo(),
-                companyService.findById(companyAdministratorDto.getCompanyId()).orElse(null)
+                companyService.findById(companyAdministratorDto.getCompanyId()).orElse(null),
+                false
         );
         admin = companyAdministratorService.register(admin);
 

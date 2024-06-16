@@ -1,27 +1,28 @@
 package com.nfb.modules.companies.core.usecases;
 
-import com.nfb.modules.companies.API.dtos.AppointmentDto;
-import com.nfb.modules.companies.core.domain.appointment.Appointment;
-import com.nfb.modules.companies.core.domain.appointment.QRCode;
-import com.nfb.modules.companies.core.domain.appointment.QRStatus;
+import com.nfb.modules.companies.API.dtos.CreateAppointmentDto;
+import com.nfb.modules.companies.core.domain.appointment.*;
+import com.nfb.modules.companies.core.domain.calendar.WorkingDay;
+import com.nfb.modules.companies.core.domain.company.Company;
 import com.nfb.modules.companies.core.repositories.AppointmentRepository;
-import com.nfb.modules.companies.core.repositories.CompanyRepository;
-import com.nfb.modules.companies.core.repositories.EquipmentRepository;
+import com.nfb.modules.companies.core.repositories.CompanyEquipmentRepository;
+import com.nfb.modules.companies.core.repositories.QREqipmentRepository;
+import com.nfb.modules.companies.core.repositories.WorkingDayRepository;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
 import com.nfb.modules.stakeholders.core.repositories.CompanyAdministratorRepository;
-import com.nfb.modules.stakeholders.core.repositories.RegisteredUserRepository;
-import com.nfb.modules.stakeholders.core.repositories.UserRepository;
-import com.nfb.modules.stakeholders.core.usecases.CompanyAdministratorService;
 import com.nfb.modules.stakeholders.core.usecases.EmailSender;
-import com.nfb.modules.stakeholders.core.usecases.RegisteredUserService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,13 +32,24 @@ public class AppointmentService {
     private final CompanyAdministratorRepository companyAdministratorRepository;
     private final QRCodeService qrCodeService;
     private final EmailSender emailSender;
+    private final CompanyService companyService;
+    private final WorkingDayRepository workingDayRepository;
+    private final QREqipmentRepository qrEqipmentRepository;
+    private final CompanyEquipmentService companyEquipmentService;
 
     @Autowired
-    public AppointmentService(AppointmentRepository appointmentRepository, CompanyAdministratorRepository companyAdministratorRepository, QRCodeService qrCodeService, EmailSender emailSender) {
+    public AppointmentService(AppointmentRepository appointmentRepository, CompanyAdministratorRepository companyAdministratorRepository,
+                              QRCodeService qrCodeService, EmailSender emailSender, CompanyService companyService,
+                              WorkingDayRepository workingDayRepository, QREqipmentRepository qrEqipmentRepository,
+                              CompanyEquipmentService companyEquipmentService) {
         this.appointmentRepository = appointmentRepository;
         this.companyAdministratorRepository = companyAdministratorRepository;
         this.qrCodeService = qrCodeService;
         this.emailSender = emailSender;
+        this.companyService = companyService;
+        this.workingDayRepository = workingDayRepository;
+        this.qrEqipmentRepository = qrEqipmentRepository;
+        this.companyEquipmentService = companyEquipmentService;
     }
 
 
@@ -100,6 +112,152 @@ public class AppointmentService {
     public List<Appointment> getBy(long workingDayId) { return appointmentRepository.findByWorkingDayId(workingDayId); }
 
     public Appointment getById(long id) {
-        return appointmentRepository.getById(id);
+        return appointmentRepository.findById(id);
     }
+
+    public boolean checkIfAdministratorHasAppointment(long administratorId, Date date){
+        if(appointmentRepository.checkIfAdministratorHasAppointment(administratorId,date) == null) return false;
+        return true;
+    }
+
+    public List<Appointment> getUsersDownloadedAppointments(long winnerId){
+        return appointmentRepository.getUsersDownloadedAppointments(winnerId);
+    }
+
+    public List<Appointment> sortAppointments(String ascOrDesc, String type, long winnerId){
+        if(type.equals("date")){
+            if(ascOrDesc.equals("asc")) return appointmentRepository.sortAppointmentsByDateAsc(winnerId);
+            return appointmentRepository.sortAppointmentsByDateDesc(winnerId);
+        }
+        else if(type.equals("duration")){
+            if(ascOrDesc.equals("asc")) return appointmentRepository.sortAppointmentsByDurationAsc(winnerId);
+            return appointmentRepository.sortAppointmentsByDurationDesc(winnerId);
+        }
+        return null;
+    }
+
+    public List<Appointment> createIfCompanyIsWorking(Date date, long companyId) {
+        try {
+
+            if (!companyService.checkIfCompanyIsWorking(companyId, date)) {
+                return null;
+            }
+
+            WorkingDay companiesWorkingDay = workingDayRepository.checkIfCompanyIsWorking(companyId, date);
+
+            List<CompanyAdministrator> administrators = companyService.getCompanyAdministrators(companyId);
+            List<Long> administratorsIds = new ArrayList<>();
+
+            for (CompanyAdministrator administrator : administrators) {
+                administratorsIds.add(administrator.getId());
+            }
+
+            List<Appointment> extraordinaryAppointments = appointmentRepository.getCompaniesNotDowloadedAppointments(administratorsIds, date);
+
+            //if (extraordinaryAppointments.isEmpty()) {
+                LocalDateTime currentDateTime = LocalDateTime.ofInstant(companiesWorkingDay.getDate().toInstant(), ZoneId.systemDefault());
+                LocalDateTime endDateTime = LocalDateTime.ofInstant(companiesWorkingDay.getEndDate().toInstant(), ZoneId.systemDefault());
+
+                while (!currentDateTime.isAfter(endDateTime)) {
+                    Date currentDate = Date.from(currentDateTime.atZone(ZoneId.systemDefault()).toInstant());
+
+                    for (long administratorId : administratorsIds) {
+                        Random random = new Random();
+                        try {
+                            if (!checkIfAdministratorHasAppointment(administratorId, currentDate)) {
+                                CompanyAdministrator administrator = companyAdministratorRepository.getById(administratorId);
+                                Appointment newExtraordinaryAppointment = new Appointment(currentDateTime, 30, AppointmentType.Extraordinary, false, random.nextInt(1000) + 1, companiesWorkingDay, -1, administrator);
+                                extraordinaryAppointments.add(newExtraordinaryAppointment);
+                            }
+                        } catch (Exception e) {
+                            // Handle the exception (e.g., log it) if checkIfAdministratorHasAppointment fails
+                            e.printStackTrace();
+                        }
+                    }
+                    currentDateTime = currentDateTime.plusHours(1);
+                }
+            //}
+
+            for (Appointment a : extraordinaryAppointments) {
+                try {
+                    appointmentRepository.save(a);
+                } catch (Exception e) {
+                    // Handle the exception (e.g., log it) if saving the appointment fails
+                    e.printStackTrace();
+                }
+            }
+
+            return extraordinaryAppointments;
+        } catch (Exception e) {
+            // Handle any unexpected exception that might occur during the execution
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void save(Appointment appointment) {
+        appointmentRepository.saveAndFlush(appointment);
+    }
+
+    public boolean delete(Long id) {
+        if (qrCodeService.existsByAppointmentId(id)) {
+            return false;
+        }
+
+        try {
+            appointmentRepository.deleteAppointmentById(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public boolean pickUpEquipmentWithoutQRCode(long appointmentId, long qrEquipmentCodeId) {
+        Appointment appointment = appointmentRepository.findById(appointmentId);
+        if (appointment == null) {
+            throw new EntityNotFoundException("Appointment not found with ID: " + appointmentId);
+        }
+
+        CompanyAdministrator ca = companyAdministratorRepository.findOneById(appointment.getCompanyAdministrator().getId());
+        if (ca == null) {
+            throw new EntityNotFoundException("Company Administrator not found with ID: " + appointment.getCompanyAdministrator().getId());
+        }
+
+        Optional<QREquipment> optionalQREquipment = qrEqipmentRepository.findById(qrEquipmentCodeId);
+        QREquipment qrEquipment = optionalQREquipment.orElse(null);
+
+        if(qrEquipment == null) {
+            return false;
+        }
+
+        Optional<QRCode> qrCodeOptional = appointment.getQRCodes().stream()
+                .filter(qrCode -> qrCode.getId() == qrEquipment.getQrCodeID())
+                .findFirst();
+
+        if (!qrCodeOptional.isPresent()) {
+            throw new EntityNotFoundException("QR Code not found with ID: " + qrEquipment.getQrCodeID());
+        }
+
+        QRCode qrCode = qrCodeOptional.get();
+
+        if(qrCode.getStatus() != QRStatus.NEW || appointment.getPickUpDate().isBefore(LocalDateTime.now()) ||
+                !appointment.getPickUpDate().toLocalDate().equals(LocalDate.now())) {
+            return false;
+        }
+
+        appointmentRepository.updateIsDownloaded(true, appointmentId);
+        appointmentRepository.updateDownloadedAt(LocalDateTime.now(), appointmentId);
+
+
+        QRCode qr = qrCodeService.findById(qrEquipment.getQrCodeID());
+        RegisteredUser ru = qr.getRegisteredUser();
+        qrCodeService.setProcessedStatus(qr.getId());
+
+        companyEquipmentService.pickUpEquipment(qrEquipment.getEquipmentId(), ca.getCompany().getId(), qrEquipment.getQuantity());
+
+        emailSender.sendReservationExecutionEmail(ru, qr);
+        return true;
+    }
+
 }

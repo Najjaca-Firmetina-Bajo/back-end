@@ -1,6 +1,9 @@
 package com.nfb.modules.companies.API.controllers;
 
+import com.nfb.modules.companies.API.dtos.CreateEquipmentDto;
+import com.nfb.modules.companies.API.dtos.EditEquipmentDto;
 import com.nfb.modules.companies.API.dtos.EquipmentDto;
+import com.nfb.modules.companies.API.dtos.EquipmentInfoDto;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.companies.core.usecases.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,6 +93,36 @@ public class EquipmentController {
         }
 
         return new ResponseEntity<>(equipmentDtos, HttpStatus.OK);
+    }
+
+    @PostMapping("")
+    public ResponseEntity<Void> create(@RequestBody CreateEquipmentDto createEquipmentDto) {
+        equipmentService.create(createEquipmentDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        boolean isDeleted = equipmentService.delete(id);
+
+        if (isDeleted) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().body("Appointment cannot be deleted because of existing reservations."); // Vraćamo 400 Bad Request ako brisanje nije uspelo
+        }
+    }
+
+    @PutMapping("")
+    public ResponseEntity<Void> update(@RequestBody EditEquipmentDto editEquipmentDto) {
+        equipmentService.update(editEquipmentDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/search-by-name/{name}")
+    public ResponseEntity<List<EquipmentInfoDto>> searchByName(@PathVariable String name) {
+        List<EquipmentInfoDto> equipmentInfoDtos = equipmentService.searchByName(name);
+
+        return ResponseEntity.ok(equipmentInfoDtos);
     }
 
 }

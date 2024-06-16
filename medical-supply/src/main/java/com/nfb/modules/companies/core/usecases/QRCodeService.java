@@ -31,7 +31,6 @@ import java.util.Optional;
 public class QRCodeService {
 
     private final QRCodeRepository qrCodeRepository;
-    private final QREqipmentRepository qrEqipmentRepository;
     private final RegisteredUserRepository registeredUserRepository;
     private final AppointmentRepository appointmentRepository;
     private final EquipmentRepository equipmentRepository;
@@ -44,14 +43,12 @@ public class QRCodeService {
                          RegisteredUserRepository registeredUserRepository,
                          AppointmentRepository appointmentRepository,
                          EquipmentRepository equipmentRepository,
-                         QREqipmentRepository qrEqipmentRepository,
                          CompanyRepository companyRepository,
                          EmailSender emailSender) {
         this.qrCodeRepository = qrCodeRepository;
         this.registeredUserRepository = registeredUserRepository;
         this.appointmentRepository = appointmentRepository;
         this.equipmentRepository = equipmentRepository;
-        this.qrEqipmentRepository = qrEqipmentRepository;
         this.companyRepository = companyRepository;
         this.emailSender = emailSender;
     }
@@ -211,5 +208,34 @@ public class QRCodeService {
         }
 
         return null;
+    }
+
+    public List<QRCode> getProcessedByUserId(Long id) {
+       return qrCodeRepository.getProcessedByUserId(id);
+    }
+
+    public List<QRCode> getNewByUserId(Long id) {
+        return qrCodeRepository.getNewByUserId(id);
+    }
+
+    public List<QRCode> filterUsersQRCodes(String status,long userId){
+        if(status.equals("new")){
+            return qrCodeRepository.getNewByUserId(userId);
+        }
+        else if(status.equals("processed")){
+            return qrCodeRepository.getProcessedByUserId(userId);
+        }
+        else if(status.equals("canceled")){
+            return qrCodeRepository.getCanceledByUserId(userId);
+        }
+        else return qrCodeRepository.getDeclinedByUserId(userId);
+    }
+
+    public boolean existsByAppointmentId(Long id) {
+        return qrCodeRepository.existsByAppointmentId(id);
+    }
+
+    public int setProcessedStatus(Long id) {
+        return qrCodeRepository.updateStatusToProcessed(id);
     }
 }

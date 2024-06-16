@@ -17,13 +17,50 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
     Company findByName(String name);
 
+    List<Company> findByNameIgnoreCaseOrAddressContainingIgnoreCase(String name, String place);
+
+    @Query("SELECT c FROM Company c WHERE :minAverageRating IS NULL OR c.averageRating < :minAverageRating")
+    List<Company> findCompaniesByAverageRating(@Param("minAverageRating") double minAverageRating);
+
+    @Query("SELECT c FROM Company c, CompanyEquipment ce WHERE c.id = ce.company.id AND ce.quantity <= :equipmentCount")
+    List<Company> filterByEquipmentCount(@Param("equipmentCount") int equipmentCount);
+
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @QueryHints({@QueryHint(name = "jakarta.persistence.lock.timeout", value ="1000")})
     @Query("SELECT c from Company c where c.id = :id")
-    public Company findOneById(@Param("id")Long id);
+    Company findOneById(@Param("id")Long id);
 
     @Modifying
     @Transactional
     @Query("UPDATE Company c SET c.administrators = :administrators WHERE c.id = :companyId")
     void addAdministratorToCompany(@Param("companyId") long companyId, @Param("administrators") List<CompanyAdministrator> administrators);
+
+    @Query("SELECT c.administrators from Company c where c.id = :id")
+    List<CompanyAdministrator> getCompanyAdministrators(long id);
+
+    @Query("select c from Company c order by c.averageRating desc ")
+    List<Company> sortCompaniesByRatingDesc();
+
+    @Query("select c from Company c order by c.averageRating asc ")
+    List<Company> sortCompaniesByRatingAsc();
+
+    @Query("select c from Company c order by c.name desc")
+    List<Company> sortCompaniesByNameDesc();
+
+    @Query("select c from Company c order by c.name asc")
+    List<Company> sortCompaniesByNameAsc();
+
+    @Query("select c from Company c order by c.address desc")
+    List<Company> sortCompaniesByAddressDesc();
+
+    @Query("select c from Company c order by c.address desc")
+    List<Company> sortCompaniesByAddressAsc();
+
+    @Query("SELECT c FROM Company c JOIN CompanyAdministrator ca ON c.id = ca.company.id WHERE ca.id = :adminId")
+    Company findByAdminId(@Param("adminId") Long adminId);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Company c SET c.name = :name, c.address = :address, c.description = :description, c.averageRating = :averageRating WHERE c.id = :id")
+    void updateInfo(@Param("id") long id, @Param("name") String name, @Param("address") String address, @Param("description") String description, @Param("averageRating") double averageRating);
 }

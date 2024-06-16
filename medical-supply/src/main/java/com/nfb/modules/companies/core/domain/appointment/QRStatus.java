@@ -10,5 +10,7 @@ public enum QRStatus {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     DECLINED,
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    CANCELED
+    CANCELED,
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    EXPIRED
 }

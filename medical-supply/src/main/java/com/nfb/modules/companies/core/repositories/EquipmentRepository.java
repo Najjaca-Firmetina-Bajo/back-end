@@ -3,12 +3,10 @@ package com.nfb.modules.companies.core.repositories;
 import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.QueryHint;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Lock;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.QueryHints;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,4 +28,8 @@ public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
     Optional<Equipment> findById(@Param("id")Long id);
     */
 
+    @Modifying
+    @Transactional
+    @Query("UPDATE Equipment e SET e.price = :price, e.description = :description, e.name = :name, e.type = :type WHERE e.id = :id")
+    void update(@Param("id") Long id, @Param("price") double price, @Param("description") String description, @Param("name") String name, @Param("type") String type);
 }

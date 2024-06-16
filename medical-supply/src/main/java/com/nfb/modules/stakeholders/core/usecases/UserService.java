@@ -1,6 +1,8 @@
 package com.nfb.modules.stakeholders.core.usecases;
 
 import com.nfb.modules.companies.core.domain.company.Company;
+import com.nfb.modules.stakeholders.API.dtos.AdminInfoDto;
+import com.nfb.modules.stakeholders.API.dtos.ResetPasswordDto;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import com.nfb.modules.stakeholders.core.domain.user.RegisteredUser;
 import com.nfb.modules.stakeholders.core.domain.user.User;
@@ -11,6 +13,7 @@ import com.nfb.modules.stakeholders.core.repositories.UserRepository;
 import javassist.NotFoundException;
 import org.modelmapper.internal.bytebuddy.build.BuildLogger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.stereotype.Service;
 
 
@@ -82,4 +85,43 @@ public class UserService {
     }
 
     public void updatePassword(String password, long id) { userRepository.updatePassword(password, id); }
+
+    public boolean checkOldPassword(String oldPassword, long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if(!user.getPassword().equals(oldPassword)){
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+        return true;
+    }
+
+    public AdminInfoDto getAdminById(long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            AdminInfoDto adminInfoDto = new AdminInfoDto();
+            adminInfoDto.setId(user.getId());
+            adminInfoDto.setEmail(user.getUsername());
+            adminInfoDto.setName(user.getName());
+            adminInfoDto.setSurname(user.getSurname());
+            adminInfoDto.setCity(user.getCity());
+            adminInfoDto.setCountry(user.getCountry());
+            adminInfoDto.setPhoneNumber(user.getPhoneNumber());
+            return adminInfoDto;
+        } else {
+            return null;
+        }
+    }
+
+    public void update(AdminInfoDto adminInfoDto) {
+        userRepository.updateUserDetails(adminInfoDto.getId(), adminInfoDto.getCity(), adminInfoDto.getCountry(),
+                adminInfoDto.getEmail(), adminInfoDto.getName(), adminInfoDto.getPhoneNumber(), adminInfoDto.getSurname());
+    }
+
 }

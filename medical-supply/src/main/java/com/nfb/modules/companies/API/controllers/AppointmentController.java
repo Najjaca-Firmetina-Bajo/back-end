@@ -1,11 +1,10 @@
 package com.nfb.modules.companies.API.controllers;
 
 import com.nfb.modules.companies.API.dtos.AppointmentDto;
+import com.nfb.modules.companies.API.dtos.CreateAppointmentDto;
+import com.nfb.modules.companies.API.dtos.EquipmentQuantityDto;
 import com.nfb.modules.companies.API.dtos.QRCodeDto;
-import com.nfb.modules.companies.core.domain.appointment.Appointment;
-import com.nfb.modules.companies.core.domain.appointment.AppointmentType;
-import com.nfb.modules.companies.core.domain.appointment.QRCode;
-import com.nfb.modules.companies.core.domain.appointment.QRStatus;
+import com.nfb.modules.companies.core.domain.appointment.*;
 import com.nfb.modules.companies.core.domain.calendar.WorkingDay;
 import com.nfb.modules.companies.core.usecases.AppointmentService;
 import com.nfb.modules.companies.core.usecases.QRCodeGenerator;
@@ -24,6 +23,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -39,8 +40,6 @@ public class AppointmentController {
     private QRCodeService qrCodeService;
     @Autowired
     private RegisteredUserService registeredUserService;
-
-
 
     public AppointmentController(AppointmentService appointmentService,WorkingDayService workingDayService, QRCodeService qrCodeService, RegisteredUserService registeredUserService) {
         this.appointmentService = appointmentService;
@@ -173,7 +172,7 @@ public class AppointmentController {
     @PostMapping("/reserve")
     public ResponseEntity<QRCodeDto> addQRCode(@RequestBody QRCodeDto qrCodeDto) {
         if(qrCodeDto.getReservedEquipment().isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        Appointment appointment = appointmentService.getById(qrCodeDto.getId());
+        Appointment appointment = appointmentService.getById(qrCodeDto.getAppointmentId());
         QRCode addedQRCode = qrCodeService.addQRCodeFromDto(qrCodeDto);
 
 
@@ -202,5 +201,127 @@ public class AppointmentController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/extraordinary-appointments")
+    public ResponseEntity<List<AppointmentDto>> getExtraordinaryAppointments(@RequestParam Date date, @RequestParam long companyId) {
+        List<Appointment> appointments = appointmentService.createIfCompanyIsWorking(date, companyId);
+        return getListResponseEntity(appointments);
+    }
+
+    @GetMapping("/get-users-downloaded-appointments/{userId}")
+    public ResponseEntity<List<AppointmentDto>> getUsersDownloadedAppointments(@PathVariable long userId){
+        List<QRCode> qrCodes = qrCodeService.getProcessedByUserId(userId);
+
+        List<AppointmentDto> dtos = new ArrayList<>();
+
+        for (QRCode q :
+                qrCodes) {
+            AppointmentDto a = new AppointmentDto(q.getAppointment());
+            List<QREquipment> equipments = q.getReservedEquipment();
+            for (QREquipment e :
+                    equipments) {
+                List<EquipmentQuantityDto> eqdtoList = new ArrayList<>();
+                eqdtoList.add(new EquipmentQuantityDto(e.getEquipmentId(), e.getQuantity()));
+                a.setReservedEquipment(eqdtoList);
+            }
+            dtos.add(a);
+        }
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/sort/{ascOrDesc}/{type}/{userId}")
+    public ResponseEntity<List<AppointmentDto>> sort(@PathVariable String ascOrDesc, @PathVariable String type, @PathVariable long userId){
+        List<QRCode> qrCodes = qrCodeService.getProcessedByUserId(userId);
+        List<AppointmentDto> dtos = getAppointmentDtos(qrCodes);
+
+        // Definisanje Comparator-a
+        Comparator<AppointmentDto> comparator = null;
+        if (ascOrDesc.equalsIgnoreCase("asc")) {
+            if (type.equalsIgnoreCase("date")) {
+                comparator = Comparator.comparing(AppointmentDto::getPickUpDate);
+            } else {
+                comparator = Comparator.comparing(AppointmentDto::getDuration);
+            }
+        } else {
+            if (type.equalsIgnoreCase("date")) {
+                comparator = Comparator.comparing(AppointmentDto::getPickUpDate).reversed();
+            } else {
+                comparator = Comparator.comparing(AppointmentDto::getDuration).reversed();
+            }
+        }
+
+        // Sortiranje liste dtos
+        dtos.sort(comparator);
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        boolean isDeleted = appointmentService.delete(id);
+
+        if (isDeleted) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().body("Appointment cannot be deleted because of existing reservations."); // Vraćamo 400 Bad Request ako brisanje nije uspelo
+        }
+    }
+
+    @PutMapping("/pick-up-reservation/{appointmentId}/{qrEquipmentId}")
+    public ResponseEntity<Boolean> pickUpReservation(@PathVariable Long appointmentId, @PathVariable Long qrEquipmentId) {
+        boolean isPickedUp = appointmentService.pickUpEquipmentWithoutQRCode(appointmentId, qrEquipmentId);
+
+        if(isPickedUp){
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.badRequest().body(false);
+        }
+    }
+
+
+    private ResponseEntity<List<AppointmentDto>> getListResponseEntity(List<Appointment> appointments) {
+        List<AppointmentDto> dtos = new ArrayList<>();
+
+        if (appointments == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Company not working on that day
+        } else {
+            for (Appointment a :
+                    appointments) {
+                dtos.add(new AppointmentDto(a));
+            }
+            return new ResponseEntity<>(dtos, HttpStatus.OK); // Return the list of appointments
+        }
+    }
+
+    @GetMapping("/get-users-new-appointments/{userId}")
+    public ResponseEntity<List<AppointmentDto>> getUsersNewAppointments(@PathVariable long userId){
+        List<QRCode> qrCodes = qrCodeService.getNewByUserId(userId);
+
+        List<AppointmentDto> dtos = getAppointmentDtos(qrCodes);
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    private static List<AppointmentDto> getAppointmentDtos(List<QRCode> qrCodes) {
+        List<AppointmentDto> dtos = new ArrayList<>();
+
+        for (QRCode q :
+                qrCodes) {
+            AppointmentDto a = new AppointmentDto(q.getAppointment());
+            List<QREquipment> equipments = q.getReservedEquipment();
+            for (QREquipment e :
+                    equipments) {
+                List<EquipmentQuantityDto> eqdtoList = new ArrayList<>();
+                eqdtoList.add(new EquipmentQuantityDto(e.getEquipmentId(), e.getQuantity()));
+                a.setReservedEquipment(eqdtoList);
+                a.setQrCodeId(q.getId());
+            }
+            dtos.add(a);
+        }
+        return dtos;
+    }
+
+
 
 }

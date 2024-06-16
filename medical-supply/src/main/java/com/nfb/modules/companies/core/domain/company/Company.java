@@ -1,21 +1,30 @@
 package com.nfb.modules.companies.core.domain.company;
+
 import com.nfb.buildingblocks.core.domain.BaseEntity;
 import com.nfb.modules.companies.core.domain.calendar.WorkingCalendar;
-import com.nfb.modules.companies.core.domain.equipment.Equipment;
 import com.nfb.modules.stakeholders.core.domain.user.CompanyAdministrator;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 @Entity
 @Table(name = "companies")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Company extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String name;
     @Column(nullable = false)
     private String address;
+    @Column(nullable = false)
+    private String description;
     @Column(nullable = false)
     private double averageRating;
     @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -24,7 +33,19 @@ public class Company extends BaseEntity {
     private List<CompanyAdministrator> administrators;
     @OneToOne(mappedBy = "company", cascade = CascadeType.ALL)
     private WorkingCalendar workingCalendar;
+    @Version
+    private Long version;
 
+    public Company(String name, String address, double averageRating, List<CompanyAdministrator> administrators) {
+        this.name = name;
+        this.address = address;
+        this.averageRating = averageRating;
+        this.companyEquipmentList = new ArrayList<>();
+        this.administrators = administrators;
+        this.workingCalendar = null;
+    }
+
+    /*
     public Company() {
     }
 
@@ -84,4 +105,5 @@ public class Company extends BaseEntity {
     public double getAverageRating() {
         return averageRating;
     }
+     */
 }

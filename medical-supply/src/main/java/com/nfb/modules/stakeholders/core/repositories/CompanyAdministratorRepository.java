@@ -26,4 +26,16 @@ public interface CompanyAdministratorRepository extends JpaRepository<CompanyAdm
     @Query("UPDATE CompanyAdministrator ca SET ca.company = :company WHERE ca.id = :adminId")
     //@QueryHints({@QueryHint(name = "jakarta.persistence.lock.timeout", value ="0")})
     int setCompanyForAdministrator(@Param("adminId") Long adminId, @Param("company") Company company);
+
+    @Query("SELECT ca FROM CompanyAdministrator ca WHERE ca.username = :email")
+    CompanyAdministrator findByEmail(@Param("email") String email);
+
+    @Modifying
+    @Query("UPDATE CompanyAdministrator ca SET ca.passwordChanged = true WHERE ca.id = :adminId")
+    @Transactional
+    void updatePasswordChanged(@Param("adminId") Long adminId);
+
+    @Query("SELECT ca FROM CompanyAdministrator ca WHERE ca.company.id = :companyId")
+    List<CompanyAdministrator> findAllByCompanyId(@Param("companyId") Long companyId);
+
 }

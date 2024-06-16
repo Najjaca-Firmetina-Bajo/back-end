@@ -15,6 +15,8 @@ public class CompanyDto {
     private String name;
     @Schema(description = "Company address")
     private String address;
+    @Schema(description = "Company description")
+    private String description;
     @Schema(description = "Company rating")
     private double averageRating;
     @Schema(description = "Available equipment in company")
@@ -40,6 +42,7 @@ public class CompanyDto {
         this.name = company.getName();
         this.address = company.getAddress();
         this.averageRating = company.getAverageRating();
+        this.description = company.getDescription();
         this.availableEquipment = company.getCompanyEquipmentList().stream()
                 .map(ce -> new EquipmentQuantityDto(ce.getEquipmentId(), ce.getQuantity())) // Use EquipmentQuantityDto here
                 .collect(Collectors.toList());
@@ -108,5 +111,13 @@ public class CompanyDto {
 
     public void setAvailableEquipment(List<EquipmentQuantityDto> availableEquipment) {
         this.availableEquipment = availableEquipment;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
