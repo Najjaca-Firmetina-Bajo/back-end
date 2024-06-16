@@ -42,6 +42,7 @@ public class SecurityConfig {
             "/api/companies/findById/{id}",
             "/api/simulator/**",
             "/api/analytics/**",
+            "/api/contracts/**",
             "/socket/**"
     };
     @Bean
