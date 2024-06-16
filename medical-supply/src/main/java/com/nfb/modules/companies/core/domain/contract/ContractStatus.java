@@ -10,5 +10,7 @@ public enum ContractStatus {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     EXPIRED,
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    INVALID
+    INVALID,
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    CANCELLED
 }

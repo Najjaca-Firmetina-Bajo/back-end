@@ -24,7 +24,6 @@ public class ContractProcessingService {
 
     private final ContractRepository contractRepository;
 
-
     @Autowired
     private ObjectMapper objectMapper;
     @RabbitListener(queues = RabbitMQConfig.QUEUE_NAME)

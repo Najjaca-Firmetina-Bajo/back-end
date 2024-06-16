@@ -28,4 +28,10 @@ public class ContractController {
     public ResponseEntity<ContractInfoDto> getById(@PathVariable long id) {
         return ResponseEntity.ok(contractService.getById(id));
     }
+
+    @PutMapping("/deliver/{id}")
+    public ResponseEntity<Void> deliver(@PathVariable long id) {
+        contractService.deliver(id);
+        return ResponseEntity.ok().build();
+    }
 }
